@@ -1,0 +1,1647 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediConnect - Your Healthcare Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <!-- <style>
+        :root {
+            --primary: #1a73e8;
+            --secondary: #34a853;
+            --accent: #fbbc04;
+            --light: #f8f9fa;
+            --dark: #202124;
+            --success: #28a745;
+            --danger: #dc3545;
+            --border-radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            background-color: #f0f7ff;
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Flash Messages */
+        .container.position-fixed {
+            z-index: 1050;
+        }
+
+        .alert {
+            animation: fadeSlide 0.6s ease-out;
+            border-radius: var(--border-radius);
+        }
+
+        @keyframes fadeSlide {
+            0% { transform: translateY(-20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: linear-gradient(rgba(26, 115, 232, 0.85), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        #typing-text {
+            font-weight: 700;
+            text-align: center;
+            font-size: 2.4rem;
+            margin-bottom: 2rem;
+            min-height: 3rem;
+            border-right: 2px solid white;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blink-caret 0.75s step-end infinite;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: white; }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* Search Box */
+        .search-box {
+            background: white;
+            display: flex;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            width: 85%;
+            max-width: 1000px;
+            padding: 1rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-box input,
+        .search-box select,
+        .search-box button {
+            border: none;
+            padding: 0.9rem 1.2rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            flex: 1 1 150px;
+        }
+
+        .search-box button {
+            background-color: var(--secondary);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-box button:hover {
+            background-color: #2d9147;
+        }
+
+        /* Promotional Section */
+        .promo-section {
+            max-width: 1200px;
+            margin: 3rem auto 4rem;
+            padding: 0 24px;
+        }
+
+        .promo-main-card {
+            border-radius: var(--border-radius);
+            padding: 40px 32px;
+            color: white;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            background-image: linear-gradient(rgba(52, 168, 83, 0.85), url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        }
+
+        .promo-main-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .promo-main-card h2 {
+            font-size: 1.75rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .promo-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+            opacity: 0.9;
+        }
+
+        .promo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .promo-item {
+            border-radius: 12px;
+            padding: 24px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            transition: all 0.4s ease;
+        }
+
+        .promo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+            z-index: 1;
+        }
+
+        .promo-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .promo-icon {
+            font-size: 1.75rem;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        .promo-text {
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .promo-link {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .promo-link:hover {
+            gap: 10px;
+            text-decoration: underline;
+        }
+
+        .promo-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Discover Section */
+        .discover-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .discover-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 28px;
+            color: var(--dark);
+            font-weight: 600;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        .category-card {
+            border-radius: 12px;
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            background-color: #e8f0fe;
+            border: 1px solid #d2e3fc;
+            text-align: center;
+        }
+
+        .category-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
+            z-index: 1;
+        }
+
+        .category-content {
+            position: relative;
+            z-index: 2;
+            color: var(--primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .category-content i {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .category-card span {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            background-color: #d4e3fc;
+        }
+
+        /* Listings Section */
+        .listings-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 12px auto;
+            border-radius: 2px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            position: relative;
+            border: none;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem;
+            color: var(--dark);
+        }
+
+        .card-specialty {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-price {
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            background-color: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 0.7rem;
+            margin-top: 0.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #0d5cb6;
+        }
+
+        /* Badges */
+        .top-rated {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            background-color: var(--accent);
+            color: #000;
+            font-size: 0.75rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+
+        .rating-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: white;
+            color: #000;
+            font-size: 0.85rem;
+            padding: 0.4rem 0.7rem;
+            border-radius: 999px;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .rating-badge i {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        /* Info Highlights */
+        .info-highlights {
+            display: flex;
+            justify-content: space-around;
+            padding: 4rem 2rem;
+            background-color: #fff;
+            flex-wrap: wrap;
+            text-align: center;
+            background-color: #e8f0fe;
+            margin-top: 3rem;
+        }
+
+        .highlight {
+            flex: 1 1 250px;
+            max-width: 300px;
+            margin: 1rem;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background-color: white;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .highlight:hover {
+            transform: translateY(-5px);
+        }
+
+        .highlight i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .highlight h4 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .highlight p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 2rem;
+            background-color: #fff;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .faq-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            color: var(--primary);
+            position: relative;
+        }
+
+        .faq-section h2:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            margin: 12px auto;
+            border-radius: 2px;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 1rem;
+        }
+
+        .faq-item summary {
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--dark);
+            padding: 0.8rem 0;
+        }
+
+        .faq-item summary::after {
+            content: " ⌄";
+            float: right;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .faq-item[open] summary::after {
+            content: " ⌃";
+        }
+
+        .faq-item p {
+            padding: 1rem 0;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 2.8rem; }
+            #typing-text { font-size: 2rem; }
+            .promo-grid { grid-template-columns: repeat(2, 1fr); }
+            .category-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero { height: 75vh; }
+            .hero h1 { font-size: 2.4rem; }
+            #typing-text { font-size: 1.8rem; }
+            .hero p { font-size: 1.1rem; }
+            .search-box { width: 95%; }
+            .promo-grid { grid-template-columns: 1fr; }
+            .category-grid { grid-template-columns: repeat(2, 1fr); }
+            .info-highlights { padding: 3rem 1rem; }
+        }
+
+        @media (max-width: 576px) {
+            .hero { height: 85vh; padding: 1rem; }
+            .hero h1 { font-size: 2rem; }
+            #typing-text { font-size: 1.5rem; min-height: 2.5rem; }
+            .search-box { flex-direction: column; gap: 0.8rem; }
+            .search-box input, .search-box select, .search-box button { width: 100%; }
+            .category-grid { grid-template-columns: 1fr; }
+            .card-img-top { height: 180px; }
+            .info-highlights { padding: 2rem 0.5rem; }
+            .highlight { padding: 1.2rem; }
+        }
+    </style> -->
+<style>
+/* Section Title */
+.listings-section {
+    padding: 3rem 1rem;
+    background-color: #f8f9fa;
+}
+
+.listings-section .section-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #0d6efd; /* Blue theme */
+}
+
+/* Card Styling */
+.listings-section .card {
+    margin: 1rem auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.listings-section .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Card Image */
+.listings-section .card-img-top {
+    object-fit: cover;
+    width: 100%;
+    height: 13rem;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Overlay */
+.card-img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.overlay-top {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.overlay-badge {
+    background-color: rgba(13, 110, 253, 0.85); /* Blue */
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* Card Body */
+.listings-section .card-body {
+    padding: 1rem 1.25rem;
+    text-align: center;
+}
+
+.listings-section .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0d6efd;
+    margin-bottom: 0.5rem;
+}
+
+.card-price {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #212529;
+    margin-bottom: 1rem;
+}
+
+.listings-section .btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.listings-section .btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0b5ed7;
+}
+</style>
+
+
+<!-- CSS styles -->
+<style>
+  .hero {
+    background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), 
+                url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 1rem;
+    border-radius: 0 0 20px 20px;
+  }
+
+  .navbar .nav-link {
+    font-weight: 500;
+    margin-right: 0.8rem;
+  }
+
+  .navbar .nav-link:hover {
+    color: #424bfe;
+  }
+
+  .navbar-brand {
+    color: #4242fe !important;
+    font-weight: 700;
+  }
+
+  /* Dropdown customization */
+  .dropdown-toggle::after {
+    display: none;
+  }
+
+  #userDropdown {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    font-size: 1.2rem;
+  }
+
+  .dropdown-menu {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+</style>
+
+<!-- Navbar with User Dropdown -->
+<nav class="navbar navbar-expand-lg bg-light shadow-sm sticky-top border-bottom">
+  <div class="container">
+    <a class="navbar-brand fw-bold fs-4" href="#">
+      <i class="fa-solid fa-compass-drafting me-2" style="color: #5b42fe;"></i>HealthMed
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/listings">All Listings</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            Add Listings
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/listings/new1">Create New Listing</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Right-aligned User Dropdown -->
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <button class="btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center dropdown-toggle"
+                  type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-user"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
+            <% if(!currUser) {%>
+            <li><a class="dropdown-item" href="/signup">Sign up</a></li>
+            <li><a class="dropdown-item" href="/login">Log in</a></li>
+            <li><hr class="dropdown-divider"></li>
+          <% } %>
+            <li><a class="dropdown-item" href="#">Help Centre</a></li>
+            <li><hr class="dropdown-divider"></li>
+             <% if(currUser) {%>
+            <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
+             <% } %>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+    <style>
+    :root {
+        --primary: #1a73e8;
+        --secondary: #34a853;
+        --accent: #fbbc04;
+        --light: #f8f9fa;
+        --dark: #202124;
+        --success: #28a745;
+        --danger: #dc3545;
+        --border-radius: 12px;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+        background-color: #f0f7ff;
+        font-family: 'Segoe UI', 'Roboto', sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Flash Messages */
+    .container.position-fixed {
+        z-index: 1050;
+    }
+
+    .alert {
+        animation: fadeSlide 0.6s ease-out;
+        border-radius: var(--border-radius);
+    }
+
+    @keyframes fadeSlide {
+        0% { transform: translateY(-20px); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Hero Section */
+    .hero {
+        background-image: linear-gradient(rgba(26, 115, 232, 0.85), rgba(26, 115, 232, 0.85)),
+                          url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        background-size: cover;
+        background-position: center;
+        height: 85vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .hero h1 {
+        font-size: 3.2rem;
+        font-weight: 700;
+        margin-bottom: 1.2rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    #typing-text {
+        font-weight: 700;
+        text-align: center;
+        font-size: 2.4rem;
+        margin-bottom: 2rem;
+        min-height: 3rem;
+        border-right: 2px solid white;
+        white-space: nowrap;
+        overflow: hidden;
+        animation: blink-caret 0.75s step-end infinite;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    @keyframes blink-caret {
+        from, to { border-color: transparent; }
+        50% { border-color: white; }
+    }
+
+    .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 2.5rem;
+        max-width: 700px;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    /* Search Box */
+    .search-box {
+        background: white;
+        display: flex;
+        border-radius: var(--border-radius);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        overflow: hidden;
+        width: 85%;
+        max-width: 1000px;
+        padding: 1rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .search-box input,
+    .search-box select,
+    .search-box button {
+        border: none;
+        padding: 0.9rem 1.2rem;
+        font-size: 1rem;
+        border-radius: 8px;
+        flex: 1 1 150px;
+    }
+
+    .search-box button {
+        background-color: var(--secondary);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-box button:hover {
+        background-color: #2d9147;
+    }
+
+    /* Promotional Section */
+    .promo-section {
+        max-width: 1200px;
+        margin: 3rem auto 4rem;
+        padding: 0 24px;
+    }
+
+    .promo-main-card {
+        border-radius: var(--border-radius);
+        padding: 40px 32px;
+        color: white;
+        margin-bottom: 32px;
+        box-shadow: var(--shadow);
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        overflow: hidden;
+        background-image: linear-gradient(rgba(52, 168, 83, 0.85), rgba(52, 168, 83, 0.85)),
+                          url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    }
+
+    .promo-main-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .promo-main-card h2 {
+        font-size: 1.75rem;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+    }
+
+    .promo-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 32px;
+        opacity: 0.9;
+    }
+
+    .promo-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+
+    .promo-item {
+        border-radius: 12px;
+        padding: 24px;
+        min-height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        position: relative;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        transition: all 0.4s ease;
+    }
+
+    .promo-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+        z-index: 1;
+    }
+
+    .promo-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .promo-icon {
+        font-size: 1.75rem;
+        margin-bottom: 16px;
+        color: white;
+    }
+
+    .promo-text {
+        margin-bottom: 16px;
+        font-size: 1.1rem;
+        line-height: 1.4;
+        font-weight: 500;
+    }
+
+    .promo-link {
+        color: white;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+    }
+
+    .promo-link:hover {
+        gap: 10px;
+        text-decoration: underline;
+    }
+
+    .promo-item:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    /* Discover Section */
+    .discover-section {
+        background-color: white;
+        border-radius: var(--border-radius);
+        padding: 32px;
+        box-shadow: var(--shadow);
+    }
+
+    .discover-section h3 {
+        font-size: 1.8rem;
+        margin-bottom: 28px;
+        color: var(--primary);
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+    }
+
+    .category-card {
+        border-radius: 12px;
+        height: 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+        position: relative;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        background-color: #e8f0fe;
+        border: 1px solid #d2e3fc;
+        text-align: center;
+    }
+
+    .category-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%);
+        z-index: 1;
+    }
+
+    .category-content {
+        position: relative;
+        z-index: 2;
+        color: var(--primary);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .category-content i {
+        font-size: 2.5rem;
+        color: var(--primary);
+    }
+
+    .category-card span {
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        background-color: #d4e3fc;
+    }
+
+    /* Listings Section */
+    .listings-section {
+        max-width: 1200px;
+        margin: 4rem auto;
+        padding: 0 20px;
+    }
+
+    .section-title {
+        font-size: 2.2rem;
+        margin-bottom: 2.5rem;
+        font-weight: 700;
+        text-align: center;
+        color: var(--primary);
+        position: relative;
+    }
+
+    .section-title:after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: var(--secondary);
+        margin: 12px auto;
+        border-radius: 2px;
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+
+    .card {
+        position: relative;
+        border: none;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 1.2rem;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem;
+        color: var(--dark);
+    }
+
+    .card-specialty {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-price {
+        font-size: 1.1rem;
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+    }
+
+    .btn-primary {
+        display: block;
+        width: 100%;
+        background-color: var(--primary);
+        color: #fff;
+        border: none;
+        padding: 0.7rem;
+        margin-top: 0.5rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: center;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background-color: #0d5cb6;
+    }
+
+    /* Badges */
+    .top-rated {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        background-color: var(--accent);
+        color: #000;
+        font-size: 0.75rem;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        font-weight: 600;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        z-index: 2;
+    }
+
+    .rating-badge {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        background-color: white;
+        color: #000;
+        font-size: 0.85rem;
+        padding: 0.4rem 0.7rem;
+        border-radius: 999px;
+        font-weight: 600;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .rating-badge i {
+        color: var(--accent);
+        font-size: 0.9rem;
+    }
+
+    /* Info Highlights */
+    .info-highlights {
+        display: flex;
+        justify-content: space-around;
+        padding: 4rem 2rem;
+        background-color: #e8f0fe;
+        flex-wrap: wrap;
+        text-align: center;
+        margin-top: 3rem;
+    }
+
+    .highlight {
+        flex: 1 1 250px;
+        max-width: 300px;
+        margin: 1rem;
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        background-color: white;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease;
+    }
+
+    .highlight:hover {
+        transform: translateY(-5px);
+    }
+
+    .highlight i {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+
+    .highlight h4 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+
+    .highlight p {
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.5;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+        padding: 4rem 2rem;
+        background-color: #fff;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .faq-section h2 {
+        font-size: 2.2rem;
+        margin-bottom: 2.5rem;
+        text-align: center;
+        color: var(--primary);
+        position: relative;
+    }
+
+    .faq-section h2:after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: var(--secondary);
+        margin: 12px auto;
+        border-radius: 2px;
+    }
+
+    .faq-list {
+        max-width: 800px;
+        margin: auto;
+    }
+
+    .faq-item {
+        margin-bottom: 1.2rem;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 1rem;
+    }
+
+    .faq-item summary {
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: var(--dark);
+        padding: 0.8rem 0;
+    }
+
+    .faq-item summary::after {
+        content: " ⌄";
+        float: right;
+        font-size: 1.2rem;
+        color: var(--primary);
+    }
+
+    .faq-item[open] summary::after {
+        content: " ⌃";
+    }
+
+    .faq-item p {
+        padding: 1rem 0;
+        color: #555;
+        line-height: 1.6;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+        .hero h1 { font-size: 2.8rem; }
+        #typing-text { font-size: 2rem; }
+        .promo-grid { grid-template-columns: repeat(2, 1fr); }
+        .category-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+        .hero { height: 75vh; }
+        .hero h1 { font-size: 2.4rem; }
+        #typing-text { font-size: 1.8rem; }
+        .hero p { font-size: 1.1rem; }
+        .search-box { width: 95%; }
+        .promo-grid { grid-template-columns: 1fr; }
+        .category-grid { grid-template-columns: repeat(2, 1fr); }
+        .info-highlights { padding: 3rem 1rem; }
+    }
+
+    @media (max-width: 576px) {
+        .hero { height: 85vh; padding: 1rem; }
+        .hero h1 { font-size: 2rem; }
+        #typing-text { font-size: 1.5rem; min-height: 2.5rem; }
+        .search-box { flex-direction: column; gap: 0.8rem; }
+        .search-box input, .search-box select, .search-box button { width: 100%; }
+        .category-grid { grid-template-columns: 1fr; }
+        .card-img-top { height: 180px; }
+        .info-highlights { padding: 2rem 0.5rem; }
+        .highlight { padding: 1.2rem; }
+    }
+</style>
+
+  </head>
+<body>
+    <!-- Flash Messages -->
+<div class="container position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 1050; max-width: 90%;">
+    <div id="flash-success" class="alert alert-success alert-dismissible fade show shadow" role="alert" style="display: none;">
+        <i class="fa-solid fa-circle-check me-2"></i>
+        <span id="flash-success-msg"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div id="flash-danger" class="alert alert-danger alert-dismissible fade show shadow" role="alert" style="display: none;">
+        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+        <span id="flash-danger-msg"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+
+
+    <!-- Hero Section -->
+    
+
+    <!-- Promotional Section -->
+    <section class="promo-section">
+        <div class="container">
+            <div class="promo-main-card">
+                <div class="promo-main-content">
+                    <h2><i class="fas fa-crown"></i> Find a Doctor
+Connect with Trusted Healthcare Experts for Personalized Care</h2>
+                    <p class="promo-subtitle">Sign up to unlock exclusive health benefits and rewards</p>
+                    
+                    <div class="promo-grid">
+                        <div class="promo-item" style="background-image: url('https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                            <div class="promo-overlay"></div>
+                            <div class="promo-content">
+                                <i class="fas fa-heartbeat promo-icon"></i>
+                                <p class="promo-text">Preventive health checkups to detect issues early</p>
+                                <a href="#" class="promo-link">Book checkup <i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="promo-item" style="background-image: url('https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                            <div class="promo-overlay"></div>
+                            <div class="promo-content">
+                                <i class="fas fa-video promo-icon"></i>
+                                <p class="promo-text">24/7 telehealth consultations from home</p>
+                                <a href="#" class="promo-link">Start consultation <i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="promo-item" style="background-image: url('https://images.unsplash.com/photo-1629909613657-1f0ea20c0c3c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                            <div class="promo-overlay"></div>
+                            <div class="promo-content">
+                                <i class="fas fa-clipboard-list promo-icon"></i>
+                                <p class="promo-text">Compare providers based on expertise and reviews</p>
+                                <a href="#" class="promo-link">Compare providers <i class="fas fa-chevron-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Discover Section -->
+            <div class="discover-section">
+                <h3>Find Care By Specialty</h3>
+                <div class="category-grid">
+                    <a href="#" class="category-card">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <i class="fas fa-user-md"></i>
+                            <span>Primary Care</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="category-card">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <i class="fas fa-heart"></i>
+                            <span>Cardiology</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="category-card">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <i class="fas fa-brain"></i>
+                            <span>Neurology</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="category-card">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <i class="fas fa-baby"></i>
+                            <span>Pediatrics</span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="category-card">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <i class="fas fa-tooth"></i>
+                            <span>Dentistry</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Healthcare Providers Section -->
+    <section class="listings-section">
+        <h2 class="section-title">Featured Healthcare Providers</h2>
+        
+        <div class="row">
+    
+<% for(let listing of allListings){ %>
+    
+<div class="card" style="width: 100rem;">
+  <div style="position: relative;">
+    <img src="<%=listing.image.url%>" class="card-img-top" alt="listing_image" style="height: 13rem;">
+    
+    <!-- Overlay -->
+    <div class="card-img-overlay">
+      <div class="overlay-top">
+        <span class="overlay-badge">Guest Favorite</span>
+        <span class="overlay-badge">
+          <i class="fa fa-star"></i> 4.0+
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <h5 class="card-title"><%= listing.title %></h5>
+   <p class="card-price">
+  &#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> for one consultation
+</p>
+
+    <a href="/listings/<%= listing._id %>" class="btn btn-primary">Show Details</a>
+  </div>
+</div>
+
+
+
+<% } %>
+
+
+
+
+
+</div>
+
+    </section>
+
+    <!-- Info Highlights Section -->
+    <section class="info-highlights">
+        <div class="highlight">
+            <i class="fas fa-shield-alt"></i>
+            <h4>Consult with Confidence</h4>
+            <p>Get 24/7 support and discover helpful reviews from our trusted community of patients.</p>
+        </div>
+        <div class="highlight">
+            <i class="fas fa-hand-holding-heart"></i>
+            <h4>Get the Care You Need</h4>
+            <p>Help your whole family stay healthy with our network of specialists and general practitioners.</p>
+        </div>
+        <div class="highlight">
+            <i class="fas fa-calendar-check"></i>
+            <h4>Flexible Scheduling</h4>
+            <p>Appointments with flexible cancellation make it easy to reschedule if your plans change.</p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <details>
+                    <summary>How do I book an appointment?</summary>
+                    <p>Simply search for a healthcare provider, select your preferred date and time, and complete the booking process. You'll receive a confirmation email with all the details.</p>
+                </details>
+            </div>
+            <div class="faq-item">
+                <details>
+                    <summary>What insurance plans do you accept?</summary>
+                    <p>We accept most major insurance plans including Aetna, BlueCross BlueShield, Cigna, and UnitedHealthcare. You can filter providers by insurance during your search.</p>
+                </details>
+            </div>
+            <div class="faq-item">
+                <details>
+                    <summary>Can I have a virtual consultation?</summary>
+                    <p>Yes, many of our providers offer telehealth services. Look for the "Virtual Visit" badge when browsing providers.</p>
+                </details>
+            </div>
+            <div class="faq-item">
+                <details>
+                    <summary>How do I cancel or reschedule an appointment?</summary>
+                    <p>You can manage your appointments through your account dashboard. Most appointments can be canceled or rescheduled up to 24 hours in advance without penalty.</p>
+                </details>
+            </div>
+            <div class="faq-item">
+                <details>
+                    <summary>What if I need urgent care?</summary>
+                    <p>For medical emergencies, please call 911 immediately. For urgent but non-emergency care, use our "Urgent Care" filter to find providers with same-day availability.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        window.onload = function() {
+            // Initialize AOS for animations
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+
+            // Typing effect
+            const text = "Book appointments with top doctors...";
+            const typingSpeed = 100;
+            let index = 0;
+            const typingElement = document.getElementById("typing-text");
+            
+            function typeWriter() {
+                if (index < text.length) {
+                    typingElement.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, typingSpeed);
+                }
+            }
+            typeWriter();
+        };
+    </script>
+    <script>
+  // Function to show flash message
+  function showFlashMessage(type, message) {
+    if(type === 'success') {
+      const successAlert = document.getElementById('flash-success');
+      const successMsg = document.getElementById('flash-success-msg');
+      successMsg.textContent = message;
+      successAlert.style.display = 'block';
+
+      // Auto-hide after 3 seconds
+      setTimeout(() => {
+        successAlert.style.display = 'none';
+      }, 3000);
+    } 
+    else if(type === 'danger') {
+      const dangerAlert = document.getElementById('flash-danger');
+      const dangerMsg = document.getElementById('flash-danger-msg');
+      dangerMsg.textContent = message;
+      dangerAlert.style.display = 'block';
+
+      setTimeout(() => {
+        dangerAlert.style.display = 'none';
+      }, 3000);
+    }
+  }
+
+  // Example usage:
+  // showFlashMessage('success', 'Profile updated successfully!');
+  // showFlashMessage('danger', 'Error: Please try again.');
+</script>
+
+
+</body>
+</html>
