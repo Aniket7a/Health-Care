@@ -1,0 +1,479 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>National Healthcare Portal - Appointment Booking</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-blue: #0d518c;
+      --secondary-blue: #1c6cb0;
+      --accent-blue: #3498db;
+      --dark-blue: #083c66;
+      --light-blue: #e9f2f9;
+      --dark-gray: #333;
+      --medium-gray: #666;
+      --light-gray: #f5f5f5;
+      --white: #fff;
+      --green: #2e7d32;
+    }
+    
+    body {
+      background: linear-gradient(to bottom, var(--light-blue) 0%, var(--white) 300px);
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+      color: var(--dark-gray);
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      color: white;
+      padding: 12px 0;
+      border-bottom: 4px solid var(--green);
+    }
+    
+    .govt-logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo-icon {
+      font-size: 2.2rem;
+      background: var(--white);
+      color: var(--primary-blue);
+      padding: 10px;
+      border-radius: 8px;
+    }
+    
+    .logo-text {
+      font-weight: bold;
+      font-size: 1.5rem;
+      letter-spacing: 0.5px;
+    }
+    
+    .logo-subtext {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+    
+    .appointment-container {
+      max-width: 750px;
+      margin: 40px auto;
+      background: var(--white);
+      border: 1px solid #d0d0d0;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .section-title {
+      color: var(--primary-blue);
+      font-weight: 700;
+      font-size: 1.6rem;
+      margin-bottom: 25px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--light-blue);
+      position: relative;
+    }
+    
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 70px;
+      height: 2px;
+      background-color: var(--green);
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 14px;
+      color: var(--dark-gray);
+      font-size: 0.95rem;
+      display: block;
+    }
+    
+    label:after {
+      content: ' *';
+      color: #d32f2f;
+    }
+
+    .form-control, .form-select {
+      border-radius: 5px;
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      border: 1px solid #ced4da;
+      background-color: var(--white);
+      transition: all 0.2s;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+
+    .btn-primary {
+      width: 100%;
+      border-radius: 6px;
+      font-weight: 600;
+      padding: 14px;
+      background: linear-gradient(to bottom, var(--secondary-blue) 0%, var(--primary-blue) 100%);
+      border: none;
+      font-size: 1.1rem;
+      margin-top: 25px;
+      transition: all 0.3s;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(to bottom, var(--primary-blue) 0%, var(--dark-blue) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--medium-gray);
+      margin-top: 50px;
+      padding: 25px;
+      background-color: var(--light-blue);
+      border-top: 1px solid #d0e0e9;
+    }
+    
+    .required-note {
+      text-align: right;
+      font-size: 0.9rem;
+      color: var(--medium-gray);
+      margin-bottom: 20px;
+    }
+    
+    .form-section {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .info-box {
+      background-color: var(--light-blue);
+      border-left: 4px solid var(--primary-blue);
+      padding: 18px;
+      margin-bottom: 25px;
+      border-radius: 6px;
+    }
+    
+    .info-box i {
+      color: var(--primary-blue);
+      margin-right: 12px;
+    }
+    
+    .nav-tabs {
+      border-bottom: 2px solid var(--primary-blue);
+      margin-bottom: 25px;
+    }
+    
+    .nav-link {
+      color: var(--dark-gray);
+      font-weight: 600;
+      padding: 12px 25px;
+    }
+    
+    .nav-link.active {
+      background-color: var(--primary-blue);
+      color: white;
+      border: none;
+    }
+    
+    .step-number {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      background: var(--primary-blue);
+      color: white;
+      text-align: center;
+      line-height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    
+    .language-selector {
+      text-align: right;
+      margin-bottom: 15px;
+    }
+    
+    .language-selector select {
+      width: auto;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .appointment-container {
+        margin: 20px;
+        padding: 25px;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+      }
+
+      .btn-primary {
+        padding: 12px;
+        font-size: 1.05rem;
+      }
+
+      .govt-logo {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+      }
+      
+      .logo-text {
+        font-size: 1.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 14px;
+      }
+
+      .appointment-container {
+        margin: 15px;
+        padding: 20px;
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+      }
+
+      .form-control, .form-select {
+        font-size: 0.9rem;
+        padding: 9px 12px;
+      }
+
+      .btn-primary {
+        font-size: 1rem;
+        padding: 12px;
+      }
+      
+      .info-box {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="govt-logo">
+          <i class="fas fa-stethoscope logo-icon"></i>
+          <div>
+            <div class="logo-text">HealthMed</div>
+            <div class="logo-subtext">Government of India Initiative</div>
+          </div>
+        </div>
+        <div class="language-selector">
+          <select class="form-select form-select-sm">
+            <option>English</option>
+            <option>Hindi</option>
+            <option>தமிழ்</option>
+            <option>తెలుగు</option>
+            <option>বাংলা</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="appointment-container">
+      <h2 class="section-title"><i class="fas fa-calendar-check me-2"></i>Medical Appointment Booking</h2>
+      
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" href="#"><i class="fas fa-hospital me-2"></i>Hospital Appointment</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-laptop-medical me-2"></i>Teleconsultation</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-prescription me-2"></i>Medicine Delivery</a>
+        </li>
+      </ul>
+      
+      <div class="info-box">
+        <i class="fas fa-info-circle"></i>
+        Please fill all mandatory fields marked with an asterisk (*) to book your appointment. All information is secured as per government guidelines.
+      </div>
+      
+      <form action="/book-slot" method="POST">
+        <div class="form-section">
+          <h5 class="text-primary mb-3"><span class="step-number">1</span>Personal Information</h5>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="patientName" class="form-control" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Gender</label>
+                <select name="gender" class="form-select" required>
+                  <option value="">-- Select Gender --</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Age</label>
+                <input type="number" name="age" class="form-control" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Patient Phone</label>
+                <input type="text" name="patientPhone" class="form-control" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Address</label>
+            <textarea name="address" class="form-control" rows="2" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Pincode</label>
+            <input type="text" name="pincode" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h5 class="text-primary mb-3"><span class="step-number">2</span>Medical Information</h5>
+          
+          <div class="form-group">
+            <label>Health Issue / Symptoms</label>
+            <textarea name="prescription" class="form-control" rows="3" placeholder="Please describe your symptoms or health concerns" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label>Preferred Doctor Specialty</label>
+            <select class="form-select">
+              <option value="">-- Select Specialty --</option>
+              <option value="cardiology">Cardiology</option>
+              <option value="neurology">Neurology</option>
+              <option value="orthopedics">Orthopedics</option>
+              <option value="pediatrics">Pediatrics</option>
+              <option value="general">General Medicine</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h5 class="text-primary mb-3"><span class="step-number">3</span>Appointment Details</h5>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Preferred Date</label>
+                <input type="date" name="date" class="form-control" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Preferred Time</label>
+                <input type="time" name="slot" class="form-control" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Doctor Email</label>
+            <input type="email" name="doctorEmail" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="form-check mb-4">
+          <input class="form-check-input" type="checkbox" id="termsCheck" required>
+          <label class="form-check-label" for="termsCheck">
+            I agree to the terms and conditions and authorize the government healthcare system to use my information for medical purposes.
+          </label>
+        </div>
+
+        <div class="required-note">* denotes mandatory field</div>
+
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-paper-plane me-2"></i>Confirm Appointment
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p>&copy; 2023 National Healthcare Portal | Government of India</p>
+          <p class="small">Designed for accessible healthcare services for all citizens | <a href="#" class="text-decoration-none">Privacy Policy</a> | <a href="#" class="text-decoration-none">Terms of Service</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple form validation and date min attribute setting
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set min date to today
+      const today = new Date().toISOString().split('T')[0];
+      document.querySelector('input[type="date"]').setAttribute('min', today);
+      
+      // Add basic form validation
+      const form = document.querySelector('form');
+      form.addEventListener('submit', function(e) {
+        let valid = true;
+        const requiredFields = form.querySelectorAll('[required]');
+        
+        requiredFields.forEach(field => {
+          if (!field.value.trim()) {
+            valid = false;
+            field.classList.add('is-invalid');
+          } else {
+            field.classList.remove('is-invalid');
+          }
+        });
+        
+        const termsCheck = document.getElementById('termsCheck');
+        if (!termsCheck.checked) {
+          valid = false;
+          termsCheck.classList.add('is-invalid');
+        } else {
+          termsCheck.classList.remove('is-invalid');
+        }
+        
+        if (!valid) {
+          e.preventDefault();
+          alert('Please fill all required fields and accept the terms and conditions.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

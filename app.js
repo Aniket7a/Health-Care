@@ -32,6 +32,89 @@ const geocoder = require("./utils/geocode");
 const Booking = require("./models/booking"); // import your model
 const nodemailer = require("nodemailer");
 
+
+// webrtc
+const http = require("http");
+const { Server } = require("socket.io");
+
+const server = http.createServer(app);
+const io = new Server(server);
+
+io.on("connection", (socket) => {
+  console.log("🔗 User connected:", socket.id);
+
+  socket.on("offer", (offer) => {
+    socket.broadcast.emit("offer", offer);
+  });
+
+  socket.on("answer", (answer) => {
+    socket.broadcast.emit("answer", answer);
+  });
+
+  socket.on("ice-candidate", (candidate) => {
+    socket.broadcast.emit("ice-candidate", candidate);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("❌ User disconnected:", socket.id);
+  });
+});
+
+
+server.listen(port, () => {
+  console.log(`🚀 Server running at http://localhost:${port}`);
+});
+
+io.on("connection", (socket) => {
+  socket.on("offer", (offer) => socket.broadcast.emit("offer", offer));
+  socket.on("answer", (answer) => socket.broadcast.emit("answer", answer));
+  socket.on("ice-candidate", (candidate) => socket.broadcast.emit("ice-candidate", candidate));
+  socket.on("end-call", () => socket.broadcast.emit("end-call"));
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // setup mail transporter
 const mailTransporter = nodemailer.createTransport({
   service: "gmail",
@@ -140,6 +223,10 @@ app.get("/logout",(req,res,next)=>{
     res.redirect("/listings")
   })
 })
+
+app.get("/video-call", isLoggedIn, (req, res) => {
+  res.render("videoCall");
+});
 
 
 
@@ -357,20 +444,74 @@ app.delete("/listings/:id/reviews/:reviewId", isLoggedIn,isReviewAuthor, async (
       res.redirect(`/listings/${id}`)
 })
 
+// app.post("/book-slot", isLoggedIn, async (req, res) => {
+//   try {
+//     const { patientName, patientPhone, slot, doctorEmail } = req.body;
+
+//     // Mail content
+//     const mailOptions = {
+//       from: process.env.MAIL_USER,
+//       to: doctorEmail,
+//       subject: `📅 New Booking from ${patientName}`,
+//       text: `Patient: ${patientName}\nPhone: ${patientPhone}\nSlot: ${slot}`
+//     };
+
+//     // Send email
+//     await mailTransporter.sendMail(mailOptions);  // ✅ use mailTransporter
+
+//     req.flash("success", "Booking confirmed & doctor notified!");
+//     res.redirect("/listings");
+//   } catch (err) {
+//     console.error("❌ Email error:", err);
+//     req.flash("error", "Booking saved, but email not sent.");
+//     res.redirect("/listings");
+//   }
+// });
+
+
+
+// cookies
 app.post("/book-slot", isLoggedIn, async (req, res) => {
   try {
-    const { patientName, patientPhone, slot, doctorEmail } = req.body;
+    const {
+      patientName,
+      gender,
+      age,
+      address,
+      pincode,
+      prescription,
+      date,
+      slot,
+      doctorEmail,
+      patientPhone
+    } = req.body;
 
     // Mail content
     const mailOptions = {
       from: process.env.MAIL_USER,
       to: doctorEmail,
       subject: `📅 New Booking from ${patientName}`,
-      text: `Patient: ${patientName}\nPhone: ${patientPhone}\nSlot: ${slot}`
+      text: `
+      🧑 Patient Details:
+      --------------------
+      Name: ${patientName}
+      Gender: ${gender}
+      Age: ${age}
+      Phone: ${patientPhone}
+      Address: ${address}
+      Pincode: ${pincode}
+
+      📝 Prescription / Issue:
+      ${prescription}
+
+      📅 Appointment:
+      Date: ${date}
+      Time: ${slot}
+      `
     };
 
     // Send email
-    await mailTransporter.sendMail(mailOptions);  // ✅ use mailTransporter
+    await mailTransporter.sendMail(mailOptions);
 
     req.flash("success", "Booking confirmed & doctor notified!");
     res.redirect("/listings");
@@ -380,10 +521,23 @@ app.post("/book-slot", isLoggedIn, async (req, res) => {
     res.redirect("/listings");
   }
 });
+app.get("/book-slot", isLoggedIn, (req, res) => {
+  res.render("bookings/new.ejs");
+});
+app.get("/bookings/new", (req, res) => {
+  res.render("bookings/new");  // renders new.ejs
+});
+
+app.get("/videocall", (req, res) => {
+  res.render("videocall"); // loads views/videocall.ejs
+});
 
 
 
-// cookies
+
+
+
+
 app.get("/getcookies",(req,res)=>{
   res.cookie("greet","hello")
   res.send("cookies are send")
@@ -401,6 +555,6 @@ app.use((err,req,res,next)=>{
 
 
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+// app.listen(port, () => {
+//   console.log(`Example app listening on port ${port}`)
+// })

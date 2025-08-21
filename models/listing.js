@@ -38,7 +38,7 @@ const listingSchema = new Schema({
   lat: Number,
 lng: Number,
 
-phone: { type: String, required: true }
+phone: { type: String}
 
     
 });

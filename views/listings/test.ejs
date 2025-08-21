@@ -762,6 +762,20 @@
 
 </head>
 <body>
+    <% if (success && success.length > 0) { %>
+  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    <%= success %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+<% } %>
+
+<% if (error && error.length > 0) { %>
+  <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+    <%= error %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+<% } %>
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
@@ -926,20 +940,7 @@
   <button type="submit">Book Appointment</button>
 </form> -->
 
-<form action="/book-slot" method="POST" class="appointment-form">
-  <h2>Book an Appointment</h2>
-  
-  <input type="text" name="patientName" placeholder="Your Name" required>
-  <input type="text" name="patientPhone" placeholder="Your Phone" required>
-  
-  <!-- Date & Time -->
-    <input type="text" name="slot" placeholder="Preferred Slot" required> 
-   <input type="date" name="slotDate"  placeholder="Preferred Slot" required>
-  
-  <input type="email" name="doctorEmail" placeholder="Doctor Email" required>
-  
-  <button type="submit">Book Appointment</button>
-</form>
+
 
 <style>
   /* Scoped to only .appointment-form */

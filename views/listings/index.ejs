@@ -8,6 +8,7 @@
     <title>MediConnect - Your Healthcare Platform</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <!-- <style>
         :root {
@@ -1396,6 +1397,9 @@
     <!-- Hero Section -->
     
 
+
+
+
     <!-- Promotional Section -->
     <section class="promo-section">
         <div class="container">
@@ -1411,7 +1415,10 @@ Connect with Trusted Healthcare Experts for Personalized Care</h2>
                             <div class="promo-content">
                                 <i class="fas fa-heartbeat promo-icon"></i>
                                 <p class="promo-text">Preventive health checkups to detect issues early</p>
-                                <a href="#" class="promo-link">Book checkup <i class="fas fa-chevron-right"></i></a>
+                                <a href="/videocall" class="promo-link">
+  Start consultation <i class="fas fa-chevron-right"></i>
+</a>
+
                             </div>
                         </div>
                         
@@ -1526,6 +1533,94 @@ Connect with Trusted Healthcare Experts for Personalized Care</h2>
 
 
 </div>
+<!-- bookk &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&-->
+
+<section class="container my-5">
+  <div class="card shadow-lg p-4 text-center">
+    <h2 class="mb-3">📅 Book Your Appointment</h2>
+    <p class="text-muted">Schedule a consultation with our doctors easily and quickly.</p>
+    <a href="/bookings/new" class="btn btn-primary btn-lg mt-3">
+      Book Appointment
+    </a>
+  </div>
+</section>
+<style>
+    .card {
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  background: #ffffff;
+  padding: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.card h2 {
+  color: #0056a3; /* Govt Blue */
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.btn-primary {
+  background-color: #0056a3;
+  border: none;
+  padding: 12px 25px;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+.btn-primary:hover {
+  background-color: #003f7d;
+}
+
+/* 📱 Mobile Adjustments */
+@media (max-width: 768px) {
+  .card {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .card h2 {
+    font-size: 1.5rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+  }
+
+  .btn-primary {
+    width: 100%;   /* Full width on small screens */
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+
+/* 📱 Extra Small Screens */
+@media (max-width: 480px) {
+  .card {
+    padding: 12px;
+    text-align: left; /* like typical govt site text */
+  }
+
+  .card h2 {
+    font-size: 1.3rem;
+  }
+
+  .btn-primary {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+</style>
+
+<!-- ************************************************************************************************** -->
+
+
+
 
     </section>
 

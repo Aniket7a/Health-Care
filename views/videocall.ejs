@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Doctor–Patient Video Consultation</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    body { text-align: center; }
+    video { width: 40%; margin: 10px; border: 2px solid #333; border-radius: 8px; }
+    button { margin: 10px; padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h2>👨‍⚕️ Doctor–Patient Video Consultation</h2>
+
+  <!-- Video containers -->
+  <div>
+    <video id="localVideo" autoplay playsinline muted></video>
+    <video id="remoteVideo" autoplay playsinline></video>
+  </div>
+
+  <!-- Call buttons -->
+  <div>
+    <button id="startCall" style="background: green; color: white;">Start Call</button>
+    <button id="endCall" style="background: red; color: white;">End Call</button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/videoCall.js"></script>
+</body>
+</html>
