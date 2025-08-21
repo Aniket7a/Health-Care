@@ -2,7 +2,7 @@ const socket = io(window.location.origin, {
   transports: ["websocket", "polling"]
 });
 
-const roomId = "doctorRoom"; // could come from doctor ID or URL param
+const roomId = "doctorRoom"; // can later be dynamic
 socket.emit("join", roomId);
 
 let localStream;
@@ -32,13 +32,13 @@ startButton.onclick = async () => {
 
   peerConnection.onicecandidate = (event) => {
     if (event.candidate) {
-      socket.emit("ice-candidate", event.candidate);
+      socket.emit("ice-candidate", { candidate: event.candidate, roomId });
     }
   };
 
   const offer = await peerConnection.createOffer();
   await peerConnection.setLocalDescription(offer);
-  socket.emit("offer", offer);
+  socket.emit("offer", { offer, roomId });
 };
 
 // Handle Offer
@@ -55,14 +55,14 @@ socket.on("offer", async (offer) => {
 
   peerConnection.onicecandidate = (event) => {
     if (event.candidate) {
-      socket.emit("ice-candidate", event.candidate);
+      socket.emit("ice-candidate", { candidate: event.candidate, roomId });
     }
   };
 
   await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
   const answer = await peerConnection.createAnswer();
   await peerConnection.setLocalDescription(answer);
-  socket.emit("answer", answer);
+  socket.emit("answer", { answer, roomId });
 });
 
 // Handle Answer
@@ -90,7 +90,7 @@ endButton.onclick = () => {
   }
   localVideo.srcObject = null;
   remoteVideo.srcObject = null;
-  socket.emit("end-call");
+  socket.emit("end-call", { roomId });
 };
 
 // When remote ends call

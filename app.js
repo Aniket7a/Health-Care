@@ -66,39 +66,28 @@ const io = new Server(server, {
 //   });
 // });
 io.on("connection", (socket) => {
-  console.log("🔗 User connected:", socket.id);
-
-  // Join room
   socket.on("join", (roomId) => {
     socket.join(roomId);
     socket.roomId = roomId;
-    console.log(`✅ User ${socket.id} joined room ${roomId}`);
   });
 
-  // Forward offer to other peer in the room
-  socket.on("offer", (offer) => {
-    socket.to(socket.roomId).emit("offer", offer);
+  socket.on("offer", ({ offer, roomId }) => {
+    socket.to(roomId).emit("offer", offer);
   });
 
-  // Forward answer
-  socket.on("answer", (answer) => {
-    socket.to(socket.roomId).emit("answer", answer);
+  socket.on("answer", ({ answer, roomId }) => {
+    socket.to(roomId).emit("answer", answer);
   });
 
-  // Forward ICE candidate
-  socket.on("ice-candidate", (candidate) => {
-    socket.to(socket.roomId).emit("ice-candidate", candidate);
+  socket.on("ice-candidate", ({ candidate, roomId }) => {
+    socket.to(roomId).emit("ice-candidate", candidate);
   });
 
-  // End call
-  socket.on("end-call", () => {
-    socket.to(socket.roomId).emit("end-call");
-  });
-
-  socket.on("disconnect", () => {
-    console.log("❌ User disconnected:", socket.id);
+  socket.on("end-call", ({ roomId }) => {
+    socket.to(roomId).emit("end-call");
   });
 });
+
 
 
 
@@ -106,12 +95,12 @@ server.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
 });
 
-io.on("connection", (socket) => {
-  socket.on("offer", (offer) => socket.broadcast.emit("offer", offer));
-  socket.on("answer", (answer) => socket.broadcast.emit("answer", answer));
-  socket.on("ice-candidate", (candidate) => socket.broadcast.emit("ice-candidate", candidate));
-  socket.on("end-call", () => socket.broadcast.emit("end-call"));
-});
+// io.on("connection", (socket) => {
+//   socket.on("offer", (offer) => socket.broadcast.emit("offer", offer));
+//   socket.on("answer", (answer) => socket.broadcast.emit("answer", answer));
+//   socket.on("ice-candidate", (candidate) => socket.broadcast.emit("ice-candidate", candidate));
+//   socket.on("end-call", () => socket.broadcast.emit("end-call"));
+// });
 
 
 
