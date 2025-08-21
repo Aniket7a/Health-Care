@@ -1,4 +1,7 @@
-const socket = io();
+const socket = io(window.location.origin, {
+  transports: ["websocket", "polling"]
+});
+
 let localStream;
 let peerConnection;
 
