@@ -2,31 +2,494 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor–Patient Video Consultation</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { text-align: center; }
-    video { width: 40%; margin: 10px; border: 2px solid #333; border-radius: 8px; }
-    button { margin: 10px; padding: 10px 20px; font-size: 16px; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+    
+    .header {
+      background: linear-gradient(to right, #2c3e50, #4ca1af);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+    
+    .header p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+    
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      background-color: #4CAF50;
+      border-radius: 50%;
+      margin-left: 10px;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+    
+    .video-container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px;
+      gap: 20px;
+    }
+    
+    .video-box {
+      flex: 1;
+      min-width: 300px;
+      background-color: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .video-box h3 {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      z-index: 10;
+    }
+    
+    video {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      background-color: #222;
+      transform: scaleX(-1); /* Mirror effect for front camera */
+    }
+    
+    .controls {
+      padding: 20px;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-start {
+      background: linear-gradient(to right, #00b09b, #96c93d);
+      color: white;
+    }
+    
+    .btn-end {
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      color: white;
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .info-panel {
+      padding: 20px;
+      background-color: #e9ecef;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .info-box {
+      flex: 1;
+      min-width: 250px;
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    }
+    
+    .info-box h3 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #4ca1af;
+    }
+    
+    .info-item {
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .info-item span:first-child {
+      font-weight: 600;
+      color: #555;
+    }
+    
+    .message {
+      padding: 15px;
+      margin: 10px 20px;
+      border-radius: 10px;
+      text-align: center;
+      display: none;
+    }
+    
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    @media (max-width: 768px) {
+      .video-box {
+        min-width: 100%;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
-  <h2>👨‍⚕️ Doctor–Patient Video Consultation</h2>
-
-  <!-- Video containers -->
-  <div>
-    <video id="localVideo" autoplay playsinline muted></video>
-    <video id="remoteVideo" autoplay playsinline></video>
+  <div class="container">
+    <div class="header">
+      <h1>Doctor-Patient Video Consultation <span class="status-indicator"></span></h1>
+      <p>Room: <%= roomId %></p>
+    </div>
+    
+    <div id="connectionMessage" class="message"></div>
+    
+    <div class="video-container">
+      <div class="video-box">
+        <h3>Your Video</h3>
+        <video id="localVideo" autoplay muted></video>
+      </div>
+      <div class="video-box">
+        <h3>Remote Video</h3>
+        <video id="remoteVideo" autoplay></video>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button id="startCall" class="btn btn-start">
+        <i class="fas fa-video"></i> Start Call
+      </button>
+      <button id="endCall" class="btn btn-end" disabled>
+        <i class="fas fa-phone-slash"></i> End Call
+      </button>
+    </div>
+    
+    <div class="info-panel">
+      <div class="info-box">
+        <h3>Appointment Details</h3>
+        <div class="info-item">
+          <span>Room ID:</span>
+          <span id="roomIdDisplay"><%= roomId %></span>
+        </div>
+        <div class="info-item">
+          <span>Status:</span>
+          <span id="connectionStatus">Not connected</span>
+        </div>
+        <div class="info-item">
+          <span>Video:</span>
+          <span id="videoStatus">Inactive</span>
+        </div>
+        <div class="info-item">
+          <span>Audio:</span>
+          <span id="audioStatus">Inactive</span>
+        </div>
+      </div>
+      
+      <div class="info-box">
+        <h3>Connection Information</h3>
+        <div class="info-item">
+          <span>Participants:</span>
+          <span id="participantsCount">1</span>
+        </div>
+        <div class="info-item">
+          <span>Share this room ID:</span>
+          <span><%= roomId %></span>
+        </div>
+        <div class="info-item">
+          <span>Connection:</span>
+          <span id="connectionType">WebRTC</span>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Call buttons -->
-  <div>
-    <button id="startCall" style="background: green; color: white;">Start Call</button>
-    <button id="endCall" style="background: red; color: white;">End Call</button>
-  </div>
-
-  <!-- Scripts -->
   <script src="/socket.io/socket.io.js"></script>
-  <script src="/js/videoCall.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const localVideo = document.getElementById('localVideo');
+      const remoteVideo = document.getElementById('remoteVideo');
+      const startCallBtn = document.getElementById('startCall');
+      const endCallBtn = document.getElementById('endCall');
+      const connectionStatus = document.getElementById('connectionStatus');
+      const videoStatus = document.getElementById('videoStatus');
+      const audioStatus = document.getElementById('audioStatus');
+      const participantsCount = document.getElementById('participantsCount');
+      const connectionMessage = document.getElementById('connectionMessage');
+      
+      let localStream;
+      let remoteStream;
+      let peerConnection;
+      let socket;
+      const roomId = '<%= roomId %>';
+      let isCaller = false;
+      let participants = 1;
+      
+      // Socket.io connection
+      socket = io();
+      
+      // Socket event handlers
+      socket.on('connect', () => {
+        console.log('Connected to signaling server');
+        socket.emit('join', roomId);
+        updateConnectionStatus('Connected to server', 'success');
+      });
+      
+      socket.on('disconnect', () => {
+        console.log('Disconnected from signaling server');
+        updateConnectionStatus('Disconnected from server', 'error');
+      });
+      
+      socket.on('user-joined', (userId) => {
+        console.log('User joined:', userId);
+        participants++;
+        participantsCount.textContent = participants;
+        
+        if (participants === 2) {
+          // Second user to join becomes the answerer
+          isCaller = false;
+          updateConnectionStatus('Another user joined. Ready to receive call.', 'success');
+        } else {
+          updateConnectionStatus('User ' + userId + ' joined the room', 'success');
+        }
+      });
+      
+      socket.on('user-left', (userId) => {
+        console.log('User left:', userId);
+        participants--;
+        participantsCount.textContent = participants;
+        updateConnectionStatus('User ' + userId + ' left the room', 'error');
+        
+        if (participants < 2) {
+          hangUp();
+        }
+      });
+      
+      socket.on('offer', async (data) => {
+        console.log('Received offer from', data.from);
+        if (!isCaller) {
+          if (!peerConnection) {
+            createPeerConnection();
+          }
+          
+          await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));
+          const answer = await peerConnection.createAnswer();
+          await peerConnection.setLocalDescription(answer);
+          socket.emit('answer', { answer, roomId, to: data.from });
+        }
+      });
+      
+      socket.on('answer', async (data) => {
+        console.log('Received answer from', data.from);
+        if (isCaller) {
+          await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+        }
+      });
+      
+      socket.on('ice-candidate', async (data) => {
+        console.log('Received ICE candidate from', data.from);
+        try {
+          await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+        } catch (error) {
+          console.error('Error adding ICE candidate:', error);
+        }
+      });
+      
+      socket.on('end-call', (data) => {
+        console.log('Call ended by', data.from);
+        hangUp();
+        updateConnectionStatus('Call ended by remote user', 'error');
+      });
+      
+      // Initialize media devices and set up event listeners
+      initializeMedia();
+      
+      startCallBtn.addEventListener('click', startCall);
+      endCallBtn.addEventListener('click', hangUp);
+      
+      async function initializeMedia() {
+        try {
+          localStream = await navigator.mediaDevices.getUserMedia({ 
+            video: true, 
+            audio: true 
+          });
+          localVideo.srcObject = localStream;
+          videoStatus.textContent = 'Active';
+          audioStatus.textContent = 'Active';
+        } catch (error) {
+          console.error('Error accessing media devices:', error);
+          updateConnectionStatus('Error accessing camera/microphone', 'error');
+        }
+      }
+      
+      function createPeerConnection() {
+        const configuration = {
+          iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' }
+          ]
+        };
+        
+        peerConnection = new RTCPeerConnection(configuration);
+        
+        // Add local stream to peer connection
+        localStream.getTracks().forEach(track => {
+          peerConnection.addTrack(track, localStream);
+        });
+        
+        // Get remote stream
+        peerConnection.ontrack = (event) => {
+          remoteStream = event.streams[0];
+          remoteVideo.srcObject = remoteStream;
+        };
+        
+        // Handle ICE candidates
+        peerConnection.onicecandidate = (event) => {
+          if (event.candidate) {
+            socket.emit('ice-candidate', { candidate: event.candidate, roomId });
+          }
+        };
+        
+        peerConnection.onconnectionstatechange = () => {
+          connectionStatus.textContent = peerConnection.connectionState;
+          if (peerConnection.connectionState === 'connected') {
+            updateConnectionStatus('Call connected successfully', 'success');
+            startCallBtn.disabled = true;
+            endCallBtn.disabled = false;
+          }
+        };
+      }
+      
+      async function startCall() {
+        if (!localStream) {
+          updateConnectionStatus('Please allow camera and microphone access first', 'error');
+          return;
+        }
+        
+        if (participants < 2) {
+          updateConnectionStatus('Waiting for another participant to join...', 'error');
+          return;
+        }
+        
+        createPeerConnection();
+        isCaller = true;
+        
+        try {
+          const offer = await peerConnection.createOffer();
+          await peerConnection.setLocalDescription(offer);
+          socket.emit('offer', { offer, roomId, to: null }); // Send to all in room
+          updateConnectionStatus('Calling...', 'success');
+        } catch (error) {
+          console.error('Error creating offer:', error);
+          updateConnectionStatus('Error starting call', 'error');
+        }
+      }
+      
+      function hangUp() {
+        if (peerConnection) {
+          peerConnection.close();
+          peerConnection = null;
+        }
+        
+        if (remoteVideo.srcObject) {
+          remoteVideo.srcObject = null;
+        }
+        
+        socket.emit('end-call', { roomId });
+        
+        startCallBtn.disabled = false;
+        endCallBtn.disabled = true;
+        connectionStatus.textContent = 'Not connected';
+        updateConnectionStatus('Call ended', 'error');
+        isCaller = false;
+      }
+      
+      function updateConnectionStatus(message, type) {
+        connectionMessage.textContent = message;
+        connectionMessage.className = 'message';
+        connectionMessage.classList.add(type);
+        connectionMessage.style.display = 'block';
+        
+        // Hide message after 5 seconds
+        setTimeout(() => {
+          connectionMessage.style.display = 'none';
+        }, 5000);
+      }
+    });
+  </script>
 </body>
 </html>

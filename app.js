@@ -41,7 +41,7 @@ const server = http.createServer(app);
 //const io = new Server(server);
 const io = new Server(server, {
   cors: {
-    origin: "https://health-care-vj5p.onrender.com",  
+    origin: "*",  
     methods: ["GET", "POST"]
   }
 });
@@ -65,28 +65,32 @@ const io = new Server(server, {
 //     console.log("❌ User disconnected:", socket.id);
 //   });
 // });
-io.on("connection", (socket) => {
-  socket.on("join", (roomId) => {
-    socket.join(roomId);
-    socket.roomId = roomId;
-  });
 
-  socket.on("offer", ({ offer, roomId }) => {
-    socket.to(roomId).emit("offer", offer);
-  });
 
-  socket.on("answer", ({ answer, roomId }) => {
-    socket.to(roomId).emit("answer", answer);
-  });
 
-  socket.on("ice-candidate", ({ candidate, roomId }) => {
-    socket.to(roomId).emit("ice-candidate", candidate);
-  });
+// io.on("connection", (socket) => {
+//   socket.on("join", (roomId) => {
+//     socket.join(roomId);
+//     socket.roomId = roomId;
+//   });
 
-  socket.on("end-call", ({ roomId }) => {
-    socket.to(roomId).emit("end-call");
-  });
-});
+//   socket.on("offer", ({ offer, roomId }) => {
+//     socket.to(roomId).emit("offer", offer);
+//   });
+
+//   socket.on("answer", ({ answer, roomId }) => {
+//     socket.to(roomId).emit("answer", answer);
+//   });
+
+//   socket.on("ice-candidate", ({ candidate, roomId }) => {
+//     socket.to(roomId).emit("ice-candidate", candidate);
+//   });
+
+//   socket.on("end-call", ({ roomId }) => {
+//     socket.to(roomId).emit("end-call");
+//   });
+// });
+
 
 
 
@@ -558,9 +562,117 @@ app.get("/bookings/new", (req, res) => {
   res.render("bookings/new");  // renders new.ejs
 });
 
-app.get("/videocall", (req, res) => {
-  res.render("videocall"); // loads views/videocall.ejs
+
+
+
+
+
+
+
+
+
+
+
+
+// app.get("/videocall", (req, res) => {
+//   res.render("videocall"); // loads views/videocall.ejs
+// });
+// Add these routes to your existing app.js
+
+// Room creation route
+app.get("/create-room", isLoggedIn, (req, res) => {
+  const roomId = generateRoomId();
+  res.redirect(`/videocall?room=${roomId}`);
 });
+
+// Room joining route
+app.post("/join-room", isLoggedIn, (req, res) => {
+  const { roomId } = req.body;
+  res.redirect(`/videocall?room=${roomId}`);
+});
+
+// Updated video call route to accept room parameter
+app.get("/videocall", isLoggedIn, (req, res) => {
+  const roomId = req.query.room;
+  if (!roomId) {
+    req.flash("error", "Room ID is required");
+    return res.redirect("/join-room-page");
+  }
+  res.render("videocall", { roomId });
+});
+
+// Route for the room joining page
+app.get("/join-room-page", isLoggedIn, (req, res) => {
+  res.render("join-room");
+});
+
+// Helper function to generate room IDs
+function generateRoomId() {
+  return Math.random().toString(36).substring(2, 8).toUpperCase();
+}
+
+// Update Socket.IO handling for better room management
+io.on("connection", (socket) => {
+  console.log("🔗 User connected:", socket.id);
+
+  socket.on("join", (roomId) => {
+    socket.join(roomId);
+    socket.roomId = roomId;
+    
+    // Notify others in the room that a new user joined
+    socket.to(roomId).emit("user-joined", socket.id);
+    
+    // Send room info to the newly joined user
+    io.to(socket.id).emit("room-info", {
+      roomId,
+      users: Array.from(io.sockets.adapter.rooms.get(roomId) || [])
+    });
+    
+    console.log(`User ${socket.id} joined room ${roomId}`);
+  });
+
+  socket.on("offer", (data) => {
+    socket.to(data.roomId).emit("offer", {
+      offer: data.offer,
+      from: socket.id
+    });
+  });
+
+  socket.on("answer", (data) => {
+    socket.to(data.roomId).emit("answer", {
+      answer: data.answer,
+      from: socket.id
+    });
+  });
+
+  socket.on("ice-candidate", (data) => {
+    socket.to(data.roomId).emit("ice-candidate", {
+      candidate: data.candidate,
+      from: socket.id
+    });
+  });
+
+  socket.on("end-call", (data) => {
+    socket.to(data.roomId).emit("end-call", { from: socket.id });
+  });
+
+  socket.on("disconnect", () => {
+    console.log("❌ User disconnected:", socket.id);
+    if (socket.roomId) {
+      socket.to(socket.roomId).emit("user-left", socket.id);
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
 
 
 
