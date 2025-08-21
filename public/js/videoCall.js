@@ -2,6 +2,9 @@ const socket = io(window.location.origin, {
   transports: ["websocket", "polling"]
 });
 
+const roomId = "doctorRoom"; // could come from doctor ID or URL param
+socket.emit("join", roomId);
+
 let localStream;
 let peerConnection;
 
@@ -89,3 +92,11 @@ endButton.onclick = () => {
   remoteVideo.srcObject = null;
   socket.emit("end-call");
 };
+
+// When remote ends call
+socket.on("end-call", () => {
+  if (peerConnection) peerConnection.close();
+  if (localStream) localStream.getTracks().forEach(track => track.stop());
+  localVideo.srcObject = null;
+  remoteVideo.srcObject = null;
+});
