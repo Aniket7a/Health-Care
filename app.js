@@ -33,18 +33,18 @@ const Booking = require("./models/booking"); // import your model
 const nodemailer = require("nodemailer");
 
 
-// webrtc
-const http = require("http");
-const { Server } = require("socket.io");
+// // webrtc
+// const http = require("http");
+// const { Server } = require("socket.io");
 
-const server = http.createServer(app);
-//const io = new Server(server);
-const io = new Server(server, {
-  cors: {
-    origin: "*",  
-    methods: ["GET", "POST"]
-  }
-});
+// const server = http.createServer(app);
+// //const io = new Server(server);
+// const io = new Server(server, {
+//   cors: {
+//     origin: "*",  
+//     methods: ["GET", "POST"]
+//   }
+// });
 
 // io.on("connection", (socket) => {
 //   console.log("🔗 User connected:", socket.id);
@@ -95,9 +95,9 @@ const io = new Server(server, {
 
 
 
-server.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}`);
-});
+// server.listen(port, () => {
+//   console.log(`🚀 Server running at http://localhost:${port}`);
+// });
 
 // io.on("connection", (socket) => {
 //   socket.on("offer", (offer) => socket.broadcast.emit("offer", offer));
@@ -579,90 +579,90 @@ app.get("/bookings/new", (req, res) => {
 // });
 // Add these routes to your existing app.js
 
-// Room creation route
-app.get("/create-room", isLoggedIn, (req, res) => {
-  const roomId = generateRoomId();
-  res.redirect(`/videocall?room=${roomId}`);
-});
+// // Room creation route
+// app.get("/create-room", isLoggedIn, (req, res) => {
+//   const roomId = generateRoomId();
+//   res.redirect(`/videocall?room=${roomId}`);
+// });
 
-// Room joining route
-app.post("/join-room", isLoggedIn, (req, res) => {
-  const { roomId } = req.body;
-  res.redirect(`/videocall?room=${roomId}`);
-});
+// // Room joining route
+// app.post("/join-room", isLoggedIn, (req, res) => {
+//   const { roomId } = req.body;
+//   res.redirect(`/videocall?room=${roomId}`);
+// });
 
-// Updated video call route to accept room parameter
-app.get("/videocall", isLoggedIn, (req, res) => {
-  const roomId = req.query.room;
-  if (!roomId) {
-    req.flash("error", "Room ID is required");
-    return res.redirect("/join-room-page");
-  }
-  res.render("videocall", { roomId });
-});
+// // Updated video call route to accept room parameter
+// app.get("/videocall", isLoggedIn, (req, res) => {
+//   const roomId = req.query.room;
+//   if (!roomId) {
+//     req.flash("error", "Room ID is required");
+//     return res.redirect("/join-room-page");
+//   }
+//   res.render("videocall", { roomId });
+// });
 
-// Route for the room joining page
-app.get("/join-room-page", isLoggedIn, (req, res) => {
-  res.render("join-room");
-});
+// // Route for the room joining page
+// app.get("/join-room-page", isLoggedIn, (req, res) => {
+//   res.render("join-room");
+// });
 
-// Helper function to generate room IDs
-function generateRoomId() {
-  return Math.random().toString(36).substring(2, 8).toUpperCase();
-}
+// // Helper function to generate room IDs
+// function generateRoomId() {
+//   return Math.random().toString(36).substring(2, 8).toUpperCase();
+// }
 
-// Update Socket.IO handling for better room management
-io.on("connection", (socket) => {
-  console.log("🔗 User connected:", socket.id);
+// // Update Socket.IO handling for better room management
+// io.on("connection", (socket) => {
+//   console.log("🔗 User connected:", socket.id);
 
-  socket.on("join", (roomId) => {
-    socket.join(roomId);
-    socket.roomId = roomId;
+//   socket.on("join", (roomId) => {
+//     socket.join(roomId);
+//     socket.roomId = roomId;
     
-    // Notify others in the room that a new user joined
-    socket.to(roomId).emit("user-joined", socket.id);
+//     // Notify others in the room that a new user joined
+//     socket.to(roomId).emit("user-joined", socket.id);
     
-    // Send room info to the newly joined user
-    io.to(socket.id).emit("room-info", {
-      roomId,
-      users: Array.from(io.sockets.adapter.rooms.get(roomId) || [])
-    });
+//     // Send room info to the newly joined user
+//     io.to(socket.id).emit("room-info", {
+//       roomId,
+//       users: Array.from(io.sockets.adapter.rooms.get(roomId) || [])
+//     });
     
-    console.log(`User ${socket.id} joined room ${roomId}`);
-  });
+//     console.log(`User ${socket.id} joined room ${roomId}`);
+//   });
 
-  socket.on("offer", (data) => {
-    socket.to(data.roomId).emit("offer", {
-      offer: data.offer,
-      from: socket.id
-    });
-  });
+//   socket.on("offer", (data) => {
+//     socket.to(data.roomId).emit("offer", {
+//       offer: data.offer,
+//       from: socket.id
+//     });
+//   });
 
-  socket.on("answer", (data) => {
-    socket.to(data.roomId).emit("answer", {
-      answer: data.answer,
-      from: socket.id
-    });
-  });
+//   socket.on("answer", (data) => {
+//     socket.to(data.roomId).emit("answer", {
+//       answer: data.answer,
+//       from: socket.id
+//     });
+//   });
 
-  socket.on("ice-candidate", (data) => {
-    socket.to(data.roomId).emit("ice-candidate", {
-      candidate: data.candidate,
-      from: socket.id
-    });
-  });
+//   socket.on("ice-candidate", (data) => {
+//     socket.to(data.roomId).emit("ice-candidate", {
+//       candidate: data.candidate,
+//       from: socket.id
+//     });
+//   });
 
-  socket.on("end-call", (data) => {
-    socket.to(data.roomId).emit("end-call", { from: socket.id });
-  });
+//   socket.on("end-call", (data) => {
+//     socket.to(data.roomId).emit("end-call", { from: socket.id });
+//   });
 
-  socket.on("disconnect", () => {
-    console.log("❌ User disconnected:", socket.id);
-    if (socket.roomId) {
-      socket.to(socket.roomId).emit("user-left", socket.id);
-    }
-  });
-});
+//   socket.on("disconnect", () => {
+//     console.log("❌ User disconnected:", socket.id);
+//     if (socket.roomId) {
+//       socket.to(socket.roomId).emit("user-left", socket.id);
+//     }
+//   });
+// });
 
 
 
@@ -697,6 +697,6 @@ app.use((err,req,res,next)=>{
 
 
 
-// app.listen(port, () => {
-//   console.log(`Example app listening on port ${port}`)
-// })
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})
