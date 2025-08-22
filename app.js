@@ -121,34 +121,6 @@ const nodemailer = require("nodemailer");
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // setup mail transporter
 const mailTransporter = nodemailer.createTransport({
   service: "gmail",

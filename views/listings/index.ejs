@@ -1491,6 +1491,280 @@ Connect with Trusted Healthcare Experts for Personalized Care</h2>
         </div>
     </section>
 
+<section class="process-section">
+  <div class="container">
+    <div class="process-wrapper">
+
+      <!-- Step 1 -->
+      <div class="process-step">
+        <div class="process-icon">
+          <img src="https://img.icons8.com/ios-filled/100/1E90FF/task.png" alt="submit">
+        </div>
+        <h3>SUBMIT YOUR INFORMATION</h3>
+      </div>
+
+      <!-- Connector -->
+      <div class="process-arrow">
+        <span>➔</span>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="process-step">
+        <div class="process-icon">
+          <img src="https://img.icons8.com/ios-filled/100/1E90FF/doctor-male.png" alt="review">
+        </div>
+        <h3>PHYSICIAN REVIEWS FOR MEDICAL RECORDS</h3>
+      </div>
+
+      <!-- Connector -->
+      <div class="process-arrow">
+        <span>➔</span>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="process-step">
+        <div class="process-icon">
+          <img src="https://img.icons8.com/ios-filled/100/1E90FF/health-book.png" alt="peace of mind">
+        </div>
+        <h3>GET PIECE OF MIND</h3>
+      </div>
+
+    </div>
+  </div>
+</section>
+<style>.process-section {
+  padding: 60px 20px;
+  background: #f9fcff; /* Light blue background */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.process-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.process-step {
+  text-align: center;
+  max-width: 250px;
+  margin: 20px;
+  position: relative;
+}
+
+.process-icon {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: #e6f0ff; /* Light blue circle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 6px 15px rgba(30, 144, 255, 0.2);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.process-icon img {
+  width: 60px;
+  height: 60px;
+}
+
+.process-step h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1E3A8A; /* Navy Blue */
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.process-arrow {
+  font-size: 32px;
+  color: #1E90FF; /* Arrow Blue */
+  margin: 0 20px;
+  animation: arrow-bounce 1.5s infinite;
+}
+
+/* Arrow bounce animation */
+@keyframes arrow-bounce {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+
+/* Hover effect */
+.process-icon:hover {
+  transform: scale(1.1);
+  background: #d6eaff; /* Lighter blue */
+  box-shadow: 0 8px 20px rgba(30, 144, 255, 0.35);
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .process-wrapper {
+    flex-direction: column;
+  }
+
+  .process-arrow {
+    transform: rotate(90deg);
+    margin: 10px 0;
+    animation: arrow-bounce-vertical 1.5s infinite;
+  }
+
+  /* Vertical arrow bounce */
+  @keyframes arrow-bounce-vertical {
+    0%, 100% { transform: rotate(90deg) translateY(0); }
+    50% { transform: rotate(90deg) translateY(5px); }
+  }
+}
+</style>
+<section class="consultation-section">
+  <div class="container">
+    <h2 class="section-title">How to book a consultation?</h2>
+
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3>Select your health concern</h3>
+          <p>Choose a concern that best suits your needs.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3>Choose the doctor</h3>
+          <p>Choose a doctor from our list of specialists.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3>Enter your details</h3>
+          <p>Provide your details for the consultation.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h3>Select your preferred slot</h3>
+          <p>Choose a date and time that works best for you.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<style>.consultation-section {
+  padding: 60px 20px;
+  background: #f9fcff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.consultation-section .section-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+.steps {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.step::after {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 40px;
+  width: 2px;
+  height: calc(100% - 40px);
+  background: #d6eaff;
+}
+
+.step:last-child::after {
+  display: none;
+}
+
+.step-number {
+  background: #007bff;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 20px;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+}
+
+.step-content h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #222;
+}
+
+.step-content p {
+  margin: 5px 0 0;
+  font-size: 15px;
+  color: #555;
+}
+
+/* 📱 Responsive Design */
+@media (max-width: 600px) {
+  .step {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 60px;
+  }
+
+  .step-number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+  }
+
+  .step::after {
+    left: 22px;
+    top: 45px;
+    height: calc(100% - 45px);
+  }
+
+  .step-content {
+    margin-top: 10px;
+  }
+
+  .consultation-section .section-title {
+    font-size: 22px;
+  }
+}
+</style>
+
+
+
+
+
+
+
+
     <!-- Healthcare Providers Section -->
     <section class="listings-section">
         <h2 class="section-title">Featured Healthcare Providers</h2>
@@ -1533,96 +1807,19 @@ Connect with Trusted Healthcare Experts for Personalized Care</h2>
 
 
 </div>
-<!-- bookk &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&-->
-
-<section class="container my-5">
-  <div class="card shadow-lg p-4 text-center">
-    <h2 class="mb-3">📅 Book Your Appointment</h2>
-    <p class="text-muted">Schedule a consultation with our doctors easily and quickly.</p>
-    <a href="/bookings/new" class="btn btn-primary btn-lg mt-3">
-      Book Appointment
-    </a>
-  </div>
-</section>
-<style>
-    .card {
-  border: 1px solid #dee2e6;
-  border-radius: 10px;
-  background: #ffffff;
-  padding: 20px;
-  transition: all 0.3s ease-in-out;
-}
-
-.card h2 {
-  color: #0056a3; /* Govt Blue */
-  font-weight: bold;
-  font-size: 1.8rem;
-}
-
-.card p {
-  font-size: 1rem;
-  color: #555;
-}
-
-.btn-primary {
-  background-color: #0056a3;
-  border: none;
-  padding: 12px 25px;
-  font-weight: 600;
-  border-radius: 6px;
-}
-
-.btn-primary:hover {
-  background-color: #003f7d;
-}
-
-/* 📱 Mobile Adjustments */
-@media (max-width: 768px) {
-  .card {
-    padding: 15px;
-    margin: 10px;
-  }
-
-  .card h2 {
-    font-size: 1.5rem;
-  }
-
-  .card p {
-    font-size: 0.9rem;
-  }
-
-  .btn-primary {
-    width: 100%;   /* Full width on small screens */
-    padding: 10px;
-    font-size: 1rem;
-  }
-}
-
-/* 📱 Extra Small Screens */
-@media (max-width: 480px) {
-  .card {
-    padding: 12px;
-    text-align: left; /* like typical govt site text */
-  }
-
-  .card h2 {
-    font-size: 1.3rem;
-  }
-
-  .btn-primary {
-    font-size: 0.9rem;
-    padding: 8px;
-  }
-}
-
-</style>
-
-<!-- ************************************************************************************************** -->
 
 
 
 
     </section>
+
+
+
+
+
+
+
+
 
     <!-- Info Highlights Section -->
     <section class="info-highlights">

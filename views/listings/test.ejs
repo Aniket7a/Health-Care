@@ -4,19 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beautiful Home | Wanderlust</title>
+    <title>MediCare Connect | Healthcare Services</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/starability/starability-minified/starability-all.min.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <style>
-        
-
         :root {
-            --airbnb-red: #ff385c;
-            --airbnb-dark-red: #e31c5f;
+            --healthcare-blue: #1a75ff;
+            --healthcare-dark-blue: #0056b3;
+            --healthcare-light-blue: #e6f0ff;
+            --healthcare-green: #28a745;
             --light-gray: #f7f7f7;
             --medium-gray: #717171;
             --dark-gray: #222222;
@@ -51,7 +50,7 @@
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
-            color: var(--airbnb-red);
+            color: var(--healthcare-blue);
             letter-spacing: -1px;
         }
         
@@ -64,7 +63,8 @@
         }
         
         .navbar-nav .nav-link:hover {
-            background-color: #f7f7f7;
+            background-color: var(--healthcare-light-blue);
+            color: var(--healthcare-blue);
         }
         
         /* Listing Header */
@@ -78,6 +78,7 @@
             font-size: 1.8rem;
             font-weight: 600;
             margin-bottom: 12px;
+            color: var(--healthcare-dark-blue);
         }
         
         .listing-subtitle {
@@ -89,17 +90,18 @@
         }
         
         .guest-favorite {
-            background-color: #f7f7f7;
+            background-color: var(--healthcare-light-blue);
             border-radius: 4px;
             padding: 8px 12px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
             margin-top: 12px;
+            color: var(--healthcare-dark-blue);
         }
         
         .guest-favorite i {
-            color: var(--airbnb-red);
+            color: var(--healthcare-blue);
         }
         
         /* Image Gallery */
@@ -173,6 +175,7 @@
         .highlight-icon {
             font-size: 1.5rem;
             margin-bottom: 8px;
+            color: var(--healthcare-blue);
         }
         
         .host-info {
@@ -186,13 +189,13 @@
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            background-color: #f7f7f7;
+            background-color: var(--healthcare-light-blue);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--medium-gray);
+            color: var(--healthcare-blue);
         }
         
         .description {
@@ -215,6 +218,10 @@
             gap: 12px;
         }
         
+        .amenity-item i {
+            color: var(--healthcare-blue);
+        }
+        
         /* Booking Card */
         .booking-card {
             border: 1px solid #ebebeb;
@@ -223,11 +230,13 @@
             box-shadow: var(--shadow);
             position: sticky;
             top: 100px;
+            background-color: #fff;
         }
         
         .price-per-night {
             font-size: 1.5rem;
             font-weight: 600;
+            color: var(--healthcare-dark-blue);
         }
         
         .date-picker {
@@ -268,7 +277,7 @@
         }
         
         .book-btn {
-            background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
+            background: linear-gradient(to right, var(--healthcare-blue) 0%, var(--healthcare-dark-blue) 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -282,7 +291,7 @@
         }
         
         .book-btn:hover {
-            background: linear-gradient(to right, #d50c45 0%, #d10b56 50%, #c2005d 100%);
+            background: linear-gradient(to right, var(--healthcare-dark-blue) 0%, #004494 100%);
         }
         
         .price-breakdown {
@@ -325,10 +334,11 @@
         .rating-value {
             font-size: 2rem;
             font-weight: 600;
+            color: var(--healthcare-dark-blue);
         }
         
         .rating-stars {
-            color: var(--airbnb-red);
+            color: var(--healthcare-blue);
             font-size: 1.2rem;
             margin-bottom: 4px;
         }
@@ -360,12 +370,12 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background-color: #f7f7f7;
+            background-color: var(--healthcare-light-blue);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: var(--medium-gray);
+            color: var(--healthcare-blue);
         }
         
         .reviewer-info {
@@ -423,6 +433,7 @@
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 16px;
+            color: var(--healthcare-dark-blue);
         }
         
         .rating-slider {
@@ -449,8 +460,8 @@
         
         .form-control:focus {
             outline: none;
-            border-color: var(--airbnb-red);
-            box-shadow: 0 0 0 2px rgba(227, 28, 95, 0.2);
+            border-color: var(--healthcare-blue);
+            box-shadow: 0 0 0 2px rgba(26, 117, 255, 0.2);
         }
         
         textarea.form-control {
@@ -459,7 +470,7 @@
         }
         
         .submit-btn {
-            background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
+            background: linear-gradient(to right, var(--healthcare-blue) 0%, var(--healthcare-dark-blue) 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -470,7 +481,7 @@
         }
         
         .submit-btn:hover {
-            background: linear-gradient(to right, #d50c45 0%, #d10b56 50%, #c2005d 100%);
+            background: linear-gradient(to right, var(--healthcare-dark-blue) 0%, #004494 100%);
         }
         
         /* Action Buttons */
@@ -482,7 +493,7 @@
         }
         
         .btn-edit {
-            background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
+            background: linear-gradient(to right, var(--healthcare-blue) 0%, var(--healthcare-dark-blue) 100%);
             color: white;
             border: none;
             padding: 12px 24px;
@@ -496,15 +507,15 @@
         }
         
         .btn-edit:hover {
-            background: linear-gradient(to right, #d50c45 0%, #d10b56 50%, #c2005d 100%);
+            background: linear-gradient(to right, var(--healthcare-dark-blue) 0%, #004494 100%);
             color: white;
             text-decoration: none;
         }
         
         .btn-delete {
             background-color: white;
-            color: var(--airbnb-red);
-            border: 2px solid var(--airbnb-red);
+            color: var(--healthcare-blue);
+            border: 2px solid var(--healthcare-blue);
             padding: 12px 24px;
             border-radius: 8px;
             font-weight: 600;
@@ -513,7 +524,7 @@
         }
         
         .btn-delete:hover {
-            background-color: #fff5f5;
+            background-color: var(--healthcare-light-blue);
         }
         
         /* Footer */
@@ -536,6 +547,7 @@
             font-size: 1rem;
             margin-bottom: 16px;
             font-weight: 600;
+            color: var(--healthcare-dark-blue);
         }
         
         .footer-links {
@@ -554,6 +566,7 @@
         }
         
         .footer-links a:hover {
+            color: var(--healthcare-blue);
             text-decoration: underline;
         }
         
@@ -590,6 +603,40 @@
         .social-links a {
             color: var(--dark-gray);
             font-size: 1.2rem;
+        }
+        
+        .social-links a:hover {
+            color: var(--healthcare-blue);
+        }
+        
+        /* Healthcare specific styles */
+        .healthcare-badge {
+            background-color: var(--healthcare-green);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .specialty-tag {
+            background-color: var(--healthcare-light-blue);
+            color: var(--healthcare-dark-blue);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin: 0 8px 8px 0;
+        }
+        
+        .emergency-contact {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 16px;
+            margin: 24px 0;
+            border-radius: 4px;
         }
         
         /* Responsive adjustments */
@@ -661,612 +708,457 @@
             }
         }
     </style>
-     <style> 
-     .starability-basic {
-    margin-bottom: 1rem;
-}
+    <style> 
+        .starability-basic {
+            margin-bottom: 1rem;
+        }
 
-/* Reviews Section */
-#reviews {
-    margin-top: 2rem;
-    padding: 1.5rem 0;
-}
+        /* Reviews Section */
+        #reviews {
+            margin-top: 2rem;
+            padding: 1.5rem 0;
+        }
 
-.review-card {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid #e0e0e0;
-    position: relative;
-}
+        .review-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e0e0e0;
+            position: relative;
+        }
 
-.review-card h6 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #222;
-    display: flex;
-    align-items: center;
-}
+        .review-card h6 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #222;
+            display: flex;
+            align-items: center;
+        }
 
-.review-card h6::before {
-    content: "";
-    display: inline-block;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: #ff385c;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-    font-weight: bold;
-}
+        .review-card h6::before {
+            content: "";
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--healthcare-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
 
-.meta {
-    font-size: 0.9rem;
-    color: #717171;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
+        .meta {
+            font-size: 0.9rem;
+            color: #717171;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-.stars {
-    color: #ff385c;
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-    letter-spacing: 1px;
-}
+        .stars {
+            color: var(--healthcare-blue);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: 1px;
+        }
 
-.review-card p {
-    color: #333;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-}
+        .review-card p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
 
-.btn-outline-danger {
-    color: #ff385c;
-    border-color: #ff385c;
-    font-weight: 500;
-    padding: 0.25rem 0.75rem;
-    font-size: 0.85rem;
-    border-radius: 8px;
-    transition: all 0.2s;
-}
+        .btn-outline-danger {
+            color: var(--healthcare-blue);
+            border-color: var(--healthcare-blue);
+            font-weight: 500;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
 
-.btn-outline-danger:hover {
-    background-color: #ff385c;
-    color: white;
-}
+        .btn-outline-danger:hover {
+            background-color: var(--healthcare-blue);
+            color: white;
+        }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .review-card {
-        padding: 1.25rem;
-    }
-    
-    .review-card h6 {
-        font-size: 1rem;
-    }
-}
-</style> 
-
-
-
-
-
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .review-card {
+                padding: 1.25rem;
+            }
+            
+            .review-card h6 {
+                font-size: 1rem;
+            }
+        }
+    </style> 
 </head>
 <body>
     <% if (success && success.length > 0) { %>
-  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-    <%= success %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-  </div>
-<% } %>
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <% } %>
 
-<% if (error && error.length > 0) { %>
-  <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-    <%= error %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-  </div>
-<% } %>
+    <% if (error && error.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <% } %>
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="#"><i class="fa-solid fa-compass-drafting"></i>Wanderlust</a></a>
+            <a class="navbar-brand" href="#"><i class="fa-solid fa-heart-pulse"></i> MediCare Connect</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="d-flex w-100 align-items-center">
                     <div class="search-bar d-flex align-items-center me-3">
-                        <!-- <input type="text" placeholder="Search destinations">
-                        <button class="search-btn">
-                            <i class="fas fa-search"></i>
-                        </button> -->
+                        <!-- Search functionality can be added here -->
                     </div>
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/listings">Home</a>
+                            <a class="nav-link" href="/listings">Find Doctors</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#reviews">Reviews</a>
+                            <a class="nav-link" href="#reviews">Patient Reviews</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Online Experiences</a>
+                            <a class="nav-link" href="#">Specialties</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://jeevan-rakshak-sos-syste-469c6.web.app/">Emergency Care</a>
                         </li>
                     </ul>
-                    <!-- <div class="user-menu">
-                        <span>Become a Host</span>
-                        <div class="dropdown">
-                            <button class="btn" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-globe me-1"></i>
-                                <i class="fas fa-bars"></i>
-                                <i class="fas fa-user-circle ms-2" style="font-size: 1.5rem;"></i>
-                            </button>
-                        </div> -->
-                    </div>
+                    <!-- User menu can be added here -->
                 </div>
             </div>
         </div>
     </nav>
-<!-- Flash-->
-<div class="container position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 1050; max-width: 90%;">
-  <% if (success && success.length > 0) { %>
-    <div class="alert alert-success alert-dismissible fade show shadow" role="alert" style="border-radius: 12px;">
-      <i class="fa-solid fa-circle-check me-2"></i> <%= success %>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  <% } %>
 
-  <% if (error && error.length > 0) { %>
-    <div class="alert alert-danger alert-dismissible fade show shadow" role="alert" style="border-radius: 12px;">
-      <i class="fa-solid fa-triangle-exclamation me-2"></i> <%= error %>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  <% } %>
-</div>
+    <!-- Flash Messages -->
+    <div class="container position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 1050; max-width: 90%;">
+        <% if (success && success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show shadow" role="alert" style="border-radius: 12px;">
+            <i class="fa-solid fa-circle-check me-2"></i> <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
 
-    <!-- Listing Header -->
+        <% if (error && error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show shadow" role="alert" style="border-radius: 12px;">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i> <%= error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
+    </div>
+
+    <!-- Doctor/Service Header -->
     <div class="listing-header">
         <h1 class="listing-title"><%= listing.title %></h1>
         <div class="listing-subtitle">
-            <span><i class="fas fa-star"></i> 4.8 / 5</span>
-            <span><i class="fas fa-medal"></i> </span>
+            <span><i class="fas fa-star"></i> <%= avgRating %> / 5</span>
+            <span><i class="fas fa-medal"></i> Board Certified</span>
             <span><%= listing.location %> <%= listing.country %></span>
         </div>
         <div class="guest-favorite">
-            <i class="fas fa-crown"></i>
+            <i class="fas fa-award"></i>
             <div>
-                <div style="font-weight: 600;">Cardiology </div>
-                <div>This home is in the top 10% of eligible listings based on ratings, reviews and reliability</div>
+                <div style="font-weight: 600;">Top Rated Specialist</div>
+                <div>This doctor is in the top 10% of medical professionals based on patient reviews and expertise</div>
             </div>
+        </div>
+        <div class="specialty-tags mt-2">
+            
+            <span class="specialty-tag">General Medicine</span>
+            <span class="specialty-tag">Preventive Care</span>
         </div>
     </div>
 
     <!-- Image Gallery -->
     <div class="image-gallery">
         <div class="gallery-main">
-            <img src="<%= listing.image.url %>" alt="Living room">
+            <img src="<%= listing.image.url %>" alt="Doctor profile">
         </div>
         <div class="gallery-item">
-            <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Bedroom">
+            <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Medical facility">
         </div>
         <div class="gallery-item">
-            <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Kitchen">
+            <img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Medical equipment">
         </div>
         <div class="gallery-item">
-            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Bathroom">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Doctor consultation">
         </div>
         <div class="gallery-item">
-            <img src="https://images.unsplash.com/photo-1593696140826-c58b021acf8b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Garden">
+            <img src="https://images.unsplash.com/photo-1599045118108-bf9954418b76?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80" alt="Healthcare team">
         </div>
     </div>
 
     <div class="main-content">
         <div class="left-column">
-            <!-- Listing Details -->
+            <!-- Doctor Details -->
             <div class="listing-info">
                 <div class="listing-highlights">
                     <div class="highlight-item">
                         <div class="highlight-icon">
-                            <i class="fas fa-home"></i>
+                            <i class="fas fa-user-md"></i>
                         </div>
                         <div>
-                            <div style="font-weight: 600;">Entire home</div>
-                            <div>You'll have the place to yourself</div>
+                            <div style="font-weight: 600;">Experienced Specialist</div>
+                            <div>15+ years of medical practice</div>
                         </div>
                     </div>
                     <div class="highlight-item">
                         <div class="highlight-icon">
-                            <i class="fas fa-broom"></i>
+                            <i class="fas fa-stethoscope"></i>
                         </div>
                         <div>
-                            <div style="font-weight: 600;">Sparkling clean</div>
-                            <div>10 recent guests said it was clean</div>
+                            <div style="font-weight: 600;">Comprehensive Care</div>
+                            <div>Preventive, diagnostic and treatment services</div>
                         </div>
                     </div>
                     <div class="highlight-item">
                         <div class="highlight-icon">
-                            <i class="fas fa-map-marker-alt"></i>
+                            <i class="fas fa-clock"></i>
                         </div>
                         <div>
-                            <div style="font-weight: 600;">Great location</div>
-                            <div>90% of recent guests gave 5 stars</div>
+                            <div style="font-weight: 600;">Flexible Hours</div>
+                            <div>Evening and weekend appointments available</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="host-info">
-                    <div class="host-avatar">UA</div>
+                    <div class="host-avatar">DR</div>
                     <div>
-                        <h3>Hosted by <%= listing.owner.username %></h3>
-                        <div>Superhost · 3 years hosting</div>
+                        <h3> <%= listing.title %></h3>
+                        <div>Board Certified · <%= listing.experience || '5' %> years experience</div>
                     </div>
                 </div>
-<h2> About this space
-</h2>
+                
+                <h2>About the Doctor</h2>
                 <div class="description">
                     <p><%= listing.description %></p>
+                    <p>Dr. <%= listing.owner.username %> is a board-certified physician specializing in cardiology and internal medicine. With over <%= listing.experience || '15' %> years of experience, they provide comprehensive care focusing on preventive medicine and patient education.</p>
+                    
+                    <div class="emergency-contact">
+                        <h4><i class="fas fa-exclamation-triangle"></i> For Medical Emergencies</h4>
+                        <p>If you're experiencing a medical emergency, please call 911 or go to the nearest emergency room immediately. Do not use this platform for urgent medical needs.</p>
+                    </div>
                 </div>
                 
                 <!-- Action Buttons -->
-                 <% if(currUser && currUser._id.equals(listing.owner._id)) {%>
-                
+                <% if(currUser && currUser._id.equals(listing.owner._id)) {%>
                 <div class="action-buttons">
                     <a href=" /listings/<%= listing._id %>/edit" class="btn-edit">
-                        <i class="fas fa-edit me-2"></i>Edit this listing
+                        <i class="fas fa-edit me-2"></i>Edit this Profile
                     </a>
                     <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
                         <button type="submit" class="btn-delete">
-                            <i class="fas fa-trash me-2"></i>Delete Listing
+                            <i class="fas fa-trash me-2"></i>Remove Listing
                         </button>
                     </form>
                 </div>
-                 <% } %>
+                <% } %>
             </div>
-    
-<!-- <form action="/book-slot" method="POST">
-  <input type="text" name="patientName" placeholder="Your Name" required>
-  <input type="text" name="patientPhone" placeholder="Your Phone" required>
-  <input type="text" name="slot" placeholder="Preferred Slot" required>
-  <input type="email" name="doctorEmail" placeholder="Doctor Email" required>
-  <button type="submit">Book Appointment</button>
-</form> -->
 
+            <!-- Appointment Booking Section -->
+            <section class="container my-5">
+                <div class="card shadow-lg p-4 text-center">
+                    <h2 class="mb-3">📅 Book Your Appointment</h2>
+                    <p class="text-muted">Schedule a consultation with our doctors easily and quickly.</p>
+                    <a href="/bookings/new" class="book-btn mt-3">
+                        <i class="fas fa-calendar-check me-2"></i>Book Appointment
+                    </a>
+                </div>
+            </section>
 
-
-<style>
-  /* Scoped to only .appointment-form */
-  .appointment-form {
-    max-width: 420px;
-    margin: 40px auto;
-    padding: 25px;
-    border-radius: 16px;
-    background: linear-gradient(145deg, #ffffff, #f0f4f8);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    font-family: "Segoe UI", Tahoma, sans-serif;
-  }
-
-  .appointment-form h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #1a73e8;
-  }
-
-  .appointment-form input {
-    width: 100%;
-    padding: 12px 14px;
-    margin: 10px 0;
-    border: 1px solid #d1d9e6;
-    border-radius: 8px;
-    font-size: 15px;
-    transition: all 0.3s ease;
-  }
-
-  .appointment-form input:focus {
-    border-color: #1a73e8;
-    box-shadow: 0 0 6px rgba(26,115,232,0.3);
-    outline: none;
-  }
-
-  .appointment-form button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 12px;
-    border: none;
-    border-radius: 10px;
-    background: #1a73e8;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-
-  .appointment-form button:hover {
-    background: #1669c1;
-  }
-</style>
-
-
-
-
-            
-            <!-- Amenities -->
+            <!-- Services Offered -->
             <div class="amenities-section">
-                <h2>What this place offers</h2>
+                <h2>Services Offered</h2>
                 <div class="amenities-grid">
                     <div class="amenity-item">
-                        <i class="fas fa-wifi"></i>
-                        <div>Wifi</div>
+                        <i class="fas fa-heartbeat"></i>
+                        <div>Cardiac Consultation</div>
                     </div>
                     <div class="amenity-item">
-                        <i class="fas fa-parking"></i>
-                        <div>Free parking on premises</div>
+                        <i class="fas fa-file-medical"></i>
+                        <div>Health Screenings</div>
                     </div>
                     <div class="amenity-item">
-                        <i class="fas fa-thermometer-three-quarters"></i>
-                        <div>Heating</div>
+                        <i class="fas fa-prescription-bottle"></i>
+                        <div>Medication Management</div>
                     </div>
                     <div class="amenity-item">
-                        <i class="fas fa-tv"></i>
-                        <div>TV</div>
+                        <i class="fas fa-laptop-medical"></i>
+                        <div>Telehealth Services</div>
                     </div>
                     <div class="amenity-item">
-                        <i class="fas fa-utensils"></i>
-                        <div>Kitchen</div>
+                        <i class="fas fa-procedures"></i>
+                        <div>Preventive Care</div>
                     </div>
                     <div class="amenity-item">
-                        <i class="fas fa-washer"></i>
-                        <div>Washer</div>
+                        <i class="fas fa-diagnoses"></i>
+                        <div>Diagnostic Tests</div>
                     </div>
                     <div class="amenity-item">
-                        <i class="fas fa-smoking-ban"></i>
-                        <div>No smoking</div>
+                        <i class="fas fa-clipboard-list"></i>
+                        <div>Health Assessments</div>
                     </div>
                     <div class="amenity-item">
-                        <i class="fas fa-paw"></i>
-                        <div>Pets allowed</div>
+                        <i class="fas fa-user-friends"></i>
+                        <div>Family Medicine</div>
                     </div>
                 </div>
             </div>
-
-          
-            <!-- Ratings Section -->
-            <div class="ratings-section">
-                <div class="overall-rating">
-                    <div class="rating-value"><%= avgRating %></div>
-                    <div>
-                        <div class="rating-stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div><%= listing.reviews.length %> reviews</div>
-                    </div>
-                </div>
-                
-                <div class="rating-categories">
-                    <div class="rating-category">
-                        <div class="rating-category-name">Cleanliness</div>
-                        <div class="rating-stars">4.0+</div>
-                    </div>
-                    <div class="rating-category">
-                        <div class="rating-category-name">Accuracy</div>
-                        <div class="rating-stars">4.0+</div>
-                    </div>
-                    <div class="rating-category">
-                        <div class="rating-category-name">Check-in</div>
-                        <div class="rating-stars">4.0+</div>
-                    </div>
-                    <div class="rating-category">
-                        <div class="rating-category-name">Communication</div>
-                        <div class="rating-stars">4.0+</div>
-                    </div>
-                    <div class="rating-category">
-                        <div class="rating-category-name">Location</div>
-                        <div class="rating-stars">4.0+</div>
-                    </div>
-                    <div class="rating-category">
-                        <div class="rating-category-name">Value</div>
-                        <div class="rating-stars">4.0+</div>
-                    </div>
-                </div>
-            </div>
-
-
-
-<!-- map -->
-
-            <h3>Where you’ll be</h3>
-  <div id="map" style="height: 400px;"></div>
-
-
-
-            <!-- Reviews -->
-             <section id="reviews" class="mt-5">
-             <% for(review of listing.reviews) { %>
-      <div class="review-card">
-        <h6><%= review.author.username || "Guest" %></h6>
-        <div class="meta">★ <%= review.rating %> stars</div>
-        <div class="stars">
-          <% for(let i = 0; i < review.rating; i++) { %>★<% } %>
-        </div>
-        <p><%= review.comment %></p>
- <% if(currUser){ %>
-        <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
-          <button class="btn btn-sm btn-outline-danger mt-2">Delete</button>
-        </form>
-           <% } %>
-      </div>
-    <% } %>
-</section>
-            <!-- Review Form -->
-           <% if (currUser) { %>
-<form method="POST" action="/listings/<%= listing._id %>/reviews" class="review-form needs-validation" novalidate>
-  <h3 class="form-title">Leave a Review</h3>
-
-  <label for="rating">Rating</label>
-  <fieldset class="starability-basic">
-    <input type="radio" id="rate1" name="review[rating]" value="1" />
-    <label for="rate1" title="Terrible">1 star</label>
-
-    <input type="radio" id="rate2" name="review[rating]" value="2" />
-    <label for="rate2" title="Not good">2 stars</label>
-
-    <input type="radio" id="rate3" name="review[rating]" value="3" />
-    <label for="rate3" title="Average">3 stars</label>
-
-    <input type="radio" id="rate4" name="review[rating]" value="4" />
-    <label for="rate4" title="Very good">4 stars</label>
-
-    <input type="radio" id="rate5" name="review[rating]" value="5" checked />
-    <label for="rate5" title="Amazing">5 stars</label>
-  </fieldset>
-
-  <label for="comment">Comments</label>
-  <textarea id="comment" name="review[comment]" class="form-control" placeholder="Share your experience..." required></textarea>
-  <div class="invalid-feedback">Please submit some comments for review</div>
-
-  <button type="submit" class="submit-btn">Submit Review</button>
-</form>
-<% } %>
 
             
+
+            <!-- Location Map -->
+            <h3>Practice Location</h3>
+            <div id="map" style="height: 400px;"></div>
+
+            <!-- Patient Reviews -->
+            <section id="reviews" class="mt-5">
+                <% for(review of listing.reviews) { %>
+                <div class="review-card">
+                    <h6><%= review.author.username || "Patient" %></h6>
+                    <div class="meta">★ <%= review.rating %> stars</div>
+                    <div class="stars">
+                        <% for(let i = 0; i < review.rating; i++) { %>★<% } %>
+                    </div>
+                    <p><%= review.comment %></p>
+                    <% if(currUser){ %>
+                    <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+                        <button class="btn btn-sm btn-outline-danger mt-2">Delete</button>
+                    </form>
+                    <% } %>
+                </div>
+                <% } %>
+            </section>
+
+            <!-- Review Form -->
+            <% if (currUser) { %>
+            <form method="POST" action="/listings/<%= listing._id %>/reviews" class="review-form needs-validation" novalidate>
+                <h3 class="form-title">Share Your Experience</h3>
+
+                <label for="rating">Rating</label>
+                <fieldset class="starability-basic">
+                    <input type="radio" id="rate1" name="review[rating]" value="1" />
+                    <label for="rate1" title="Terrible">1 star</label>
+
+                    <input type="radio" id="rate2" name="review[rating]" value="2" />
+                    <label for="rate2" title="Not good">2 stars</label>
+
+                    <input type="radio" id="rate3" name="review[rating]" value="3" />
+                    <label for="rate3" title="Average">3 stars</label>
+
+                    <input type="radio" id="rate4" name="review[rating]" value="4" />
+                    <label for="rate4" title="Very good">4 stars</label>
+
+                    <input type="radio" id="rate5" name="review[rating]" value="5" checked />
+                    <label for="rate5" title="Amazing">5 stars</label>
+                </fieldset>
+
+                <label for="comment">Your Experience</label>
+                <textarea id="comment" name="review[comment]" class="form-control" placeholder="Share your experience with this doctor..." required></textarea>
+                <div class="invalid-feedback">Please share details about your experience</div>
+
+                <button type="submit" class="submit-btn">Submit Review</button>
+            </form>
+            <% } %>
         </div>
 
-
-
-
-
-        
         <!-- Booking Card -->
         <div class="right-column">
             <div class="booking-card">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="price-per-night"> ₹ <%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %>/ night</div>
-                        <div class="d-flex align-items-center">
-                            <div class="rating-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="ms-2"><%= avgRating %>   reviews</span>
-                        </div>
-                    </div>
-                </div>
+               
                 
-                <div class="date-picker">
-                    <div class="date-row">
-                        <!-- <div class="date-col">
-                            <div class="date-label">CHECK-IN</div>
-                            <div>6/24/2025</div>
-                        </div>
-                        <div class="date-col">
-                            <div class="date-label">CHECKOUT</div>
-                            <div>6/27/2025</div>
-                        </div> -->
-                    </div>
-                    <div class="date-row" style="border-bottom: none;">
-                        <div class="date-col" style="border-right: none;">
-                            <div class="date-label">GUESTS</div>
-                            <div>2 guests</div>
-                        </div>
-                    </div>
-                </div> 
                 
-                 
-                <div class="text-center" style="margin-bottom: 16px; color: var(--medium-gray);">You won't be charged yet</div>
                 
-                 <div class="price-breakdown">
-                    
-                   <%
-    const cleaningFee = 1000;
-    const serviceFee = 1500;
-    const basePrice = listing.price || 0;
-    const totalPrice = basePrice + cleaningFee + serviceFee;
-%>
+                <select class="guests-select">
+                    <option>1 Patient</option>
+                    <option>2 Patients</option>
+                    <option>Family Consultation (3+)</option>
+                </select>
+                
+                <button class="book-btn"><a href="/bookings/new" class="book-btn">Book Appointment</a></button>
+                
+                <div class="text-center" style="margin-bottom: 16px; color: var(--medium-gray);">Schedule a consultation with our doctors easily and quickly.
 
-<div class="price-breakdown">
-    <div class="price-item">
-        <div>₹ <%= basePrice.toLocaleString("en-IN") %> x 1 night</div>
-        <div>₹ <%= basePrice.toLocaleString("en-IN") %></div>
-    </div>
-    <div class="price-item">
-        <div>Cleaning fee</div>
-        <div>₹ <%= cleaningFee.toLocaleString("en-IN") %></div>
-    </div>
-    <div class="price-item">
-        <div>Service fee</div>
-        <div>₹ <%= serviceFee.toLocaleString("en-IN") %></div>
-    </div>
-</div> 
-
-<div class="price-total">
-    <div>Total</div>
-    <div>₹ <%= totalPrice.toLocaleString("en-IN") %></div>
 </div>
-
+                
+                
+                
+                
             </div>
+            
+           
         </div>
     </div>
 
     <!-- Footer -->
-    
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-column">
-                <h4>Support</h4>
+                <h4>Patient Resources</h4>
                 <ul class="footer-links">
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">WanderCover</a></li>
-                    <li><a href="#">Safety information</a></li>
-                    <li><a href="#">Supporting people with disabilities</a></li>
-                    <li><a href="#">Cancellation options</a></li>
+                    <li><a href="#">Find a Doctor</a></li>
+                    <li><a href="#">Patient Portal</a></li>
+                    <li><a href="#">Medical Records</a></li>
+                    <li><a href="#">Insurance Information</a></li>
+                    <li><a href="#">Billing & Payments</a></li>
                 </ul>
             </div>
             <div class="footer-column">
-                <h4>Community</h4>
+                <h4>Medical Services</h4>
                 <ul class="footer-links">
-                    <li><a href="#">Wanderlust.org: disaster relief housing</a></li>
-                    <li><a href="#">Combating discrimination</a></li>
+                    <li><a href="#">Primary Care</a></li>
+                    <li><a href="#">Specialty Care</a></li>
+                    <li><a href="#">Emergency Services</a></li>
+                    <li><a href="#">Preventive Care</a></li>
+                    <li><a href="#">Telehealth</a></li>
                 </ul>
             </div>
             <div class="footer-column">
-                <h4>Hosting</h4>
+                <h4>About Us</h4>
                 <ul class="footer-links">
-                    <li><a href="#">Wanderlust your home</a></li>
-                    <li><a href="#">WanderCover for Hosts</a></li>
-                    <li><a href="#">Hosting resources</a></li>
-                    <li><a href="#">Community forum</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Wanderlust</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Newsroom</a></li>
-                    <li><a href="#">New features</a></li>
+                    <li><a href="#">Our Mission</a></li>
+                    <li><a href="#">Leadership</a></li>
                     <li><a href="#">Careers</a></li>
-                    <li><a href="#">Investors</a></li>
+                    <li><a href="#">News & Blog</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Health Information</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Health Library</a></li>
+                    <li><a href="#">Community Health</a></li>
+                    <li><a href="#">Classes & Events</a></li>
+                    <li><a href="#">Health Risk Assessments</a></li>
+                    <li><a href="#">COVID-19 Resources</a></li>
                 </ul>
             </div>
         </div>
         
         <div class="footer-bottom">
             <div>
-                <div class="copyright">© 2025 Wanderlust, Inc. · Privacy · Terms · Sitemap</div>
+                <div class="copyright">© 2025 MediCare Connect · Privacy · Terms · Accessibility · Sitemap</div>
                 <div class="footer-lang-currency">
                     <span><i class="fas fa-globe"></i> English (IN)</span>
                     <span><i class="fas fa-rupee-sign"></i> INR</span>
@@ -1276,18 +1168,13 @@
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-
-
-
-
-         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-
         // Form validation
         (() => {
             'use strict';
@@ -1316,43 +1203,21 @@
                     }
                 });
             });
-            
-            // Rating slider labels
-            const ratingSlider = document.getElementById('rating');
-            const ratingLabels = document.querySelector('.rating-labels');
-            
-            if (ratingSlider && ratingLabels) {
-                ratingSlider.addEventListener('input', function() {
-                    const value = this.value;
-                    const labels = ratingLabels.querySelectorAll('span');
-                    labels.forEach((label, index) => {
-                        if (index < value) {
-                            label.style.color = '#ff385c';
-                            label.style.fontWeight = 'bold';
-                        } else {
-                            label.style.color = '';
-                            label.style.fontWeight = '';
-                        }
-                    });
-                });
-            }
         })();
     </script>
-   <script>
-  const lat = <%= listing.lat || 0 %>;
-  const lng = <%= listing.lng || 0 %>;
+    <script>
+        const lat = <%= listing.lat || 0 %>;
+        const lng = <%= listing.lng || 0 %>;
 
-  const map = L.map('map').setView([lat, lng], 13);
+        const map = L.map('map').setView([lat, lng], 13);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
 
-  L.marker([lat, lng]).addTo(map)
-    .bindPopup("<%= listing.title %>")
-    .openPopup();
-</script>
-
-
+        L.marker([lat, lng]).addTo(map)
+            .bindPopup("<%= listing.title %>")
+            .openPopup();
+    </script>
 </body>
 </html>
