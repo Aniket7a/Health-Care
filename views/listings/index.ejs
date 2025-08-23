@@ -1400,6 +1400,8 @@
 
 <div class="main-container">
     <% if(currUser) { %>
+   
+
     <div class="welcome-section">
         <h1>Welcome, <%= currUser.username %> to Health Med!</h1>
         <p>This is your personal health ID card. Keep it safe and secure.</p>
@@ -1426,6 +1428,7 @@
                     <span class="info-label">Email:</span>
                     <span class="info-value"><%= currUser.email %></span>
                 </div>
+                
             </div>
         </div>
         <div class="health-card-footer">
@@ -1438,6 +1441,7 @@
     </div>
     <% } %>
 </div>
+
 
 <style>
 /* Base Styles for Larger Screens */
