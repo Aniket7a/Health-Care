@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Therapist Profile - Ayuvani</title>
+  <link rel="stylesheet" href="/css/therapist.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #e0f7fa, #f1f8e9);
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1rem;
+}
+
+.profile-card {
+  display: flex;
+  gap: 2rem;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  max-width: 900px;
+  width: 100%;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 6px solid #b2dfdb;
+}
+
+.profile-info h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #00796b;
+}
+
+.specialty {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.about {
+  margin: 1rem 0;
+  line-height: 1.5;
+}
+
+.btn-book {
+  padding: 0.7rem 1.5rem;
+  background: #00796b;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.btn-book:hover {
+  transform: scale(1.05);
+}
+
+.availability {
+  padding: 2rem;
+  text-align: center;
+}
+
+.calendar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.day {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  width: 120px;
+  font-weight: bold;
+}
+
+.day span {
+  display: block;
+  font-size: 0.9rem;
+  color: #00796b;
+  margin-top: 0.5rem;
+}
+
+.reviews {
+  padding: 3rem 2rem;
+  background: #fafafa;
+  text-align: center;
+}
+
+.review-card {
+  background: #fff;
+  margin: 1rem auto;
+  padding: 1.5rem;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  font-style: italic;
+}
+.review-card span {
+  display: block;
+  margin-top: 0.8rem;
+  color: #00796b;
+  font-weight: bold;
+}
+
+  </style>
+</head>
+<body>
+
+  <section class="profile-header">
+    <div class="profile-card">
+      <img src="https://images.unsplash.com/photo-1651008376811-b90baee60c1f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Therapist" class="profile-pic" />
+      <div class="profile-info">
+        <h1>Dr. Saumya Taneja</h1>
+        <p class="specialty">Clinical Psychologist | 10+ years experience</p>
+        <p class="about">I specialize in stress management, anxiety, and emotional wellbeing. I believe in holistic healing through empathy, CBT, and mindfulness practices.</p>
+        <a href="/bookings/new"><button class="btn-book" href=>Book Appointment</button></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="availability">
+    <h2>Available Slots</h2>
+    <div class="calendar">
+      <div class="day">Mon<br><span>10:00 - 14:00</span></div>
+      <div class="day">Tue<br><span>15:00 - 18:00</span></div>
+      <div class="day">Wed<br><span>10:00 - 13:00</span></div>
+      <div class="day">Thu<br><span>Closed</span></div>
+      <div class="day">Fri<br><span>16:00 - 20:00</span></div>
+    </div>
+  </section>
+
+  <section class="reviews">
+    <h2>What Patients Say</h2>
+    <div class="review-card">
+      <p>“Dr. Ananya is very understanding and helped me overcome my anxiety with mindfulness exercises.”</p>
+      <span>- Riya, 28</span>
+    </div>
+    <div class="review-card">
+      <p>“The sessions are calming and she gives practical strategies for stress relief.”</p>
+      <span>- Arjun, 35</span>
+    </div>
+  </section>
+
+  <script>
+    // Animate on load
+    gsap.from(".profile-card", { y: 50, opacity: 0, duration: 1, ease: "power3.out" });
+    gsap.from(".calendar .day", { y: 20, opacity: 0, duration: 0.8, stagger: 0.2, delay: 0.5 });
+    gsap.from(".review-card", { y: 30, opacity: 0, duration: 0.8, stagger: 0.3, delay: 1 });
+  </script>
+</body>
+</html>

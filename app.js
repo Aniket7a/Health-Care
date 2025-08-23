@@ -749,6 +749,16 @@ app.get("/bookings/new", (req, res) => {
 app.get("/join-room", (req, res) => {
   res.render("join-room"); // room input page
 });
+app.get("/mental", (req, res) => {
+  res.render("mental"); // room input page
+});
+app.get("/profile", (req, res) => {
+  res.render("profile"); // room input page
+});
+
+
+
+
 app.get("/videocall", (req, res) => {
   const room = req.query.room || "defaultRoom";
   res.render("videocall", { room });

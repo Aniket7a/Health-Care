@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ayuvani – A gentle, animated mental wellbeing page with breathing exercise, mood tracker, and resources. Built with GSAP." />
+  <title>Ayuvaani • Mental Wellbeing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    :root{
+      --bg-start:#F2F7FF; /* soft blue */
+      --bg-end:#FDF7F2;   /* soft peach */
+      --ink:#1f2937;      /* slate-800 */
+      --muted:#6b7280;    /* slate-500 */
+      --brand:#22a699;    /* teal */
+      --brand-2:#2a7cc7;  /* blue */
+      --accent:#f24e1e;   /* orange */
+      --card:#ffffff;
+      --ring: rgba(34,166,153,.25);
+      --success: #10b981;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      color:var(--ink);
+      background: linear-gradient(135deg,var(--bg-start), var(--bg-end));
+      background-attachment: fixed;
+      overflow-x:hidden;
+      line-height: 1.6;
+    }
+    a{color:inherit; text-decoration: none;}
+    .container{max-width:1100px;width:100%;margin:0 auto;padding: clamp(16px, 4vw, 32px)}
+    .nav{
+      position:sticky;top:0;z-index:50;backdrop-filter:saturate(120%) blur(8px);
+      background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(255,255,255,.75));
+      border-bottom:1px solid rgba(0,0,0,.06);
+      padding: 12px 0;
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px; font-size: 1.1rem;}
+    .brand .logo{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;box-shadow:0 6px 20px rgba(42,124,199,.25)}
+    .nav a.btn{padding:10px 18px;border-radius:12px;background:var(--ink);color:#fff;text-decoration:none;font-weight:600; transition: all 0.3s ease;}
+    .nav a.btn:hover {background: #374151; transform: translateY(-2px);}
+
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:clamp(16px,4vw,36px);min-height:72vh; padding: 40px 0;}
+    .hero h1{font-size: clamp(32px, 5vw, 58px);line-height:1.1;margin:0; font-weight: 800;}
+    .subtitle{font-size: clamp(16px, 2.2vw, 19px);color:var(--muted); margin-top: 16px;}
+    .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+    .pill{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:14px;border:1px solid rgba(0,0,0,.06);background:var(--card);box-shadow:0 8px 24px rgba(0,0,0,.04); font-size: 0.9rem;}
+    .btn-brand{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border:none;padding:14px 22px;border-radius:14px;font-weight:700;cursor:pointer;box-shadow:0 10px 26px rgba(34,166,153,.25); transition: all 0.3s ease;}
+    .btn-brand:hover {transform: translateY(-3px); box-shadow: 0 14px 30px rgba(34,166,153,.35);}
+    .btn-ghost{background:#fff;border:1px solid rgba(0,0,0,.08);padding:14px 22px;border-radius:14px;font-weight:700;cursor:pointer; transition: all 0.3s ease;}
+    .btn-ghost:hover {background: #f8fafc; border-color: rgba(0,0,0,.12); transform: translateY(-2px);}
+
+    .hero-art{position:relative;min-height:320px}
+    .bubble{position:absolute;inset:auto;border-radius:999px;opacity:.85;filter:blur(0px)}
+    .b1{width:220px;height:220px;background:radial-gradient(circle at 30% 30%, #c7f5f0, transparent 60%), linear-gradient(135deg,#9ddff8,#c8e7ff);top:20px;right:10%}
+    .b2{width:140px;height:140px;background:radial-gradient(circle at 60% 30%, #ffe0cc, transparent 60%), linear-gradient(135deg,#ffd9c7,#fff1e7);bottom:30px;left:12%}
+    .b3{width:90px;height:90px;background:radial-gradient(circle at 50% 50%, #d5ffd1, transparent 60%), linear-gradient(135deg,#b2f4b8,#e9ffe9);top:40%;left:45%}
+
+    /* Cards */
+    .grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{background:var(--card);border:1px solid rgba(0,0,0,.06);border-radius:18px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.05); transition: all 0.3s ease;}
+    .card:hover {transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,.08);}
+    .card h3{margin:.4rem 0 .6rem;font-size:1.15rem; font-weight: 700;}
+    .card p{margin:0;color:var(--muted);font-size:.95rem; line-height: 1.6;}
+
+    /* Breathing trainer */
+    .breath{display:grid;grid-template-columns: 1fr;gap:24px;align-items:center; margin-top: 40px;}
+    .breath-wrap{display:grid;place-items:center;background:linear-gradient(135deg,#ffffff,#fbfeff);border:1px solid rgba(0,0,0,.06);border-radius:24px;padding:32px;box-shadow:0 16px 40px rgba(34,166,153,.12); position: relative;}
+    .circle-shell{position:relative;width:min(300px,70vw);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 50% 50%, #ffffff 0%, #f1fbff 60%, #eaf7ff 100%);border:2px dashed rgba(34,166,153,.35); margin: 20px 0;}
+    .circle{width:60%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 30%, #a8f0e7, #67d6c8 60%, #2aaea4 100%);box-shadow:0 20px 60px rgba(34,166,153,.3); transform: scale(1);}
+    .breath-instruction {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.5rem; font-weight: 700; color: var(--ink); z-index: 10; background: rgba(255,255,255,0.8); padding: 8px 16px; border-radius: 12px; opacity: 0; transition: opacity 0.3s ease;}
+    .breath-legend{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;color:var(--muted);font-size:.95rem; margin: 16px 0;}
+    .breath-controls{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .breath-controls button{border:none;border-radius:12px;padding:12px 20px;font-weight:700;cursor:pointer; transition: all 0.3s ease;}
+    .breath-controls .start{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff; box-shadow: 0 6px 16px rgba(34,166,153,.3);}
+    .breath-controls .start:hover {transform: translateY(-2px); box-shadow: 0 8px 20px rgba(34,166,153,.4);}
+    .breath-controls .stop{background:#fff;border:1px solid rgba(0,0,0,.1); box-shadow: 0 4px 12px rgba(0,0,0,.05);}
+    .breath-controls .stop:hover {background: #f9fafb;}
+    .hint{font-size:.9rem;color:var(--muted);text-align:center; margin: 8px 0 0;}
+    
+    /* Timer display */
+    .timer {font-size: 1.2rem; font-weight: 700; color: var(--brand); margin: 12px 0;}
+
+    /* Mood tracker */
+    .mood{display:grid;gap:20px; margin-top: 40px;}
+    .mood-wrap {background: var(--card); border-radius: 18px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,.05);}
+    .mood-row{display:flex;align-items:center;gap:16px; margin: 20px 0;}
+    .face{font-size:32px;line-height:1;transition:transform .3s ease}
+    input[type="range"]{width:100%; height: 8px; -webkit-appearance: none; appearance: none; background: linear-gradient(to right, #ef4444, #f59e0b, #eab308, #84cc16, #10b981); border-radius: 4px; outline: none;}
+    input[type="range"]::-webkit-slider-thumb {-webkit-appearance: none; appearance: none; width: 24px; height: 24px; border-radius: 50%; background: var(--brand); cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,.2);}
+    input[type="range"]::-moz-range-thumb {width: 24px; height: 24px; border-radius: 50%; background: var(--brand); cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,.2); border: none;}
+    .mood-label {display: flex; justify-content: space-between; color: var(--muted); font-size: 0.9rem; margin-top: 8px;}
+    .mood-save {margin-top: 16px;}
+    .btn-save {background: var(--success); color: white; border: none; padding: 10px 16px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;}
+    .btn-save:hover {background: #0da271; transform: translateY(-2px);}
+
+    /* CTA */
+    .cta{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center; margin-top: 40px;}
+    .cta .box{background:linear-gradient(135deg,#ffffff, #f6fbff);border:1px solid rgba(0,0,0,.06);border-radius:24px;padding:28px;box-shadow:0 16px 40px rgba(42,124,199,.12)}
+    .list{display:grid;gap:12px;color:var(--muted); margin: 20px 0;}
+    .list div {display: flex; align-items: center; gap: 10px;}
+    .list i{color:var(--brand); font-size: 1.1rem;}
+
+    /* Footer */
+    footer{border-top:1px solid rgba(0,0,0,.06);padding:32px 0;color:var(--muted);text-align:center; margin-top: 60px;}
+
+    /* Utilities */
+    .tag{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:#fff;border:1px solid rgba(0,0,0,.06); font-size: 0.9rem; margin-bottom: 16px;}
+    .section-title {font-size: 2rem; font-weight: 800; margin-bottom: 24px; text-align: center;}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr; text-align: center; padding: 20px 0;}
+      .cta{grid-template-columns:1fr}
+      .hero-cta, .breath-controls {justify-content: center;}
+      .mood-row {flex-direction: column; text-align: center;}
+    }
+
+    /* Reduced motion respect */
+    @media (prefers-reduced-motion: reduce){
+      .bubble{animation:none !important}
+      .card, .btn-brand, .btn-ghost, .btn-save {transition: none;}
+    }
+
+    /* Animation classes */
+    .fade-in {opacity: 0; transform: translateY(20px);}
+    .active-step {background: linear-gradient(135deg, var(--brand), var(--brand-2)) !important; color: white !important;}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="logo"><i class="fa-solid fa-spa"></i></div>
+        <span>Ayuvaani Mindcare</span>
+      </div>
+      <a href="/bookings/new" class="btn">Book a Session</a>
+    </div>
+  </nav>
+
+  <header class="container hero">
+    <div>
+      <div class="tag" aria-hidden="true"><i class="fa-solid fa-heart"></i> Gentle support • Private • 24×7</div>
+      <h1>Feel lighter. Breathe deeper. <br/>Take care of your mind today.</h1>
+      <p class="subtitle">Evidence‑based techniques, guided breathing, and a caring team of therapists—right from your screen.</p>
+      <div class="hero-cta">
+        <button class="btn-brand" id="tryBreath">Try Breathing Exercise</button>
+        <button class="btn-ghost" id="scrollLearn">Learn More</button>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="bubble b1"></div>
+      <div class="bubble b2"></div>
+      <div class="bubble b3"></div>
+    </div>
+  </header>
+
+  <main class="container" id="learn">
+    <h2 class="section-title">How Ayuvaani Helps</h2>
+    <section class="grid" style="margin-top:10px">
+      <article class="card reveal">
+        <div class="pill"><i class="fa-solid fa-wind"></i> Box Breathing • 4‑4‑4‑4</div>
+        <h3>Calm your nervous system</h3>
+        <p>Slow, even breathing helps your brain shift from fight‑or‑flight to rest‑and‑digest within minutes.</p>
+      </article>
+      <article class="card reveal">
+        <div class="pill"><i class="fa-solid fa-user-nurse"></i> Licensed experts</div>
+        <h3>Talk to a therapist</h3>
+        <p>Connect with qualified counsellors for anxiety, stress, relationships, or burnout—confidentially.</p>
+      </article>
+      <article class="card reveal">
+        <div class="pill"><i class="fa-solid fa-shield-heart"></i> Secure & private</div>
+        <h3>Your data stays yours</h3>
+        <p>End‑to‑end encryption and consent‑first workflows keep your information protected.</p>
+      </article>
+    </section>
+
+    <section class="breath" id="breathing">
+      <div class="breath-wrap">
+        <h2 style="margin:0 0 8px; text-align: center;">Guided Breathing Exercise</h2>
+        <p class="hint">Follow the circle: Inhale 4s • Hold 4s • Exhale 4s • Hold 4s</p>
+        
+        <div class="circle-shell">
+          <div class="circle" id="breathCircle" aria-label="Breathing circle" role="img"></div>
+          <div class="breath-instruction" id="breathInstruction"></div>
+        </div>
+        
+        <div class="timer" id="breathTimer">00</div>
+        
+        <div class="breath-legend">
+          <span class="pill" id="inhalePill"><i class="fa-regular fa-circle-up"></i> Inhale</span>
+          <span class="pill" id="hold1Pill"><i class="fa-regular fa-pause"></i> Hold</span>
+          <span class="pill" id="exhalePill"><i class="fa-regular fa-circle-down"></i> Exhale</span>
+          <span class="pill" id="hold2Pill"><i class="fa-regular fa-pause"></i> Hold</span>
+        </div>
+        
+        <div class="breath-controls">
+          <button class="start" id="startBreath">Start</button>
+          <button class="stop" id="stopBreath">Stop</button>
+        </div>
+      </div>
+    </section>
+
+   
+    
+    <section class="cta" id="book">
+      <div class="box reveal">
+        <h2 style="margin:0 0 10px">Ready to talk?</h2>
+        <p class="subtitle">Book a 30‑minute intro session and meet a therapist who fits your goals and language.</p>
+        <div class="list">
+          <div><i class="fa-solid fa-circle-check"></i> Private & encrypted video calls</div>
+          <div><i class="fa-solid fa-circle-check"></i> Hindi • English • Marathi • More</div>
+          <div><i class="fa-solid fa-circle-check"></i> Sliding‑scale pricing</div>
+        </div>
+        <div class="hero-cta">
+          <a href="/bookings/new" class="btn-brand">Book Session</a>
+          <a class="btn-ghost" href="/profile">See therapist profiles</a>
+        </div>
+      </div>
+      <div class="box reveal" aria-hidden="true">
+        <svg viewBox="0 0 400 300" width="100%" height="100%" style="display:block">
+          <defs>
+            <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#9ddff8"/>
+              <stop offset="100%" stop-color="#c7f5f0"/>
+            </linearGradient>
+          </defs>
+          <g id="svgBlobs">
+            <path d="M115,40c40,-20 90,5 120,35c30,30 44,70 30,100c-13,30 -55,51 -92,55c-38,4 -72,-8 -92,-35c-19,-26 -23,-66 -5,-98c18,-31 49,-37 39,-57z" fill="url(#grad)" opacity="0.9"/>
+            <circle cx="290" cy="70" r="30" fill="#ffe0cc" opacity="0.8"/>
+            <circle cx="330" cy="240" r="22" fill="#d5ffd1" opacity="0.8"/>
+          </g>
+        </svg>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <small>Ayuvani © <span id="year"></span> • This page is informational and not a substitute for professional care.</small>
+  </footer>
+
+  <script>
+    // ========= GSAP Setup =========
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Floating bubbles in hero
+    gsap.to('.b1', { y: -10, x: 10, duration: 6, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    gsap.to('.b2', { y: 14, x: -8, duration: 5.4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+    gsap.to('.b3', { y: -8, x: 6, duration: 4.6, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+
+    // Hero reveal
+    gsap.from('.hero h1', { opacity: 0, y: 30, duration: 0.9, ease: 'power2.out' });
+    gsap.from('.subtitle', { opacity: 0, y: 16, duration: 0.8, delay: .1, ease: 'power2.out' });
+    gsap.from('.hero-cta', { opacity: 0, y: 12, duration: 0.6, delay: .2, ease: 'power2.out' });
+
+    // Cards reveal on scroll
+    gsap.utils.toArray('.reveal').forEach((el, i) => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 24,
+        duration: .8,
+        ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 85%' }
+      })
+    })
+
+    // SVG subtle float
+    gsap.to('#svgBlobs', {
+      y: -8, x: 6, duration: 5, repeat: -1, yoyo: true, ease: 'sine.inOut'
+    });
+
+    // Smooth scroll from hero button
+    document.getElementById('scrollLearn').addEventListener('click', () => {
+      document.getElementById('learn').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // ========= Breathing Loop =========
+    const circle = document.getElementById('breathCircle');
+    const instruction = document.getElementById('breathInstruction');
+    const timer = document.getElementById('breathTimer');
+    let breathInterval;
+    let currentStep = 0;
+    const steps = [
+      { name: "Inhale", duration: 4, instruction: "Breathe In", pill: "inhalePill" },
+      { name: "Hold", duration: 4, instruction: "Hold", pill: "hold1Pill" },
+      { name: "Exhale", duration: 4, instruction: "Breathe Out", pill: "exhalePill" },
+      { name: "Hold", duration: 4, instruction: "Hold", pill: "hold2Pill" }
+    ];
+
+    // Reset all pill styles
+    function resetPills() {
+      document.getElementById('inhalePill').classList.remove('active-step');
+      document.getElementById('hold1Pill').classList.remove('active-step');
+      document.getElementById('exhalePill').classList.remove('active-step');
+      document.getElementById('hold2Pill').classList.remove('active-step');
+    }
+
+    // Start breathing exercise
+    function startBreathing() {
+      resetPills();
+      currentStep = 0;
+      let timeLeft = steps[currentStep].duration;
+      timer.textContent = timeLeft.toString().padStart(2, '0');
+      
+      // Highlight current step
+      document.getElementById(steps[currentStep].pill).classList.add('active-step');
+      
+      // Show instruction
+      instruction.textContent = steps[currentStep].instruction;
+      gsap.to(instruction, { opacity: 1, duration: 0.5 });
+      
+      // Animate circle based on step
+      if (currentStep === 0) {
+        gsap.to(circle, { scale: 1.4, duration: steps[currentStep].duration, ease: "power1.inOut" });
+      } else if (currentStep === 2) {
+        gsap.to(circle, { scale: 1, duration: steps[currentStep].duration, ease: "power1.inOut" });
+      }
+      
+      // Start timer
+      breathInterval = setInterval(() => {
+        timeLeft--;
+        timer.textContent = timeLeft.toString().padStart(2, '0');
+        
+        if (timeLeft <= 0) {
+          // Move to next step
+          currentStep = (currentStep + 1) % steps.length;
+          timeLeft = steps[currentStep].duration;
+          timer.textContent = timeLeft.toString().padStart(2, '0');
+          
+          // Reset pill highlights and highlight current
+          resetPills();
+          document.getElementById(steps[currentStep].pill).classList.add('active-step');
+          
+          // Update instruction
+          instruction.textContent = steps[currentStep].instruction;
+          
+          // Animate circle
+          if (currentStep === 0) {
+            gsap.to(circle, { scale: 1.4, duration: steps[currentStep].duration, ease: "power1.inOut" });
+          } else if (currentStep === 2) {
+            gsap.to(circle, { scale: 1, duration: steps[currentStep].duration, ease: "power1.inOut" });
+          }
+        }
+      }, 1000);
+    }
+
+    // Stop breathing exercise
+    function stopBreathing() {
+      clearInterval(breathInterval);
+      gsap.to(circle, { scale: 1, duration: 0.5 });
+      gsap.to(instruction, { opacity: 0, duration: 0.5 });
+      resetPills();
+      timer.textContent = "00";
+    }
+
+    // Event listeners for breathing controls
+    document.getElementById('startBreath').addEventListener('click', startBreathing);
+    document.getElementById('stopBreath').addEventListener('click', stopBreathing);
+
+    // Hero "Try" button scrolls + starts
+    document.getElementById('tryBreath').addEventListener('click', () => {
+      document.getElementById('breathing').scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => startBreathing(), 800);
+    });
+
+    // ========= Mood Tracker =========
+    const faces = ['😣','😕','😐','🙂','😄'];
+    const labels = ['Stressed','Low','Neutral','Good','Great'];
+    const moodFace = document.getElementById('moodFace');
+    const moodText = document.getElementById('moodText');
+    const moodRange = document.getElementById('moodRange');
+
+    function updateMood(v){
+      const i = parseInt(v,10);
+      moodFace.textContent = faces[i];
+      moodText.textContent = labels[i];
+      gsap.fromTo(moodFace, { scale: .9 }, { scale: 1, duration: .25, ease: 'back.out(2)' });
+    }
+    updateMood(moodRange.value);
+    moodRange.addEventListener('input', (e)=> updateMood(e.target.value));
+
+    document.getElementById('saveMood').addEventListener('click', ()=>{
+      const saved = { t: new Date().toISOString(), v: parseInt(moodRange.value,10) };
+      const key = 'ayuvani:mood';
+      const arr = JSON.parse(localStorage.getItem(key) || '[]');
+      arr.push(saved);
+      localStorage.setItem(key, JSON.stringify(arr));
+      gsap.fromTo('#saveMood', { y: 0 }, { y: -6, duration: .2, yoyo: true, repeat: 1 });
+      alert('Mood saved locally. (You can sync to your profile later)');
+    });
+
+    // ========= Utilities =========
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
