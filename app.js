@@ -529,10 +529,10 @@ app.delete("/listings/:id/reviews/:reviewId", isLoggedIn,isReviewAuthor, async (
 // });
 
 // Helper function to generate cabin IDs
-function generateRoomId() {
-  const randomNum = Math.floor(10 + Math.random() * 90); // 2-digit number
+const generateRoomId = () => {
+  const randomNum = Math.floor(10 + Math.random() * 90);
   return `cabin${randomNum}`;
-}
+};
 
 app.post("/book-slot", isLoggedIn, async (req, res) => {
   try {
@@ -547,71 +547,69 @@ app.post("/book-slot", isLoggedIn, async (req, res) => {
       slot,
       doctorEmail,
       patientPhone,
-      patientEmail  // <-- add patient email to booking form
+      patientEmail
     } = req.body;
 
-    // Generate a room ID
+    // Generate room
     const roomId = generateRoomId();
-    const roomLink = `http://localhost:${port}/videocall?room=${roomId}`;
 
-    // Email to doctor
+    // ✅ Build correct base URL (works for Render or localhost)
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const roomLink = `${baseUrl}/videocall?room=${roomId}`;
+
+    // Save booking in DB
+    const booking = new Booking({
+      patientName,
+      patientEmail,
+      gender,
+      age,
+      address,
+      pincode,
+      prescription,
+      patientPhone,
+      date,
+      slot,
+      doctorEmail,
+      roomId,
+      bookedBy: req.user._id
+    });
+    await booking.save();
+
+    // Send emails
     const doctorMail = {
       from: process.env.MAIL_USER,
       to: doctorEmail,
       subject: `📅 New Booking from ${patientName}`,
       text: `
-      🧑 Patient Details:
-      --------------------
-      Name: ${patientName}
-      Gender: ${gender}
-      Age: ${age}
-      Phone: ${patientPhone}
-      Address: ${address}
-      Pincode: ${pincode}
-
-      📝 Issue: ${prescription}
-
-      📅 Appointment:
-      Date: ${date}
-      Time: ${slot}
-
-      🔗 Join Consultation Room: ${roomLink}
+      Patient: ${patientName}
+      Date: ${date} Time: ${slot}
+      🔗 Join: ${roomLink}
       `
     };
 
-    // Email to patient
     const patientMail = {
       from: process.env.MAIL_USER,
       to: patientEmail,
-      subject: "✅ Your Video Consultation Details",
+      subject: "✅ Your Consultation Link",
       text: `
       Hello ${patientName},
-
-      Your video consultation has been scheduled.
-
-      📅 Appointment:
-      Date: ${date}
-      Time: ${slot}
-
-      🔗 Join Consultation Room: ${roomLink}
-
-      Regards,  
-      HealthMed Team
+      Your video consultation is confirmed.
+      🔗 Join: ${roomLink}
       `
     };
 
-    // Send both emails
     await mailTransporter.sendMail(doctorMail);
     await mailTransporter.sendMail(patientMail);
 
     req.flash("success", "Booking confirmed! Details sent to doctor and patient.");
     res.redirect(`/videocall?room=${roomId}`);
   } catch (err) {
-    console.error("❌ Email error:", err);
-    req.flash("error", "Booking saved, but email not sent.");
+    console.error(err);
+    req.flash("error", "Booking failed.");
     res.redirect("/listings");
   }
 });
+
 
 
 
