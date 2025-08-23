@@ -432,6 +432,83 @@
               <div class="participant-role">You</div>
             </div>
           </div>
+          <!-- Add inside .sidebar after Participants -->
+<div class="prescription-section">
+  <div class="section-title">Prescription</div>
+  
+  <!-- Doctor Input (only doctor should see this in real app) -->
+  <textarea id="prescription-input" 
+            placeholder="Doctor: Write prescription here..." 
+            rows="4"
+            style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:8px; resize: vertical;"></textarea>
+  <button id="save-prescription" class="tool-btn" style="margin-top:0.5rem;">
+    <i class="fas fa-prescription"></i>
+    <div class="tool-info">
+      <div class="tool-name">Save Prescription</div>
+      <div class="tool-desc">Share with patient</div>
+    </div>
+  </button>
+  
+  <!-- Patient View -->
+  <div id="prescription-display" 
+       style="margin-top:1rem; padding:0.6rem; background:#f8f9fa; border-radius:8px; min-height:50px; font-size:0.9rem; color:#333;">
+    <em>No prescription yet.</em>
+  </div>
+</div>
+<style>/* Prescription Section */
+.prescription-section {
+  background: #fdfdfd;
+  border: 1px solid #e5e9ec;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-top: 1rem;
+}
+
+.prescription-input {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 80px;
+  transition: all 0.3s ease;
+}
+
+.prescription-input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 5px rgba(42,124,199,0.3);
+}
+
+.prescription-btn {
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  color: white;
+  font-weight: 600;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.prescription-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.prescription-display {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  background: #f8faff;
+  border-left: 4px solid var(--primary);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.5;
+  max-height: 150px;
+  overflow-y: auto;
+}
+</style>
         </div>
         
         
@@ -520,6 +597,23 @@
         }
       }, 3000);
     });
+  </script>
+  <script>
+    // Prescription sharing (simple local version)
+const prescriptionInput = document.getElementById("prescription-input");
+const prescriptionDisplay = document.getElementById("prescription-display");
+const saveBtn = document.getElementById("save-prescription");
+
+saveBtn.addEventListener("click", () => {
+  const text = prescriptionInput.value.trim();
+  if (text.length > 0) {
+    prescriptionDisplay.innerHTML = "<strong>Prescription:</strong><br>" + text.replace(/\n/g, "<br>");
+    prescriptionInput.value = "";
+  } else {
+    alert("Please write something before saving.");
+  }
+});
+
   </script>
 </body>
 </html>
