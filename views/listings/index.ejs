@@ -738,6 +738,7 @@
 
 <!-- Navbar with User Dropdown -->
 <nav class="navbar navbar-expand-lg bg-light shadow-sm sticky-top border-bottom">
+    
   <div class="container">
     <a class="navbar-brand fw-bold fs-4" href="#">
       <i class="fa-solid fa-compass-drafting me-2" style="color: #5b42fe;"></i>HealthMed
@@ -1397,7 +1398,244 @@
     <!-- Hero Section -->
     
 
+<div class="main-container">
+    <% if(currUser) { %>
+    <div class="welcome-section">
+        <h1>Welcome, <%= currUser.username %> to Health Med!</h1>
+        <p>This is your personal health ID card. Keep it safe and secure.</p>
+    </div>
 
+    <div class="health-card-container">
+        <div class="health-card-header">
+            <img src="https://media.istockphoto.com/id/1130947395/photo/medical-icon-caduceus-rod-of-hermes.jpg?s=1024x1024&w=is&k=20&c=jQQOz_00sOCxC9UFX0B35qOlYNL-1kvZzQb4hn_9FJk=" alt="Health Department Logo" class="card-logo">
+            <div class="header-text">
+                <h2>GOVERNMENT HEALTH ID CARD</h2>
+                <p>Ministry of Health</p>
+            </div>
+        </div>
+        <div class="health-card-body">
+            <div class="user-photo-section">
+                <img src="https://media.istockphoto.com/id/2211940099/photo/isolated-cheerful-cartoon-man-with-sandy-hair-and-warm-smile.jpg?s=1024x1024&w=is&k=20&c=xPHwd4zihOXuhQx6Ukx4dryJTKk7iEutTwvtaTFTaFQ=" alt="User Photo" class="user-photo">
+            </div>
+            <div class="user-info-section">
+                <div class="info-row">
+                    <span class="info-label">Name:</span>
+                    <span class="info-value"><%= currUser.username %></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value"><%= currUser.email %></span>
+                </div>
+            </div>
+        </div>
+        <div class="health-card-footer">
+            <p>This card is non-transferable.</p>
+        </div>
+    </div>
+    <% } else { %>
+    <div class="welcome-section">
+        <p>Please <a href="/login">login</a> or <a href="/signup">sign up</a> to see your info.</p>
+    </div>
+    <% } %>
+</div>
+
+<style>
+/* Base Styles for Larger Screens */
+
+/* Main Flexbox Container */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3rem; /* Spacing between the welcome section and the card */
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.welcome-section {
+    flex: 1; /* Allows this section to grow and take up available space */
+    padding: 2rem;
+    background-color: #f8f9fa; /* Light gray background */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.welcome-section h1 {
+    font-size: 2.5rem;
+    color: #004085;
+    margin-bottom: 1rem;
+}
+
+.welcome-section p {
+    font-size: 1.1rem;
+    color: #6c757d;
+}
+
+/* Card Styles (unchanged from your previous request) */
+.health-card-container {
+    flex-shrink: 0; /* Prevents the card from shrinking */
+    width: 400px; /* Fixed width for the card */
+    border: 2px solid #0056b3;
+    border-radius: 12px;
+    padding: 20px;
+    background-color: #f0f8ff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    font-family: Arial, sans-serif;
+    color: #333;
+    box-sizing: border-box;
+}
+
+/* (The rest of your card CSS goes here, unchanged) */
+.health-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+    margin-bottom: 15px;
+}
+
+.card-logo {
+    width: 50px;
+    height: 50px;
+}
+
+.header-text h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #004085;
+    text-transform: uppercase;
+}
+
+.header-text p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.health-card-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.user-photo-section {
+    flex-shrink: 0;
+}
+
+.user-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    object-fit: cover;
+}
+
+.user-info-section {
+    flex-grow: 1;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #555;
+    flex-basis: 35%;
+}
+
+.info-value {
+    text-align: right;
+    flex-basis: 65%;
+    word-break: break-word;
+}
+
+.health-card-footer {
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.health-card-footer p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #999;
+    font-style: italic;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 992px) {
+    .main-container {
+        flex-direction: column; /* Stacks the elements on top of each other */
+        align-items: center; /* Centers items vertically */
+        gap: 2rem;
+    }
+
+    .health-card-container {
+        width: 100%; /* Allows the card to take full width on mobile */
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 600px) {
+    .health-card-container {
+        padding: 15px;
+        max-width: 95%;
+    }
+
+    .health-card-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+    }
+
+    .health-card-body {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .user-photo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .user-info-section {
+        width: 100%;
+    }
+
+    .info-row {
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .info-label {
+        flex-basis: auto;
+        margin-bottom: 2px;
+    }
+
+    .info-value {
+        text-align: left;
+        flex-basis: auto;
+    }
+
+    .header-text h2 {
+        font-size: 1rem;
+    }
+}
+</style>
 
 
     <!-- Promotional Section -->
