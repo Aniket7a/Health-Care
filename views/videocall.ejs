@@ -281,11 +281,13 @@
       .container {
         flex-direction: column;
         padding: 0.5rem;
+        gap: 1rem;
       }
       
       .video-container {
         min-height: 300px;
         border-radius: 8px;
+        order: 1;
       }
       
       #jitsi-container {
@@ -294,21 +296,37 @@
       
       .sidebar {
         width: 100%;
-        order: -1;
+        order: 2;
         padding: 1rem;
+        gap: 1rem;
       }
       
       .controls {
+        order: 3;
         flex-wrap: wrap;
         padding: 0.8rem;
+        gap: 0.5rem;
       }
       
       .control-btn {
         min-width: 60px;
+        padding: 0.5rem;
       }
       
       .control-btn span {
         display: none;
+      }
+      
+      .participants, .tools {
+        width: 100%;
+      }
+      
+      .participant {
+        padding: 0.5rem 0;
+      }
+      
+      .tool-btn {
+        padding: 0.6rem;
       }
     }
     
@@ -352,7 +370,28 @@
         <div id="jitsi-container"></div>
       </div>
       
-      
+      <div class="controls">
+        <button class="control-btn">
+          <i class="fas fa-microphone"></i>
+          <span>Mute</span>
+        </button>
+        <button class="control-btn">
+          <i class="fas fa-video"></i>
+          <span>Video</span>
+        </button>
+        <button class="control-btn">
+          <i class="fas fa-desktop"></i>
+          <span>Share</span>
+        </button>
+        <button class="control-btn">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </button>
+        <button class="control-btn end-call">
+          <i class="fas fa-phone-slash"></i>
+          <span>End Call</span>
+        </button>
+      </div>
     </div>
     
     <div class="sidebar">
@@ -361,7 +400,7 @@
         <div class="participant">
           <div class="avatar">D</div>
           <div class="participant-info">
-            <div class="participant-name">Doctor</div>
+            <div class="participant-name">Dr. Priya Sharma</div>
             <div class="participant-role">Healthcare Provider</div>
           </div>
         </div>
