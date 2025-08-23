@@ -753,17 +753,21 @@
         <li class="nav-item">
           <a class="nav-link active" href="#">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/listings">All Listings</a>
-        </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item" >
+                            <a class="nav-link" href="https://jeevan-rakshak-sos-syste-469c6.web.app/" >Emergency SOS</a>
+                        </li>
+        <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="/listings">Doctors</a>
+        </li> -->
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
             Add Listings
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/listings/new1">Create New Listing</a></li>
           </ul>
-        </li>
+        </li> -->
       </ul>
 
       <!-- Right-aligned User Dropdown -->
@@ -1657,7 +1661,7 @@ Connect with Trusted Healthcare Experts for Personalized Care</h2>
                             <div class="promo-overlay"></div>
                             <div class="promo-content">
                                 <i class="fas fa-heartbeat promo-icon"></i>
-                                <p class="promo-text">Book → Confirm → Join. It’s that simple. Schedule your appointment, receive confirmation</p>
+                                <p class="promo-text">Book → Confirm → Join   <br> Book Appointment to Join</p>
                                 <a href="/join-room" class="promo-link">
   Start consultation <i class="fas fa-chevron-right"></i>
 </a>
@@ -1669,7 +1673,9 @@ Connect with Trusted Healthcare Experts for Personalized Care</h2>
                             <div class="promo-overlay"></div>
                             <div class="promo-content">
                                 <i class="fas fa-video promo-icon"></i>
-                                <p class="promo-text">24/7 telehealth consultations from home</p>
+                                <p class="promo-text">
+
+"Talk to a mental health expert — book an appointment.</p>
                                 <a href="#" class="promo-link">Start consultation <i class="fas fa-chevron-right"></i></a>
                             </div>
                         </div>
@@ -2023,9 +2029,9 @@ Connect with Trusted Healthcare Experts for Personalized Care</h2>
     <!-- Overlay -->
     <div class="card-img-overlay">
       <div class="overlay-top">
-        <span class="overlay-badge">Guest Favorite</span>
+        <span class="overlay-badge">General Medicine</span>
         <span class="overlay-badge">
-          <i class="fa fa-star"></i> 4.0+
+          <i class="fa fa-star"></i> Available
         </span>
       </div>
     </div>
@@ -2034,10 +2040,10 @@ Connect with Trusted Healthcare Experts for Personalized Care</h2>
   <div class="card-body">
     <h5 class="card-title"><%= listing.title %></h5>
    <p class="card-price">
-  &#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> for one consultation
-</p>
+  <!-- &#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> for one consultation
+</p> -->
 
-    <a href="/listings/<%= listing._id %>" class="btn btn-primary">Show Details</a>
+    <a href="/listings/<%= listing._id %>" class="btn btn-primary">Book Consultation</a>
   </div>
 </div>
 
