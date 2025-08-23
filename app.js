@@ -640,6 +640,15 @@ app.get("/bookings/new", (req, res) => {
 
 
 
+app.get("/videocall", (req, res) => {
+  const room = req.query.room || "defaultRoom";
+  res.render("videocall", { room });
+});
+
+
+app.get("/join-room", (req, res) => {
+  res.render("join-room"); // room input page
+});
 
 
 
