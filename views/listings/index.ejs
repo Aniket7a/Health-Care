@@ -1400,6 +1400,116 @@
 
 
 
+
+
+
+<style>
+    /* Hero Section */
+    .hero {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: url('https://plus.unsplash.com/premium_photo-1661580569821-5836bb74f5dd?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center/cover;
+      color: white;
+      text-align: left;
+      padding: 2rem;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.45);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero .btn-primary {
+      background: #fbc02d;
+      border: none;
+      padding: 0.9rem 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      color: #000;
+      transition: all 0.3s ease;
+    }
+
+    .hero .btn-primary:hover {
+      background: #ffa000;
+      transform: translateY(-2px);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1rem; }
+    }
+
+    @media (max-width: 768px) {
+      .hero { text-align: center; }
+      .hero-content { max-width: 100%; }
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 0.95rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.7rem; }
+      .hero p { font-size: 0.9rem; }
+      .hero .btn-primary { padding: 0.7rem 1.5rem; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>Everything you need for trusted healthcare</h1>
+      <p>Simplify your care journey with Ayuvani – connect with certified doctors, check symptoms, and book appointments in minutes.</p>
+      
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Hero Section -->
     
 
@@ -1416,7 +1526,7 @@
         <div class="health-card-header">
             <img src="https://media.istockphoto.com/id/1130947395/photo/medical-icon-caduceus-rod-of-hermes.jpg?s=1024x1024&w=is&k=20&c=jQQOz_00sOCxC9UFX0B35qOlYNL-1kvZzQb4hn_9FJk=" alt="Health Department Logo" class="card-logo">
             <div class="header-text">
-                <h2>GOVERNMENT HEALTH ID CARD</h2>
+                <h2>AYUVAANI ID CARD</h2>
                 <p>Ministry of Health</p>
             </div>
         </div>
@@ -1669,97 +1779,246 @@
 
 
     <!-- Promotional Section -->
-    <section class="promo-section">
-        <div class="container">
-            <div class="promo-main-card">
-                <div class="promo-main-content">
-                    <h2><i class="fas fa-crown"></i> Find a Doctor
-Connect with Trusted Healthcare Experts for Personalized Care</h2>
-                    <p class="promo-subtitle">Sign up to unlock exclusive health benefits and rewards</p>
-                    
-                    <div class="promo-grid">
-                        <div class="promo-item" style="background-image: url('https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
-                            <div class="promo-overlay"></div>
-                            <div class="promo-content">
-                                <i class="fas fa-heartbeat promo-icon"></i>
-                                <p class="promo-text">Book → Confirm → Join   <br> Book Appointment to Join</p>
-                                <a href="/join-room" class="promo-link">
-  Start consultation <i class="fas fa-chevron-right"></i>
-</a>
+    <!-- ================= Promo & Discover Section ================= -->
+<section class="healthcare-section">
+  <div class="healthcare-container">
+    
+    <!-- Hero Promo -->
+    <div class="healthcare-hero">
+      <h2 class="hero-title">
+        <i class="fas fa-crown"></i> Find a Doctor <br>
+       
+      </h2>
+      <p class="hero-subtitle">Connect with trusted doctors, mental health experts & wellness specialists</p>
+    </div>
 
-                            </div>
-                        </div>
-                        
-                        <div class="promo-item" style="background-image: url('https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
-                            <div class="promo-overlay"></div>
-                            <div class="promo-content">
-                                <i class="fas fa-video promo-icon"></i>
-                                <p class="promo-text">
-
-"Talk to a mental health expert — book an appointment.</p>
-                                <a href="/mental" class="promo-link">Start consultation <i class="fas fa-chevron-right"></i></a>
-                            </div>
-                        </div>
-                        
-                        <div class="promo-item" style="background-image: url('https://images.unsplash.com/photo-1629909613657-1f0ea20c0c3c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
-                            <div class="promo-overlay"></div>
-                            <div class="promo-content">
-                                <i class="fas fa-clipboard-list promo-icon"></i>
-                                <p class="promo-text">Our AI-driven symptom checker helps you understand possible conditions before consulting the doctor</p>
-                                <a href="https://healthcaremodel-2.onrender.com/" class="promo-link">Compare providers <i class="fas fa-chevron-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Discover Section -->
-            <div class="discover-section">
-                <h3>Find Care By Specialty</h3>
-                <div class="category-grid">
-                    <a href="#" class="category-card">
-                        <div class="category-overlay"></div>
-                        <div class="category-content">
-                            <i class="fas fa-user-md"></i>
-                            <span>Primary Care</span>
-                        </div>
-                    </a>
-                    
-                    <a href="#" class="category-card">
-                        <div class="category-overlay"></div>
-                        <div class="category-content">
-                            <i class="fas fa-heart"></i>
-                            <span>Cardiology</span>
-                        </div>
-                    </a>
-                    
-                    <a href="#" class="category-card">
-                        <div class="category-overlay"></div>
-                        <div class="category-content">
-                            <i class="fas fa-brain"></i>
-                            <span>Neurology</span>
-                        </div>
-                    </a>
-                    
-                    <a href="#" class="category-card">
-                        <div class="category-overlay"></div>
-                        <div class="category-content">
-                            <i class="fas fa-baby"></i>
-                            <span>Pediatrics</span>
-                        </div>
-                    </a>
-                    
-                    <a href="#" class="category-card">
-                        <div class="category-overlay"></div>
-                        <div class="category-content">
-                            <i class="fas fa-tooth"></i>
-                            <span>Dentistry</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
+    <!-- Promo Grid -->
+    <div class="service-grid">
+      
+      <!-- Appointment -->
+      <div class="service-card" style="background-image: url('https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?q=80&w=2070&auto=format&fit=crop');">
+        <div class="overlay"></div>
+        <div class="service-content">
+          <i class="fas fa-heartbeat icon"></i>
+          <h4>Book Appointment</h4>
+          <p>Book → Confirm → Join. Start your consultation with ease.</p>
+          <a href="/join-room" class="service-link">Start Now <i class="fas fa-chevron-right"></i></a>
         </div>
-    </section>
+      </div>
+
+      <!-- Mental Health -->
+      <div class="service-card" style="background-image: url('https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?q=80&w=2070&auto=format&fit=crop');">
+        <div class="overlay"></div>
+        <div class="service-content">
+          <i class="fas fa-brain icon"></i>
+          <h4>Mental Well-being</h4>
+          <p>Talk to a certified mental health expert. Your mind matters most.</p>
+          <a href="/mental" class="service-link">Book Session <i class="fas fa-chevron-right"></i></a>
+        </div>
+      </div>
+
+      <!-- AI Symptom Checker -->
+      <div class="service-card" style="background-image: url('https://images.unsplash.com/photo-1629909613657-1f0ea20c0c3c?q=80&w=2070&auto=format&fit=crop');">
+        <div class="overlay"></div>
+        <div class="service-content">
+          <i class="fas fa-clipboard-list icon"></i>
+          <h4>AI Symptom Checker</h4>
+          <p>Understand possible conditions before consulting a doctor.</p>
+          <a href="https://healthcaremodel-2.onrender.com/" class="service-link">Try Now <i class="fas fa-chevron-right"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Discover Section -->
+    <div class="discover">
+      <h3>Find Care by Specialty</h3>
+      <div class="specialty-grid">
+
+        <a href="#" class="specialty-card">
+          <i class="fas fa-user-md"></i>
+          <span>Primary Care</span>
+        </a>
+
+        <a href="#" class="specialty-card">
+          <i class="fas fa-heart"></i>
+          <span>Cardiology</span>
+        </a>
+
+        <a href="#" class="specialty-card">
+          <i class="fas fa-brain"></i>
+          <span>Neurology</span>
+        </a>
+
+        <a href="#" class="specialty-card">
+          <i class="fas fa-baby"></i>
+          <span>Pediatrics</span>
+        </a>
+
+        <a href="#" class="specialty-card">
+          <i class="fas fa-tooth"></i>
+          <span>Dentistry</span>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ================= CSS ================= -->
+<style>
+/* General */
+.healthcare-section {
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f8fbff, #eaf3ff);
+  font-family: 'Segoe UI', sans-serif;
+  color: #1a2b4c;
+}
+
+.healthcare-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Hero */
+.healthcare-hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.hero-title {
+  font-size: 2.2rem;
+  color: #123d6a;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.hero-title .highlight {
+  color: #007bff;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: #4d5c74;
+  margin-top: 10px;
+}
+
+/* Service Grid */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.service-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 34, 68, 0.55);
+}
+
+.service-content {
+  position: relative;
+  color: #fff;
+  padding: 20px;
+  z-index: 2;
+}
+
+.service-content h4 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+
+.icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #5ac8fa;
+}
+
+.service-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.service-link:hover {
+  color: #5ac8fa;
+}
+
+/* Discover Section */
+.discover {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.discover h3 {
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  color: #123d6a;
+}
+
+.specialty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 20px;
+}
+
+.specialty-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px 10px;
+  text-align: center;
+  color: #123d6a;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.specialty-card i {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  color: #007bff;
+}
+
+.specialty-card:hover {
+  transform: translateY(-6px);
+  background: #007bff;
+  color: #fff;
+}
+
+.specialty-card:hover i {
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 1.7rem;
+  }
+}
+</style>
+
 
 <section class="process-section">
   <div class="container">
@@ -2027,130 +2286,398 @@ Connect with Trusted Healthcare Experts for Personalized Care</h2>
   }
 }
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Healthcare Providers Section -->
-    <section class="listings-section">
-        <h2 class="section-title">Featured Healthcare Providers</h2>
-        
-        <div class="row">
-    
-<% for(let listing of allListings){ %>
-    
-<div class="card" style="width: 100rem;">
-  <div style="position: relative;">
-    <img src="<%=listing.image.url%>" class="card-img-top" alt="listing_image" style="height: 13rem;">
-    
-    <!-- Overlay -->
-    <div class="card-img-overlay">
-      <div class="overlay-top">
-        <span class="overlay-badge">General Medicine</span>
-        <span class="overlay-badge">
-          <i class="fa fa-star"></i> Available
-        </span>
-      </div>
+    <!-- ===== Featured Healthcare Providers Section ===== -->
+<section class="providers-section">
+  <div class="container">
+    <h2 class="section-heading">Featured Healthcare Providers</h2>
+
+    <div class="providers-grid">
+      <% for(let listing of allListings){ %>
+        <div class="provider-card">
+          <div class="provider-image">
+            <img src="<%= listing.image.url %>" alt="Doctor Image">
+            <div class="provider-overlay">
+              <span class="badge specialty">General Medicine</span>
+              <span class="badge status"><i class="fa fa-circle"></i> Available</span>
+            </div>
+          </div>
+
+          <div class="provider-details">
+            <h3 class="provider-name"><%= listing.title %></h3>
+            <p class="provider-specialty">Expert in personalized patient care</p>
+
+            <!-- Optional pricing -->
+            <!-- <p class="provider-price">
+              ₹<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> / Consultation
+            </p> -->
+
+            <a href="/listings/<%= listing._id %>" class="btn-consult">Book Consultation</a>
+          </div>
+        </div>
+      <% } %>
     </div>
   </div>
+</section>
 
-  <div class="card-body">
-    <h5 class="card-title"><%= listing.title %></h5>
-   <p class="card-price">
-  <!-- &#8377;<%= listing.price ? listing.price.toLocaleString("en-IN") : "N/A" %> for one consultation
-</p> -->
+<!-- ===== CSS ===== -->
+<style>
+/* Providers Section */
+.providers-section {
+  padding: 4rem 2rem;
+  background: linear-gradient(to bottom, #f7fbff, #e6f0fa);
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
 
-    <a href="/listings/<%= listing._id %>" class="btn btn-primary">Book Consultation</a>
-  </div>
-</div>
+.section-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #003366;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
+
+/* Grid */
+.providers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+/* Card */
+.provider-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 51, 102, 0.15);
+  opacity: 0; /* hidden before animation */
+  transform: translateY(40px); /* initial position */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect */
+.provider-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 22px rgba(0, 51, 102, 0.25);
+}
+
+/* Image */
+.provider-image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.provider-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.provider-overlay {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.badge {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.specialty {
+  background: #0077b6;
+}
+
+.status {
+  background: #28a745;
+}
+
+/* Details */
+.provider-details {
+  padding: 1.2rem;
+  text-align: left;
+}
+
+.provider-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #003366;
+}
+
+.provider-specialty {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0.3rem 0 1rem;
+}
+
+.provider-price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0077b6;
+  margin-bottom: 1rem;
+}
+
+/* Button */
+.btn-consult {
+  display: inline-block;
+  background: #0077b6;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.btn-consult:hover {
+  background: #005f8c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-heading {
+    font-size: 1.5rem;
+  }
+  .provider-card {
+    border-radius: 12px;
+  }
+}
+</style>
+
+<!-- ===== GSAP Animations ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Animate heading
+  gsap.from(".section-heading", {
+    opacity: 0,
+    y: -30,
+    duration: 1,
+    scrollTrigger: {
+      trigger: ".section-heading",
+      start: "top 85%",
+    }
+  });
+
+  // Animate cards
+  gsap.utils.toArray(".provider-card").forEach((card, i) => {
+    gsap.to(card, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      delay: i * 0.2, // stagger
+      scrollTrigger: {
+        trigger: card,
+        start: "top 85%",
+        toggleActions: "play none none reverse"
+      }
+    });
+  });
+</script>
 
 
 
-<% } %>
 
 
 
 
 
-</div>
 
-    </section>
+
+
+
+
+
+
+
+
+
 
 
 
 <!-- Emergency SOS Section -->
+<!-- ===== Emergency SOS Section ===== -->
 <section class="sos-section">
-  <div class="container">
-    <div class="sos-box">
+  <div class="sos-container">
+    
+    <!-- Left Side (Text) -->
+    <div class="sos-content">
       <h2>🚨 Emergency SOS</h2>
-      <p>
-        In case of a medical or personal emergency, you can quickly reach out 
-        for help through our trusted <strong>Jeevan Rakshak SOS System</strong>.
+      <p class="sos-text">
+        In case of a medical or personal emergency, reach out instantly with 
+        our trusted <strong>Jeevan Rakshak SOS System</strong>.
       </p>
-      <ul>
-        <li>📍 Share your live location instantly</li>
-        <li>📞 Alert your emergency contacts immediately</li>
-        <li>⚡ Quick and reliable one-tap assistance</li>
+
+      <ul class="sos-features">
+        <li><i class="fas fa-map-marker-alt"></i> Live location sharing</li>
+        <li><i class="fas fa-phone-alt"></i> Immediate contact alerts</li>
+        <li><i class="fas fa-bolt"></i> One-tap reliable assistance</li>
       </ul>
-      <a href="https://jeevan-rakshak-sos-syste-469c6.web.app/" target="_blank" class="sos-btn">
+
+      <a href="https://jeevan-rakshak-sos-syste-469c6.web.app/" 
+         target="_blank" 
+         class="sos-btn">
         Activate SOS
       </a>
     </div>
+
+    <!-- Right Side (Image) -->
+    <div class="sos-image">
+      <div class="image-card">
+        <img src="https://plus.unsplash.com/premium_photo-1664304341769-5cbee1b0a7e4?q=80&w=757&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Ambulance Illustration">
+      </div>
+    </div>
   </div>
 </section>
-<!-- Styling -->
+
+<!-- ===== Styling ===== -->
 <style>
+/* Section Background */
 .sos-section {
-  background: linear-gradient(135deg, #8B0000, #b22222);
-  color: white;
-  padding: 60px 20px;
-  text-align: center;
+  background: linear-gradient(135deg, #ffffff, #f0f6ff);
+  padding: 90px 20px;
+  font-family: "Segoe UI", sans-serif;
 }
 
-.sos-box {
-  max-width: 700px;
+/* Flex Container */
+.sos-container {
+  max-width: 1200px;
   margin: auto;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
 }
 
-.sos-box h2 {
-  font-size: 2rem;
-  margin-bottom: 15px;
+/* Left Side Content */
+.sos-content {
+  flex: 1;
 }
 
-.sos-box p {
-  font-size: 1.1rem;
+.sos-content h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #0d47a1;
   margin-bottom: 20px;
+  letter-spacing: -0.5px;
 }
 
-.sos-box ul {
-  text-align: left;
-  display: inline-block;
-  margin: 0 auto 25px;
+.sos-text {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: #333;
+  line-height: 1.7;
+  max-width: 500px;
+}
+
+.sos-features {
+  margin-bottom: 35px;
   padding: 0;
   list-style: none;
 }
 
-.sos-box ul li {
-  margin: 8px 0;
-  font-size: 1rem;
+.sos-features li {
+  font-size: 1.05rem;
+  margin: 12px 0;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
+.sos-features i {
+  color: #1565c0;
+  font-size: 1.2rem;
+}
+
+/* CTA Button */
 .sos-btn {
   display: inline-block;
-  background: #ffcc00;
-  color: #8B0000;
-  padding: 12px 25px;
-  border-radius: 30px;
-  font-weight: bold;
+  background: linear-gradient(135deg, #1565c0, #0d47a1);
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 1.05rem;
   text-decoration: none;
-  transition: 0.3s;
+  box-shadow: 0px 6px 15px rgba(21, 101, 192, 0.3);
+  transition: all 0.3s ease;
 }
 
 .sos-btn:hover {
-  background: #ffd633;
+  background: linear-gradient(135deg, #0d47a1, #08306b);
+  transform: translateY(-3px);
+  box-shadow: 0px 10px 20px rgba(13, 71, 161, 0.35);
+}
+
+/* Right Side Image */
+.sos-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.image-card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0px 8px 25px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+}
+
+.image-card:hover {
   transform: scale(1.05);
 }
+
+.image-card img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .sos-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+  }
+  .sos-content {
+    order: 2;
+  }
+  .sos-image {
+    order: 1;
+  }
+}
 </style>
+
+<!-- FontAwesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 
 
 
@@ -2172,10 +2699,35 @@ Connect with Trusted Healthcare Experts for Personalized Care</h2>
         <div class="highlight">
             <i class="fas fa-calendar-check"></i>
             <h4>Flexible Scheduling</h4>
-            <p>Appointments with flexible cancellation make it easy to reschedule if your plans change.</p>
+            <p>Appointments with flexible slot adjustments make it easy to reschedule if your plans change.</p>
         </div>
     </section>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     <!-- FAQ Section -->
     <section class="faq-section">
         <h2>Frequently Asked Questions</h2>
@@ -2198,16 +2750,11 @@ Connect with Trusted Healthcare Experts for Personalized Care</h2>
                     <p>Yes, many of our providers offer telehealth services. Look for the "Virtual Visit" badge when browsing providers.</p>
                 </details>
             </div>
-            <div class="faq-item">
-                <details>
-                    <summary>How do I cancel or reschedule an appointment?</summary>
-                    <p>You can manage your appointments through your account dashboard. Most appointments can be canceled or rescheduled up to 24 hours in advance without penalty.</p>
-                </details>
-            </div>
+            
             <div class="faq-item">
                 <details>
                     <summary>What if I need urgent care?</summary>
-                    <p>For medical emergencies, please call 911 immediately. For urgent but non-emergency care, use our "Urgent Care" filter to find providers with same-day availability.</p>
+                    <p>For medical emergencies, please call 108 immediately. For urgent but non-emergency care, use our "Urgent Care" filter to find providers with same-day availability.</p>
                 </details>
             </div>
         </div>
