@@ -477,6 +477,63 @@ app.delete("/listings/:id/reviews/:reviewId", isLoggedIn,isReviewAuthor, async (
 
 
 // cookies
+// app.post("/book-slot", isLoggedIn, async (req, res) => {
+//   try {
+//     const {
+//       patientName,
+//       gender,
+//       age,
+//       address,
+//       pincode,
+//       prescription,
+//       date,
+//       slot,
+//       doctorEmail,
+//       patientPhone
+//     } = req.body;
+
+//     // Mail content
+//     const mailOptions = {
+//       from: process.env.MAIL_USER,
+//       to: doctorEmail,
+//       subject: `📅 New Booking from ${patientName}`,
+//       text: `
+//       🧑 Patient Details:
+//       --------------------
+//       Name: ${patientName}
+//       Gender: ${gender}
+//       Age: ${age}
+//       Phone: ${patientPhone}
+//       Address: ${address}
+//       Pincode: ${pincode}
+
+//       📝 Prescription / Issue:
+//       ${prescription}
+
+//       📅 Appointment:
+//       Date: ${date}
+//       Time: ${slot}
+//       `
+//     };
+
+//     // Send email
+//     await mailTransporter.sendMail(mailOptions);
+
+//     req.flash("success", "Booking confirmed & doctor notified!");
+//     res.redirect("/listings");
+//   } catch (err) {
+//     console.error("❌ Email error:", err);
+//     req.flash("error", "Booking saved, but email not sent.");
+//     res.redirect("/listings");
+//   }
+// });
+
+// Helper function to generate cabin IDs
+function generateRoomId() {
+  const randomNum = Math.floor(10 + Math.random() * 90); // 2-digit number
+  return `cabin${randomNum}`;
+}
+
 app.post("/book-slot", isLoggedIn, async (req, res) => {
   try {
     const {
@@ -489,11 +546,16 @@ app.post("/book-slot", isLoggedIn, async (req, res) => {
       date,
       slot,
       doctorEmail,
-      patientPhone
+      patientPhone,
+      patientEmail  // <-- add patient email to booking form
     } = req.body;
 
-    // Mail content
-    const mailOptions = {
+    // Generate a room ID
+    const roomId = generateRoomId();
+    const roomLink = `http://localhost:${port}/videocall?room=${roomId}`;
+
+    // Email to doctor
+    const doctorMail = {
       from: process.env.MAIL_USER,
       to: doctorEmail,
       subject: `📅 New Booking from ${patientName}`,
@@ -507,26 +569,58 @@ app.post("/book-slot", isLoggedIn, async (req, res) => {
       Address: ${address}
       Pincode: ${pincode}
 
-      📝 Prescription / Issue:
-      ${prescription}
+      📝 Issue: ${prescription}
 
       📅 Appointment:
       Date: ${date}
       Time: ${slot}
+
+      🔗 Join Consultation Room: ${roomLink}
       `
     };
 
-    // Send email
-    await mailTransporter.sendMail(mailOptions);
+    // Email to patient
+    const patientMail = {
+      from: process.env.MAIL_USER,
+      to: patientEmail,
+      subject: "✅ Your Video Consultation Details",
+      text: `
+      Hello ${patientName},
 
-    req.flash("success", "Booking confirmed & doctor notified!");
-    res.redirect("/listings");
+      Your video consultation has been scheduled.
+
+      📅 Appointment:
+      Date: ${date}
+      Time: ${slot}
+
+      🔗 Join Consultation Room: ${roomLink}
+
+      Regards,  
+      HealthMed Team
+      `
+    };
+
+    // Send both emails
+    await mailTransporter.sendMail(doctorMail);
+    await mailTransporter.sendMail(patientMail);
+
+    req.flash("success", "Booking confirmed! Details sent to doctor and patient.");
+    res.redirect(`/videocall?room=${roomId}`);
   } catch (err) {
     console.error("❌ Email error:", err);
     req.flash("error", "Booking saved, but email not sent.");
     res.redirect("/listings");
   }
 });
+
+
+
+
+
+
+
+
+
 app.get("/book-slot", isLoggedIn, (req, res) => {
   res.render("bookings/new.ejs");
 });
@@ -640,14 +734,14 @@ app.get("/bookings/new", (req, res) => {
 
 
 
-app.get("/videocall", (req, res) => {
-  const room = req.query.room || "defaultRoom";
-  res.render("videocall", { room });
-});
 
 
 app.get("/join-room", (req, res) => {
   res.render("join-room"); // room input page
+});
+app.get("/videocall", (req, res) => {
+  const room = req.query.room || "defaultRoom";
+  res.render("videocall", { room });
 });
 
 
