@@ -16,6 +16,14 @@ Certain core features are maintained in **separate repositories** and are integr
 - **Deployment**: Packaged and deployed separately, accessed via APIs within Ayuvaani.
 
 ---
+## 🚀 Live Deployment  
+🔗 **Main App**: [Ayuvaani on Render](https://health-care-vj5p.onrender.com)  
+
+Try out the deployed version of Ayuvaani and explore:  
+- ✅ AI-based symptom detection  
+- ✅ Book doctor consultations  
+- ✅ Integrated emergency SOS system  
+
 
 ⚠️ **Note**: Both modules are maintained as **standalone microservices** in their respective repositories.  
 The **main Ayuvaani project** integrates them through APIs and links, ensuring modular development and easier scaling.
