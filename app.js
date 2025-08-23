@@ -577,15 +577,27 @@ app.post("/book-slot", isLoggedIn, async (req, res) => {
 
     // Send emails
     const doctorMail = {
-      from: process.env.MAIL_USER,
-      to: doctorEmail,
-      subject: `📅 New Booking from ${patientName}`,
-      text: `
-      Patient: ${patientName}
-      Date: ${date} Time: ${slot}
-      🔗 Join: ${roomLink}
-      `
-    };
+  from: process.env.MAIL_USER,
+  to: doctorEmail,
+  subject: `📅 New Booking from ${patientName}`,
+  html: `
+    <h2>New Patient Booking</h2>
+    <p><b>Patient Name:</b> ${patientName}</p>
+    <p><b>Email:</b> ${patientEmail}</p>
+    <p><b>Phone:</b> ${patientPhone}</p>
+    <p><b>Gender:</b> ${gender}</p>
+    <p><b>Age:</b> ${age}</p>
+    <p><b>Address:</b> ${address}</p>
+    <p><b>Pincode:</b> ${pincode}</p>
+    <p><b>Prescription / Issue:</b> ${prescription}</p>
+    <p><b>Date:</b> ${date}</p>
+    <p><b>Slot:</b> ${slot}</p>
+    <hr>
+    <p><b>Video Consultation Link:</b> 
+      <a href="${roomLink}" target="_blank">Join Meeting</a>
+    </p>
+  `
+};
 
     const patientMail = {
       from: process.env.MAIL_USER,
