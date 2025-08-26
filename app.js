@@ -33,79 +33,6 @@ const Booking = require("./models/booking"); // import your model
 const nodemailer = require("nodemailer");
 
 
-// // webrtc
-// const http = require("http");
-// const { Server } = require("socket.io");
-
-// const server = http.createServer(app);
-// //const io = new Server(server);
-// const io = new Server(server, {
-//   cors: {
-//     origin: "*",  
-//     methods: ["GET", "POST"]
-//   }
-// });
-
-// io.on("connection", (socket) => {
-//   console.log("🔗 User connected:", socket.id);
-
-//   socket.on("offer", (offer) => {
-//     socket.broadcast.emit("offer", offer);
-//   });
-
-//   socket.on("answer", (answer) => {
-//     socket.broadcast.emit("answer", answer);
-//   });
-
-//   socket.on("ice-candidate", (candidate) => {
-//     socket.broadcast.emit("ice-candidate", candidate);
-//   });
-
-//   socket.on("disconnect", () => {
-//     console.log("❌ User disconnected:", socket.id);
-//   });
-// });
-
-
-
-// io.on("connection", (socket) => {
-//   socket.on("join", (roomId) => {
-//     socket.join(roomId);
-//     socket.roomId = roomId;
-//   });
-
-//   socket.on("offer", ({ offer, roomId }) => {
-//     socket.to(roomId).emit("offer", offer);
-//   });
-
-//   socket.on("answer", ({ answer, roomId }) => {
-//     socket.to(roomId).emit("answer", answer);
-//   });
-
-//   socket.on("ice-candidate", ({ candidate, roomId }) => {
-//     socket.to(roomId).emit("ice-candidate", candidate);
-//   });
-
-//   socket.on("end-call", ({ roomId }) => {
-//     socket.to(roomId).emit("end-call");
-//   });
-// });
-
-
-
-
-
-// server.listen(port, () => {
-//   console.log(`🚀 Server running at http://localhost:${port}`);
-// });
-
-// io.on("connection", (socket) => {
-//   socket.on("offer", (offer) => socket.broadcast.emit("offer", offer));
-//   socket.on("answer", (answer) => socket.broadcast.emit("answer", answer));
-//   socket.on("ice-candidate", (candidate) => socket.broadcast.emit("ice-candidate", candidate));
-//   socket.on("end-call", () => socket.broadcast.emit("end-call"));
-// });
-
 
 
 
@@ -221,6 +148,146 @@ async function main() {
 }
 
 
+
+
+const moment = require("moment");
+const multer = require("multer");
+
+
+const Patient = require("./models/patient");
+const Visit = require("./models/visit");
+const Appointment = require("./models/appointment");
+const Medication = require("./models/medication");
+const Consent = require("./models/consent");
+
+// Multer (disk) — for quick start. Later swap to Cloudinary/S3.
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, path.join(__dirname, "public", "uploads")),
+  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname.replace(/\s+/g, ""))
+});
+const upload = multer({ storage });
+
+// Expose moment globally to views
+app.use((req, res, next) => {
+  res.locals.moment = moment;
+  next();
+});
+
+// CREATE patient (form + save)
+app.get("/patients/new", (req, res) => res.render("patients/new"));
+
+app.post("/patients", async (req, res) => {
+  const p = await Patient.create(req.body);
+  res.redirect(`/patients/${p._id}`);
+});
+
+// PATIENT DASHBOARD
+app.get("/patients/:id", async (req, res, next) => {
+  try {
+    const patient = await Patient.findById(req.params.id);
+    const [visits, appts, meds, consents] = await Promise.all([
+      Visit.find({ patient: patient._id }).sort({ visitDate: -1 }).limit(10),
+      Appointment.find({ patient: patient._id }).sort({ startAt: 1 }).limit(10),
+      Medication.find({ patient: patient._id }).sort({ startDate: -1 }).limit(10),
+      Consent.find({ patient: patient._id }).sort({ uploadedAt: -1 }).limit(10)
+    ]);
+    res.render("patients/dashboard", { patient, visits, appts, meds, consents });
+  } catch (e) { next(e); }
+});
+
+// ADD alert
+app.post("/patients/:id/alerts", async (req, res) => {
+  await Patient.findByIdAndUpdate(req.params.id, { $addToSet: { alerts: req.body.alert } });
+  res.redirect(`/patients/${req.params.id}#alerts`);
+});
+
+// ADD emergency contact
+app.post("/patients/:id/emergency", async (req, res) => {
+  await Patient.findByIdAndUpdate(req.params.id, { $push: { emergencyContacts: req.body } });
+  res.redirect(`/patients/${req.params.id}#emergency`);
+});
+
+// CREATE visit
+app.post("/patients/:id/visits", async (req, res) => {
+  await Visit.create({ ...req.body, patient: req.params.id });
+  res.redirect(`/patients/${req.params.id}#visits`);
+});
+
+// CREATE appointment
+app.post("/patients/:id/appointments", async (req, res) => {
+  await Appointment.create({ ...req.body, patient: req.params.id });
+  res.redirect(`/patients/${req.params.id}#appointments`);
+});
+
+// CREATE medication
+app.post("/patients/:id/medications", async (req, res) => {
+  await Medication.create({ ...req.body, patient: req.params.id });
+  res.redirect(`/patients/${req.params.id}#medications`);
+});
+
+// UPLOAD consent/report
+app.post("/patients/:id/consents", upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      req.flash("error", "Please select a file to upload");
+      return res.redirect(`/patients/${req.params.id}#consents`);
+    }
+
+    await Consent.create({
+      patient: req.params.id,
+      type: req.body.type || "General",
+      filename: req.file.filename,
+      fileUrl: `/uploads/${req.file.filename}`,
+      uploadedAt: new Date()
+    });
+
+    req.flash("success", "Consent / report uploaded successfully!");
+    res.redirect(`/patients/${req.params.id}#consents`);
+  } catch (err) {
+    console.error("Consent upload error:", err);
+    req.flash("error", "Failed to upload consent / report");
+    res.redirect(`/patients/${req.params.id}#consents`);
+  }
+});
+// PRINT (simple printable view)
+app.get("/patients/:id/print", async (req, res, next) => {
+  try {
+    const patient = await Patient.findById(req.params.id);
+    const visits = await Visit.find({ patient: patient._id }).sort({ visitDate: -1 });
+    res.render("patients/print", { patient, visits });
+  } catch (e) { next(e); }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // logout
 app.get("/logout",(req,res,next)=>{
   req.logout((err) =>{
@@ -262,46 +329,115 @@ app.get("/listings/new1",(req,res)=>{
 })
 
 
-// sign up form
+//sign up form
 app.get("/signup",(req,res)=>{
    res.render("users/signup.ejs")
 })
 
-app.post("/signup",async(req,res)=>{
-   console.log("🔥 POST /signup hit");
-  console.log("📦 req.body =", req.body);
-  try{
-    let{username , email , password} = req.body
-      console.log("📩 Signup Request Received:", username, email);
-  const newUser = new User ({email,username})
-  const registeredUser = await User.register(newUser , password)
-  // console.log(registeredUser);
-  req.login(registeredUser,(err)=>{
-    if (err) {
-      return next(err);
-    }
-    req.flash("success","user was registered sucessfully")
-  res.redirect("/listings")
-  })
+// app.post("/signup",async(req,res)=>{
+//    console.log("🔥 POST /signup hit");
+//   console.log("📦 req.body =", req.body);
+//   try{
+//     let{username , email , password} = req.body
+//       console.log("📩 Signup Request Received:", username, email);
+//   const newUser = new User ({email,username})
+//   const registeredUser = await User.register(newUser , password)
+//   // console.log(registeredUser);
+
+
+
+//   req.login(registeredUser,(err)=>{
+//     if (err) {
+//       return next(err);
+//     }
+//     req.flash("success","user was registered sucessfully")
+//   res.redirect("/listings")
+//   })
   
   
+//   }
+//   catch(err){
+//     req.flash("error",err.message)
+//     res.redirect("/signup")
+//   }
+// })
+
+
+
+
+
+
+
+
+app.post("/signup", async (req, res, next) => {
+  console.log("🔥 POST /signup hit");
+  try {
+    let { username, email, password } = req.body;
+
+    const newUser = new User({ email, username });
+    const registeredUser = await User.register(newUser, password);
+    console.log("✅ User registered:", registeredUser._id);
+
+    // Patient record
+    await Patient.create({
+      opid: registeredUser._id.toString(),
+      _id: registeredUser._id,
+      name: username,
+      email: email
+    });
+    console.log("✅ Patient created");
+
+    // login user
+    req.login(registeredUser, (err) => {
+      if (err) {
+        console.error("❌ req.login failed:", err);
+        req.flash("error", "Login failed, try logging in manually");
+        return res.redirect("/login");
+      }
+      console.log("✅ req.login success, redirecting...");
+      req.flash("success", "User was registered successfully");
+      return res.redirect("/listings");
+    });
+
+  } catch (err) {
+    console.error("❌ Signup error:", err);
+    req.flash("error", err.message);
+    res.redirect("/signup");
   }
-  catch(err){
-    req.flash("error",err.message)
-    res.redirect("/signup")
-  }
-})
+});
+
+
 
 // login form 
 app.get("/login",(req,res)=>{
   res.render("users/login.ejs")
 })
 
-app.post("/login", saveRedirectUrl ,passport.authenticate("local",{ failureRedirect : "/login" , failureFlash : true}),async(req,res)=>{
-    req.flash("success","Welcome to HealthMed!")
-    let redirectUrl = res.locals.redirectUrl || "/listings"
-    res.redirect(redirectUrl)
-})
+// app.post("/login", saveRedirectUrl ,passport.authenticate("local",{ failureRedirect : "/login" , failureFlash : true}),async(req,res)=>{
+//     req.flash("success","Welcome to HealthMed!")
+//     let redirectUrl = res.locals.redirectUrl || "/listings"
+//     res.redirect(redirectUrl)
+// })
+app.post("/login",
+  saveRedirectUrl,
+  passport.authenticate("local", { failureRedirect: "/login", failureFlash: true }),
+  async (req, res) => {
+    // ✅ Ensure Patient exists
+    let patient = await Patient.findById(req.user._id);
+    if (!patient) {
+      patient = await Patient.create({
+        _id: req.user._id,
+         opid: req.user._id.toString(),
+        name: req.user.username,
+        email: req.user.email
+      });
+    }
+
+    req.flash("success", "Welcome to HealthMed!");
+    let redirectUrl = res.locals.redirectUrl || `/patients/${req.user._id}`;
+    res.redirect(redirectUrl);
+  }
+);
 
 
 
@@ -765,6 +901,18 @@ app.get("/videocall", (req, res) => {
 });
 
 
+
+// //new
+// // Show patient form
+// app.get("/patients/new", (req, res) => {
+//   res.render("patients/new");
+// });
+
+// // Show patient dashboard
+// app.get("/patients/:id", (req, res) => {
+//   // later you can fetch from DB, for now just render view
+//   res.render("patients/dashboard");
+// });
 
 
 

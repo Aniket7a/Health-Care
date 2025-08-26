@@ -802,6 +802,8 @@
 
 
 
+
+
     <style>
     :root {
         --primary: #1a73e8;
@@ -1499,6 +1501,11 @@
 
 
 
+<% if (currUser) { %>
+  <a href="/patients/<%= currUser._id %>">My Dashboard</a>
+<% } else { %>
+  <a href="/login">Login</a>
+<% } %>
 
 
 
@@ -1759,7 +1766,99 @@
 
 
 
+<section class="health-record-banner">
+  <% if (currUser) { %>
+    <div class="banner-content">
+      <div class="text-section">
+        <h1>Your Health Records</h1>
+        <p>Access and manage your medical history, appointments, prescriptions, and lab results all in one place.</p>
+        <a href="/patients/<%= currUser._id %>/dashboard" class="btn-primary">View Dashboard</a>
+      </div>
+      <div class="image-section">
+        <img src="https://www.shutterstock.com/shutterstock/photos/1404144374/display_1500/stock-vector-online-medical-consultation-and-support-set-online-doctor-healthcare-services-ask-a-doctor-1404144374.jpg" alt="Doctor reviewing records" />
+      </div>
+    </div>
+  <% } else { %>
+    <div class="login-prompt-banner">
+      <p>Please log in to access your health records.</p>
+      <a href="/login" class="btn-primary">Login</a>
+    </div>
+  <% } %>
+</section>
+<style>
+  .health-record-banner {
+  background-color: #003399; /* primary blue from your site */
+  background-image: url('/images/pattern-grid.svg'); /* keep pattern if you want */
+  background-repeat: no-repeat;
+  background-position: left top;
+  color: white;
+  border-radius: 12px;
+  padding: 40px 30px;
+  max-width: 900px;
+  margin: 30px auto;
+  box-shadow: 0 8px 20px rgba(0, 51, 153, 0.4);
+  font-family: 'Poppins', sans-serif;
+}
 
+.banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.text-section h1 {
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.text-section p {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  line-height: 1.4;
+  max-width: 500px;
+}
+
+.btn-primary {
+  background-color: white;
+  color: #003399; /* primary blue */
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  box-shadow: 0 5px 12px rgba(255, 255, 255, 0.3);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #002d99; /* darker accent */
+  color: white;
+}
+
+.image-section img {
+  max-width: 240px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive for smaller devices */
+@media (max-width: 768px) {
+  .banner-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .image-section img {
+    max-width: 180px;
+    margin-top: 20px;
+  }
+  .text-section p {
+    max-width: 100%;
+  }
+}
+
+</style>
 
 
 

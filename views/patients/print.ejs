@@ -1,0 +1,15 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><title>Patient Visits</title>
+<style>body{font-family:system-ui,Arial;margin:24px} h2{margin:0} hr{margin:12px 0} .item{margin:10px 0}</style>
+</head><body>
+<h2><%= patient.fullName %> (OPID: <%= patient.opid %>)</h2>
+<div>Gender: <%= patient.gender %> | Blood: <%= patient.bloodGroup %> | Age: <%= patient.age ?? '-' %></div>
+<hr/>
+<% visits.forEach(v=> { %>
+  <div class="item">
+    <strong><%= moment(v.visitDate).format("DD/MM/YYYY") %></strong> — <%= v.doctorName %> (<%= v.department %>)<br/>
+    <%= v.summary || '' %>
+  </div>
+<% }) %>
+<script>window.print()</script>
+</body></html>
