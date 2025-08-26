@@ -434,7 +434,7 @@ app.post("/login",
     }
 
     req.flash("success", "Welcome to HealthMed!");
-    let redirectUrl = res.locals.redirectUrl || `/patients/${req.user._id}`;
+    let redirectUrl = res.locals.redirectUrl || `/listings`;
     res.redirect(redirectUrl);
   }
 );
