@@ -268,6 +268,131 @@ app.get("/patients/:id/print", async (req, res, next) => {
 
 
 
+const Pharmacy = require("./models/Pharmacy");
+const Medicine = require("./models/Medicine");
+
+// ====== SESSION ======
+app.use(session({
+  secret: "secretkey",
+  resave: false,
+  saveUninitialized: true
+}));
+// ====== Pharmacy Signup ======
+app.get("/pharmacy/signup", (req, res) => {
+  res.render("pharmacy_signup");
+});
+
+app.post("/pharmacy/signup", async (req, res) => {
+  const { name, email, password, address } = req.body;
+  
+  // check if email already exists
+  const existing = await Pharmacy.findOne({ email });
+  if (existing) {
+    return res.send("Pharmacy already registered with this email.");
+  }
+
+  const newPharmacy = new Pharmacy({ name, email, password, address });
+  await newPharmacy.save();
+  res.redirect("/pharmacy/login");
+
+});
+
+
+// ====== Pharmacy Login (demo only, no hashing) ======
+app.get("/pharmacy/login", (req, res) => {
+  res.render("pharmacy_login");
+});
+
+app.post("/pharmacy/login", async (req, res) => {
+  const { email, password } = req.body;
+  const pharmacy = await Pharmacy.findOne({ email, password });
+  if (pharmacy) {
+    req.session.pharmacyId = pharmacy._id;
+    res.redirect("/pharmacy/dashboard");
+  } else {
+    res.send("Invalid credentials");
+  }
+});
+
+
+// ====== Pharmacy Dashboard ======
+app.get("/pharmacy/dashboard", async (req, res) => {
+  if (!req.session.pharmacyId) return res.redirect("/pharmacy/login");
+
+  const medicines = await Medicine.find({ pharmacyId: req.session.pharmacyId });
+  res.render("pharmacy_dashboard", { medicines });
+});
+
+app.post("/pharmacy/add", async (req, res) => {
+  if (!req.session.pharmacyId) return res.redirect("/pharmacy/login");
+
+  const med = new Medicine({
+    ...req.body,
+    pharmacyId: req.session.pharmacyId
+  });
+  await med.save();
+  res.redirect("/pharmacy/dashboard");
+});
+
+
+// ====== Pharmacy Edit Medicine ======
+// show edit form
+app.get("/pharmacy/edit/:id", async (req, res) => {
+  if (!req.session.pharmacyId) return res.redirect("/pharmacy/login");
+
+  const medicine = await Medicine.findOne({ 
+    _id: req.params.id, 
+    pharmacyId: req.session.pharmacyId 
+  });
+
+  if (!medicine) return res.send("Medicine not found or unauthorized");
+
+  res.render("pharmacy_edit", { medicine });
+});
+
+// handle update
+app.post("/pharmacy/edit/:id", async (req, res) => {
+  if (!req.session.pharmacyId) return res.redirect("/pharmacy/login");
+
+  await Medicine.findOneAndUpdate(
+    { _id: req.params.id, pharmacyId: req.session.pharmacyId },
+    { ...req.body, lastUpdated: Date.now() }
+  );
+
+  res.redirect("/pharmacy/dashboard");
+});
+
+
+// ====== Patients View All Pharmacies ======
+app.get("/pharmacies", async (req, res) => {
+  const pharmacies = await Pharmacy.find();
+  res.render("pharmacies_list", { pharmacies });
+});
+
+// ====== Patient View One Pharmacy ======
+app.get("/pharmacy/:id", async (req, res) => {
+  const pharmacy = await Pharmacy.findById(req.params.id);
+  res.render("pharmacy_detail", { pharmacy });
+});
+
+// ====== Patient View Medicines of Pharmacy ======
+app.get("/pharmacy/:id/medicines", async (req, res) => {
+  const pharmacy = await Pharmacy.findById(req.params.id);
+  const medicines = await Medicine.find({ pharmacyId: req.params.id });
+  res.render("pharmacy_medicines", { pharmacy, medicines });
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

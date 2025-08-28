@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ayuvaani Pharmacy Registration</title>
+  <style>
+    :root {
+      --primary: #0b5aa6;
+      --secondary: #f1f5f9;
+      --accent: #e6eef8;
+      --text: #1f2937;
+      --border: #cbd5e1;
+      --card-radius: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--secondary);
+    }
+
+    /* Navbar */
+    nav {
+      width: 100%;
+      background-color: var(--primary);
+      padding: 1rem 2rem;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: bold;
+      font-size: 1.4rem;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      transition: opacity 0.3s;
+    }
+
+    nav a:hover {
+      opacity: 0.8;
+    }
+
+    /* Header Slogan */
+    .header-slogan {
+      text-align: center;
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    /* Wrapper for form and image */
+    .signup-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 40px auto;
+      background-color: #fff;
+      border-radius: var(--card-radius);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      max-width: 900px;
+      overflow: hidden;
+    }
+
+    .signup-container {
+      flex: 1;
+      padding: 50px 40px;
+    }
+
+    .signup-container h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .signup-container p.slogan {
+      text-align: center;
+      color: var(--text);
+      font-size: 1rem;
+      margin-bottom: 30px;
+      opacity: 0.8;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    input {
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 6px rgba(11, 90, 166, 0.3);
+      outline: none;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: #fff;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #074080;
+      transform: translateY(-2px);
+    }
+
+    .signup-image {
+      flex: 1;
+      background-color: var(--accent);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .signup-image img {
+      max-width: 100%;
+      border-radius: var(--card-radius);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Responsive design */
+    @media (max-width: 900px) {
+      .signup-wrapper {
+        flex-direction: column;
+        margin: 20px;
+      }
+
+      .signup-image {
+        margin-top: 20px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .signup-container {
+        padding: 25px;
+      }
+
+      .signup-container h2 {
+        font-size: 1.5rem;
+      }
+
+      .signup-container p.slogan {
+        font-size: 0.9rem;
+      }
+
+      input, button {
+        padding: 12px;
+        font-size: 0.95rem;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav .nav-links {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">
+      Ayuvaani
+    </div>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/pharmacy/login">Login</a>
+    </div>
+  </nav>
+
+  <!-- Header Slogan -->
+  <div class="header-slogan">
+    Empowering Indian Healthcare — Secure Access for Registered Pharmacies
+  </div>
+
+  <!-- Signup Form and Image -->
+  <div class="signup-wrapper">
+    <div class="signup-container">
+      <h2>Ayuvaani Pharmacy Portal</h2>
+      <p class="slogan">Register Your Pharmacy to Access Official Services</p>
+      <form method="POST" action="/pharmacy/signup">
+        <input type="text" name="name" placeholder="Pharmacy Name" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <input type="text" name="address" placeholder="Address" required />
+        <button type="submit">Signup</button>
+      </form>
+    </div>
+
+    <div class="signup-image">
+      <img src="https://media.istockphoto.com/id/2193433722/photo/portrait-of-senior-pharmacist-holding-a-digital-prescription-on-smart-phone-stock-photo.jpg?s=2048x2048&w=is&k=20&c=jyslZeN4OKsy7zNAyC9k3Z-RGPl0hCgo_RSz-zgZnSA=" alt="Empowering Indian Healthcare">
+    </div>
+  </div>
+</body>
+</html>

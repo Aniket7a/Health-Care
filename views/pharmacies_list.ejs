@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ayuvaani - Store Locator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f7fafc; }
+  </style>
+</head>
+<body class="antialiased text-gray-800">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-white shadow-md">
+    <div class="container mx-auto p-4 flex items-center justify-between">
+      <div class="flex items-center space-x-6">
+        <div class="flex items-center space-x-2">
+          <img src="https://placehold.co/40x40/0c4a6e/e0f2fe?text=A" alt="Ayuvaani Logo" class="h-10">
+          <span id="brand-name" class="text-xl font-bold text-gray-900">Ayuvaani</span>
+        </div>
+        <div class="flex items-center space-x-1 text-gray-600">
+          <i class="fas fa-map-marker-alt text-blue-600"></i>
+          <span id="deliver-text">Delivering to</span>
+          <span id="enter-pin" class="font-medium hover:text-blue-600 cursor-pointer">
+            Enter pincode <i class="fas fa-caret-down"></i>
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-6">
+        <!-- 🌐 Language Switcher -->
+        <a href="#" class="text-gray-600 hover:text-blue-600 lang-select" data-lang="en">
+          <i class="fas fa-globe"></i> English
+        </a>
+        <a href="#" class="text-gray-600 hover:text-blue-600 lang-select" data-lang="hi">हिंदी</a>
+        <a href="#" class="text-gray-600 hover:text-blue-600 lang-select" data-lang="pa">ਪੰਜਾਬੀ</a>
+
+        <a href="#" id="cart" class="text-gray-600 hover:text-blue-600">
+          <i class="fas fa-shopping-cart"></i> Cart
+        </a>
+        <a href="/signin" id="signin" class="text-gray-600 hover:text-blue-600">
+          <i class="fas fa-user"></i> Sign in
+        </a>
+      </div>
+    </div>
+    <nav class="bg-white border-t border-gray-200">
+      <div class="container mx-auto flex justify-center space-x-8 py-3 text-gray-700 font-medium text-sm">
+        <a href="/" id="nav-home" class="hover:text-blue-600">Home</a>
+        <a href="/medicines" id="nav-medicines" class="hover:text-blue-600">Medicines</a>
+        <a href="/lab-tests" id="nav-lab" class="hover:text-blue-600">Lab tests</a>
+        <a href="/locator" id="nav-locator" class="text-blue-600 font-semibold border-b-2 border-blue-600 pb-2">Store Locator</a>
+        <a href="/compare" id="nav-compare" class="hover:text-blue-600">Compare Medicines</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+    <h1 id="page-title" class="text-2xl font-bold text-gray-900 mb-6 text-center">
+      Find Your Nearest Ayuvaani Pharmacy Store
+    </h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Left: Search + List -->
+      <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col space-y-4">
+        <div class="relative">
+          <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <input id="search-placeholder" type="text"
+                 placeholder="Search from 100+ Stores all over India"
+                 class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <% if (pharmacies.length === 0) { %>
+          <p id="no-pharmacies" class="text-center text-gray-500 italic text-lg mt-4">No pharmacies found.</p>
+        <% } else { %>
+          <ul class="space-y-4 overflow-y-auto max-h-[400px]">
+            <% pharmacies.forEach(pharmacy => { %>
+              <li class="bg-gray-50 rounded-lg p-4 transition duration-300 hover:bg-gray-100 border border-gray-200">
+                <div class="flex items-start space-x-3">
+                  <i class="fas fa-store text-blue-600 text-lg mt-1"></i>
+                  <div class="min-w-0">
+                    <h3 class="text-lg font-semibold truncate"><%= pharmacy.name %></h3>
+                    <p class="text-sm text-gray-600 mt-1"><%= pharmacy.address %></p>
+                    <p class="text-sm text-gray-500 mt-1">
+                      <span id="status-label">Status:</span>
+                      <% if (pharmacy.isOpen) { %>
+                        <span class="text-green-600 font-semibold" id="status-open">Open</span>
+                      <% } else { %>
+                        <span class="text-red-600 font-semibold" id="status-closed">Closed</span>
+                      <% } %>
+                    </p>
+                  </div>
+                </div>
+
+                <!-- View buttons -->
+                <div class="mt-4 flex flex-wrap gap-2">
+                  <a href="/pharmacy/<%= pharmacy._id %>"
+                     id="view-shop"
+                     class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-slate-700 text-white hover:bg-slate-800">
+                    View Shop
+                  </a>
+                  <a href="/pharmacy/<%= pharmacy._id %>/medicines"
+                     id="view-medicines"
+                     class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+                    View Medicines
+                  </a>
+                </div>
+              </li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </div>
+
+      <!-- Right: Map -->
+      <div class="relative bg-gray-200 rounded-2xl shadow-lg overflow-hidden flex items-center justify-center p-4">
+        <iframe
+          id="pharmacy-map"
+          src="https://www.google.com/maps?q=30.3755,76.1431&hl=en&z=14&output=embed"
+          width="100%"
+          height="100%"
+          style="border:0;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="w-full h-[500px] rounded-xl">
+        </iframe>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-300 py-8 mt-12">
+    <div class="container mx-auto text-center text-sm">
+      <p id="footer">&copy; 2025 Ayuvaani. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Language Switcher Script -->
+  <script>
+    const translations = {
+      en: {
+        brand: "Ayuvaani",
+        deliver: "Delivering to",
+        enterPin: "Enter pincode",
+        cart: "Cart",
+        signin: "Sign in",
+        navHome: "Home",
+        navMedicines: "Medicines",
+        navLab: "Lab tests",
+        navLocator: "Store Locator",
+        navCompare: "Compare Medicines",
+        title: "Find Your Nearest Ayuvaani Pharmacy Store",
+        search: "Search from 100+ Stores all over India",
+        noPharmacies: "No pharmacies found.",
+        status: "Status:",
+        open: "Open",
+        closed: "Closed",
+        viewShop: "View Shop",
+        viewMeds: "View Medicines",
+        footer: "© 2025 Ayuvaani. All rights reserved."
+      },
+      hi: {
+        brand: "आयुवाणी",
+        deliver: "डिलीवर हो रहा है",
+        enterPin: "पिनकोड दर्ज करें",
+        cart: "कार्ट",
+        signin: "साइन इन करें",
+        navHome: "होम",
+        navMedicines: "दवाइयाँ",
+        navLab: "लैब टेस्ट",
+        navLocator: "स्टोर लोकेटर",
+        navCompare: "दवाइयों की तुलना करें",
+        title: "अपना नजदीकी आयुवाणी फार्मेसी स्टोर खोजें",
+        search: "पूरे भारत में 100+ स्टोर्स से खोजें",
+        noPharmacies: "कोई फार्मेसी नहीं मिली।",
+        status: "स्थिति:",
+        open: "खुला",
+        closed: "बंद",
+        viewShop: "दुकान देखें",
+        viewMeds: "दवाइयाँ देखें",
+        footer: "© 2025 आयुवाणी। सर्वाधिकार सुरक्षित।"
+      },
+      pa: {
+        brand: "ਆਯੁਵਾਣੀ",
+        deliver: "ਡਿਲਿਵਰੀ ਲਈ",
+        enterPin: "ਪਿਨਕੋਡ ਦਾਖਲ ਕਰੋ",
+        cart: "ਕਾਰਟ",
+        signin: "ਸਾਇਨ ਇਨ",
+        navHome: "ਮੁੱਖ",
+        navMedicines: "ਦਵਾਈਆਂ",
+        navLab: "ਲੈਬ ਟੈਸਟ",
+        navLocator: "ਸਟੋਰ ਲੋਕੇਟਰ",
+        navCompare: "ਦਵਾਈਆਂ ਦੀ ਤੁਲਨਾ ਕਰੋ",
+        title: "ਆਪਣੇ ਨੇੜਲੇ ਆਯੁਵਾਣੀ ਫਾਰਮੇਸੀ ਸਟੋਰ ਨੂੰ ਲੱਭੋ",
+        search: "ਭਾਰਤ ਭਰ ਵਿੱਚ 100+ ਸਟੋਰਾਂ ਵਿੱਚੋਂ ਖੋਜੋ",
+        noPharmacies: "ਕੋਈ ਫਾਰਮੇਸੀ ਨਹੀਂ ਮਿਲੀ।",
+        status: "ਸਥਿਤੀ:",
+        open: "ਖੁੱਲ੍ਹਾ",
+        closed: "ਬੰਦ",
+        viewShop: "ਦੁਕਾਨ ਵੇਖੋ",
+        viewMeds: "ਦਵਾਈਆਂ ਵੇਖੋ",
+        footer: "© 2025 ਆਯੁਵਾਣੀ। ਸਭ ਹੱਕ ਰਾਖਵੇਂ ਹਨ।"
+      }
+    };
+
+    const langLinks = document.querySelectorAll(".lang-select");
+    const mapEl = document.getElementById("pharmacy-map");
+
+    langLinks.forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        const lang = link.dataset.lang;
+        const t = translations[lang];
+
+        // Update all labels
+        document.getElementById("brand-name").textContent = t.brand;
+        document.getElementById("deliver-text").textContent = t.deliver;
+        document.getElementById("enter-pin").innerHTML = t.enterPin + ' <i class="fas fa-caret-down"></i>';
+        document.getElementById("cart").innerHTML = '<i class="fas fa-shopping-cart"></i> ' + t.cart;
+        document.getElementById("signin").innerHTML = '<i class="fas fa-user"></i> ' + t.signin;
+
+        document.getElementById("nav-home").textContent = t.navHome;
+        document.getElementById("nav-medicines").textContent = t.navMedicines;
+        document.getElementById("nav-lab").textContent = t.navLab;
+        document.getElementById("nav-locator").textContent = t.navLocator;
+        document.getElementById("nav-compare").textContent = t.navCompare;
+
+        document.getElementById("page-title").textContent = t.title;
+        document.getElementById("search-placeholder").placeholder = t.search;
+
+        const noPharmacies = document.getElementById("no-pharmacies");
+        if (noPharmacies) noPharmacies.textContent = t.noPharmacies;
+
+        document.getElementById("status-label").textContent = t.status;
+        const openEl = document.getElementById("status-open");
+        if (openEl) openEl.textContent = t.open;
+        const closedEl = document.getElementById("status-closed");
+        if (closedEl) closedEl.textContent = t.closed;
+
+        document.getElementById("view-shop").textContent = t.viewShop;
+        document.getElementById("view-medicines").textContent = t.viewMeds;
+        document.getElementById("footer").textContent = t.footer;
+
+        // Update map language
+        mapEl.src = `https://www.google.com/maps?q=30.3755,76.1431&hl=${lang}&z=14&output=embed`;
+      });
+    });
+  </script>
+
+</body>
+</html>

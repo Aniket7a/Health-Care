@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Medicines — Ayuvaani</title>
+  <style>
+    :root {
+      --brand: #0b5aa6;
+      --accent: #e6eef8;
+      --muted: #6b6f76;
+      --card-bg: #ffffff;
+      --radius: 12px;
+      --gap: 16px;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--muted);
+    }
+
+    body {
+      margin: 0;
+      background: #f4f6f8;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: var(--brand);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .navbar .nav-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .navbar .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .navbar .nav-links a:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* Page wrap */
+    .wrap {
+      max-width: 950px;
+      margin: 24px auto;
+      padding: 20px;
+    }
+
+    h2 {
+      color: var(--brand);
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+
+    /* Form */
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--gap);
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: 0 6px 18px rgba(11,90,166,0.08);
+      margin-bottom: 32px;
+    }
+
+    form label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #333;
+    }
+
+    input, button {
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      font-size: 14px;
+      width: 100%;
+    }
+
+    button {
+      background: var(--brand);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    /* Medicine List */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: var(--card-bg);
+      margin-bottom: 14px;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    li:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+    li strong {
+      color: var(--brand);
+      font-size: 16px;
+    }
+
+    .medicine-info {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: #444;
+      align-items: center;
+    }
+
+    .medicine-info span {
+      min-width: 90px;
+    }
+
+    .medicine-info a {
+      color: var(--brand);
+      font-weight: 600;
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .medicine-info a:hover {
+      background: var(--accent);
+    }
+
+    /* Responsive */
+    @media(max-width: 600px){
+      .medicine-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <h1>Ayuvaani</h1>
+    <div class="nav-links">
+      <a href="/dashboard">Dashboard</a>
+      <a href="/pharmacy/medicines">Medicines</a>
+      <a href="/pharmacy/profile">Profile</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <h2>Add a New Medicine</h2>
+   <form method="POST" action="/pharmacy/add" class="medicine-form">
+  <div class="form-row">
+    <div class="form-group">
+      <label for="name">Medicine Name</label>
+      <input type="text" name="name" id="name" placeholder="Medicine Name" required />
+    </div>
+    <div class="form-group">
+      <label for="manufacturer">Manufacturer</label>
+      <input type="text" name="manufacturer" id="manufacturer" placeholder="Manufacturer" />
+    </div>
+    <div class="form-group">
+      <label for="batchNumber">Batch Number</label>
+      <input type="text" name="batchNumber" id="batchNumber" placeholder="Batch Number" />
+    </div>
+    <div class="form-group">
+      <label for="manufacturingDate">Manufacturing Date</label>
+      <input type="date" name="manufacturingDate" id="manufacturingDate" />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="expiryDate">Expiry Date</label>
+      <input type="date" name="expiryDate" id="expiryDate" required />
+    </div>
+    <div class="form-group">
+      <label for="stock">Stock</label>
+      <input type="number" name="stock" id="stock" placeholder="Stock" required />
+    </div>
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input type="number" name="price" id="price" placeholder="Price" />
+    </div>
+  </div>
+
+  <button type="submit">Add Medicine</button>
+</form>
+
+<style>
+.medicine-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(11,90,166,0.08);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 12px;
+  font-size: 16px;
+  background: #0b5aa6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.2s;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+</style>
+    <h2>Your Medicines</h2>
+    <ul>
+      <% medicines.forEach(med => { %>
+        <li>
+          <strong><%= med.name %></strong>
+          <div class="medicine-info">
+            <span>Stock: <%= med.stock %></span>
+            <span>Price: ₹<%= med.price ? med.price : 'N/A' %></span>
+            <span>Expiry: <%= med.expiryDate ? med.expiryDate.toDateString() : '-' %></span>
+            <a href="/pharmacy/edit/<%= med._id %>">✏️ Edit</a>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+</body>
+</html>

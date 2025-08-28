@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title><%= pharmacy.name %> — Medicines</title>
+  <style>
+    :root{
+      --brand:#0b5aa6;
+      --accent:#e6eef8;
+      --muted:#6b6f76;
+      --card-bg:#ffffff;
+      --radius:12px;
+      font-family:"Segoe UI", Roboto, Arial, sans-serif;
+    }
+    body{margin:0;background:linear-gradient(135deg,#f0f4fa,#e6eef8);color:#333;min-height:100vh}
+    .wrap{max-width:1100px;margin:32px auto;padding:20px}
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(90deg,var(--accent),#fff);padding:18px;border-radius:14px;box-shadow:0 6px 18px rgba(11,90,166,0.08);border-left:6px solid var(--brand)}
+    header h1{margin:0;color:var(--brand);font-size:20px}
+    .lang-select{padding:6px 10px;border-radius:8px;border:1px solid #cfd6de;background:#fff;font-size:14px}
+
+    .card{background:var(--card-bg);padding:20px;border-radius:12px;box-shadow:0 6px 20px rgba(20,24,28,0.05);margin-top:18px}
+
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:12px;text-align:left;border-bottom:1px solid #e5e8eb;font-size:14px}
+    th{background:var(--accent);color:#0b5aa6;font-weight:600;font-size:13px}
+    tr:hover{background:#f9fafc}
+
+    .stock-ok{color:green;font-weight:600}
+    .stock-low{color:#d17d00;font-weight:600}
+    .stock-out{color:#b00020;font-weight:600}
+
+    .pill{background:#f1f4f8;padding:6px 10px;border-radius:999px;font-size:12px}
+    .back{display:inline-block;margin-top:16px;padding:10px 16px;border-radius:8px;background:#fff;border:1px solid #d7dbe0;color:var(--brand);text-decoration:none;font-weight:600}
+
+    @media(max-width:768px){
+      table,thead,tbody,tr,th,td{display:block}
+      thead{display:none}
+      tr{margin-bottom:15px;background:#fafbfd;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+      td{border:none;padding:10px;position:relative}
+      td::before{content:attr(data-label);font-weight:600;color:#0b5aa6;display:block;margin-bottom:4px;font-size:13px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1 id="page-title"><%= pharmacy.name %> — Medicines</h1>
+      <select class="lang-select" id="lang-switch">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+      </select>
+    </header>
+
+    <div class="card">
+      <table id="med-table">
+        <thead>
+          <tr>
+            <th data-key="name">Name</th>
+            <th data-key="manufacturer">Manufacturer</th>
+            <th data-key="batch">Batch</th>
+            <th data-key="expiry">Expiry</th>
+            <th data-key="stock">Stock</th>
+            <th data-key="price">Price</th>
+            <th data-key="lastUpdated">Last Updated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% medicines.forEach(med => { %>
+            <tr>
+              <td data-label="Name"><%= med.name %></td>
+              <td data-label="Manufacturer"><%= med.manufacturer %></td>
+              <td data-label="Batch"><%= med.batchNumber %></td>
+              <td data-label="Expiry"><%= med.expiryDate ? med.expiryDate.toDateString() : "-" %></td>
+              <td data-label="Stock">
+                <% if(med.stock > 20){ %>
+                  <span class="stock-ok">✔ Available (<%= med.stock %>)</span>
+                <% } else if(med.stock > 0){ %>
+                  <span class="stock-low">⚠ Limited (<%= med.stock %>)</span>
+                <% } else { %>
+                  <span class="stock-out">❌ Out of stock</span>
+                <% } %>
+              </td>
+              <td data-label="Price"><%= med.price ? `₹${med.price}` : "N/A" %></td>
+              <td data-label="Last Updated"><%= med.lastUpdated.toLocaleString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <a href="/pharmacy/<%= pharmacy._id %>" class="back">← Back to Pharmacy</a>
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        pageTitle: "Medicines",
+        name: "Name",
+        manufacturer: "Manufacturer",
+        batch: "Batch",
+        expiry: "Expiry",
+        stock: "Stock",
+        price: "Price",
+        lastUpdated: "Last Updated"
+      },
+      hi: {
+        pageTitle: "दवाइयाँ",
+        name: "नाम",
+        manufacturer: "निर्माता",
+        batch: "बैच",
+        expiry: "समाप्ति",
+        stock: "स्टॉक",
+        price: "कीमत",
+        lastUpdated: "आखिरी अपडेट"
+      },
+      pa: {
+        pageTitle: "ਦਵਾਈਆਂ",
+        name: "ਨਾਮ",
+        manufacturer: "ਨਿਰਮਾਤਾ",
+        batch: "ਬੈਚ",
+        expiry: "ਮਿਆਦ",
+        stock: "ਸਟਾਕ",
+        price: "ਕੀਮਤ",
+        lastUpdated: "ਆਖਰੀ ਅੱਪਡੇਟ"
+      }
+    };
+
+    const langSwitch = document.getElementById('lang-switch');
+    const tableHeaders = document.querySelectorAll('#med-table thead th');
+    const pageTitle = document.getElementById('page-title');
+
+    langSwitch.addEventListener('change', (e) => {
+      const lang = e.target.value;
+      const t = translations[lang];
+
+      pageTitle.innerText = `<%= pharmacy.name %> — ${t.pageTitle}`;
+      tableHeaders.forEach(th => {
+        const key = th.dataset.key;
+        th.innerText = t[key];
+      });
+    });
+  </script>
+</body>
+</html>
