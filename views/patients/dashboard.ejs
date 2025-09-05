@@ -1,594 +1,550 @@
-
-
-
+<!-- Add these navigation links to your existing navbar/header -->
+<!-- This goes in your main layout file (like views/layouts/boilerplate.ejs) -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zoho for Healthcare</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-        :root {
-            --primary: #006093;
-            --primary-light: #e8f4ff;
-            --secondary: #4CAF50;
-            --danger: #dc3545;
-            --warning: #ffc107;
-            --light-gray: #f8f9fa;
-            --medium-gray: #e9ecef;
-            --dark-gray: #6c757d;
-            --text-dark: #212529;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-        
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: #f5f7f9;
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-        
-        .container-fluid {
-            padding: 1.5rem;
-        }
-        
-        /* Card styling */
-        .card {
-            border: none;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            margin-bottom: 1.5rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-        }
-        
-        .card-header {
-            background-color: white;
-            border-bottom: 1px solid var(--medium-gray);
-            padding: 1rem 1.25rem;
-            font-weight: 600;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .card-body {
-            padding: 1.25rem;
-        }
-        
-        /* Button styling */
-        .btn {
-            border-radius: 6px;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
-        }
-        
-        .btn-primary:hover {
-            background-color: #004a75;
-            border-color: #004a75;
-        }
-        
-        .btn-success {
-            background-color: var(--secondary);
-            border-color: var(--secondary);
-        }
-        
-        .btn-outline-primary {
-            color: var(--primary);
-            border-color: var(--primary);
-        }
-        
-        .btn-outline-primary:hover {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .btn-sm {
-            padding: 0.25rem 0.75rem;
-            font-size: 0.8125rem;
-        }
-        
-        /* Patient profile */
-        .avatar-lg {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .patient-info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.75rem;
-        }
-        
-        .info-item {
-            padding: 0.5rem 0;
-        }
-        
-        .info-label {
-            font-size: 0.75rem;
-            color: var(--dark-gray);
-            margin-bottom: 0.25rem;
-        }
-        
-        /* Alert styling */
-        .alert-indicator {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: var(--danger);
-            border-radius: 50%;
-            margin-right: 0.5rem;
-        }
-        
-        /* List items */
-        .list-group-item {
-            border: none;
-            border-bottom: 1px solid var(--medium-gray);
-            padding: 1rem;
-        }
-        
-        .list-group-item:last-child {
-            border-bottom: none;
-        }
-        
-        /* Badges */
-        .badge {
-            font-weight: 500;
-            padding: 0.35em 0.65em;
-        }
-        
-        .badge-light {
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-        }
-        
-        /* Tabs */
-        .nav-tabs {
-            border-bottom: 1px solid var(--medium-gray);
-        }
-        
-        .nav-tabs .nav-link {
-            border: none;
-            color: var(--dark-gray);
-            font-weight: 500;
-            padding: 0.75rem 1rem;
-            border-bottom: 3px solid transparent;
-        }
-        
-        .nav-tabs .nav-link.active {
-            color: var(--primary);
-            background-color: transparent;
-            border-bottom: 3px solid var(--primary);
-        }
-        
-        .nav-tabs .nav-link:hover {
-            border-color: transparent;
-            color: var(--primary);
-        }
-        
-        /* Tables */
-        .table {
-            color: var(--text-dark);
-        }
-        
-        .table th {
-            font-weight: 600;
-            color: var(--dark-gray);
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-top: none;
-        }
-        
-        .table td {
-            padding: 0.75rem;
-            vertical-align: middle;
-            border-color: var(--medium-gray);
-        }
-        
-        /* Form elements */
-        .form-control, .form-select {
-            border-radius: 6px;
-            padding: 0.5rem 0.75rem;
-            border: 1px solid #ced4da;
-            font-size: 0.875rem;
-        }
-        
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 0.2rem rgba(0, 96, 147, 0.25);
-        }
-        
-        .form-label {
-            font-weight: 500;
-            color: var(--dark-gray);
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-        }
-        
-        /* Consent tiles */
-        .consent-tile {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: inherit;
-            padding: 1.5rem 1rem;
-            border: 2px dashed var(--medium-gray);
-            border-radius: var(--border-radius);
-            transition: all 0.2s ease;
-            height: 100%;
-        }
-        
-        .consent-tile:hover {
-            background-color: var(--primary-light);
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-        
-        .consent-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.75rem;
-            color: var(--primary);
-        }
-        
-        .consent-name {
-            font-size: 0.875rem;
-            font-weight: 500;
-            text-align: center;
-            margin-bottom: 0.25rem;
-        }
-        
-        .consent-date {
-            font-size: 0.75rem;
-            color: var(--dark-gray);
-        }
-        
-        /* Medical alert list */
-        .alert-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .alert-item {
-            display: flex;
-            align-items: center;
-            padding: 0.5rem 0;
-        }
-        
-        /* Emergency contacts */
-        .contact-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid var(--medium-gray);
-        }
-        
-        .contact-item:last-child {
-            border-bottom: none;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 992px) {
-            .patient-info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .container-fluid {
-                padding: 1rem;
-            }
-            
-            .card-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .nav-tabs .nav-link {
-                padding: 0.5rem;
-                font-size: 0.8125rem;
-            }
-        }
-        
-        /* Custom utilities */
-        .text-small {
-            font-size: 0.875rem;
-        }
-        
-        .text-smaller {
-            font-size: 0.75rem;
-        }
-        
-        .fw-medium {
-            font-weight: 500;
-        }
-        
-        .section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= patient.name %> — Patient Health Dashboard</title>
+
+  <!-- UX4G Design System (frontend-only; safe to include) -->
+  <link href="https://cdn.jsdelivr.net/npm/@ux4g/design-system@1.0.0/dist/ux4g.min.css" rel="stylesheet">
+
+  <!-- Bootstrap (kept for your existing layout & components) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+  <!-- Charts (kept: your analytics visualisations) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Accessibility: prefers-reduced-motion -->
+  <style>
+    :root{
+      --goi-blue:#002F6C;
+      --goi-green:#138808;
+      --brand-on:#ffffff;
+      --muted:#6b7280;
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --focus:#ffcc33; /* visible focus for WCAG 2.1 AA */
+    }
+    html:focus-within { scroll-behavior: smooth; }
+    body{ background:var(--bg); color:#111827; }
+    a:focus, button:focus, [role="button"]:focus, .form-control:focus{
+      outline:3px solid var(--focus)!important; outline-offset:2px!important; box-shadow:none!important;
+    }
+
+    /* Skip link */
+    .skip-link{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .skip-link:focus{ position:static; width:auto; height:auto; padding:.5rem 1rem; background:#fff; border:2px solid var(--goi-blue); z-index:10000; }
+
+    /* Header */
+    .gov-header{
+      background: var(--goi-blue);
+      color: var(--brand-on);
+    }
+    .gov-strip{ background: var(--goi-green); height:6px; }
+
+    /* Shell layout */
+    .app-shell{ display:grid; grid-template-columns: 280px 1fr; gap:1.25rem; }
+    @media (max-width: 992px){ .app-shell{ grid-template-columns: 1fr; } }
+
+    /* Sidebar */
+    .sidebar{
+      background: var(--card);
+      border:1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1rem;
+    }
+    .sidebar .nav-link{
+      color:#111827; border-radius:10px; padding:.6rem .8rem; font-weight:500;
+    }
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active{
+      background: rgba(0,47,108,.08);
+      color: var(--goi-blue);
+    }
+
+    /* Cards */
+    .card-clean{
+      background: var(--card);
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+    }
+    .card-clean .card-header{
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    /* Stat chips (solid, no fancy gradients) */
+    .chip{
+      display:inline-flex; align-items:center; gap:.5rem;
+      padding:.35rem .6rem; border-radius:999px; font-size:.85rem; font-weight:600;
+    }
+    .chip-blue{ background:#e6eef9; color:#0b4a9e; }
+    .chip-green{ background:#e8f5ec; color:#0f7a2d; }
+    .chip-amber{ background:#fff3cd; color:#8a6d00; }
+    .chip-gray{ background:#f3f4f6; color:#374151; }
+
+    /* Map placeholder */
+    .map-ph{
+      height: 180px; border:1px dashed #cbd5e1; border-radius:10px;
+      display:flex; align-items:center; justify-content:center; color:#6b7280; background:#fafafa;
+    }
+
+    /* High-contrast / font-size toggle */
+    .accessibility-high-contrast body, body.high-contrast{
+      background:#000 !important; color:#fff !important;
+    }
+    .accessibility-high-contrast .card-clean, body.high-contrast .card-clean{
+      background:#111 !important; border-color:#444 !important;
+    }
+    .fs-large{ font-size: 112.5%; }
+    .fs-xlarge{ font-size: 125%; }
+
+    /* Data tables for readability */
+    .table thead th{ background:#f8fafc; color:#111827; }
+  </style>
 </head>
+
 <body>
-    <!-- Your existing HTML structure remains exactly the same -->
-    <div class="container-fluid py-3">
-        <!-- Top Nav Buttons -->
-        <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
-            <h4 class="mb-0 me-auto fw-semibold">Patient</h4>
-            <a class="btn btn-outline-secondary btn-sm" href="/patients/<%= patient._id %>/print" target="_blank">Print Visit</a>
-            <form class="d-inline" action="/patients/<%= patient._id %>/consents" method="post" enctype="multipart/form-data">
-                <label class="btn btn-outline-primary btn-sm mb-0">
-                    Upload Consent <input type="file" name="file" accept=".png,.jpg,.jpeg,.pdf" hidden onchange="this.form.submit()">
-                </label>
-            </form>
-            <a class="btn btn-primary btn-sm" href="#newVisitModal" data-bs-toggle="modal">Create Visit</a>
-            <a class="btn btn-success btn-sm" href="#newApptModal" data-bs-toggle="modal">New Appointment</a>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div class="gov-strip" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header class="gov-header py-3">
+    <div class="container-fluid">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-3">
+          
+          <div>
+            <h1 class="h4 mb-0">Ayuvaani — Patient Health Dashboard</h1>
+            <p class="mb-0 small">Government of India • Ayushman Bharat Digital Mission</p>
+          </div>
         </div>
 
-        <div class="row g-3">
-            <!-- LEFT: Profile -->
-            <div class="col-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body d-flex">
-                        <img src="<%= patient.photoUrl || '/img/avatar-fallback.png' %>" class="avatar-lg me-3" alt="">
-                        <div>
-                            <h5 class="mb-1"><%= currUser.username || 'Unknown Patient' %></h5>
-                            <div class="text-muted text-small">OPID - <%= patient.opid %></div>
-                            <hr class="my-2">
-                            <!-- <div class="patient-info-grid">
-                                <div class="info-item">
-                                    <div class="info-label">Gender</div>
-                                    <div><%= patient.gender || '-' %></div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">Blood Group</div>
-                                    <div><%= patient.bloodGroup || '-' %></div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">Age</div>
-                                    <div><%= patient.age ?? '-' %></div>
-                                </div>
-                                <div class="info-item">
-                                    <div class="info-label">Phone</div>
-                                    <div><%= patient.phone ? patient.phone.replace(/(\d{4})\d+/, '$1******') : '-' %></div>
-                                </div>
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Medical Alerts -->
-                <div id="alerts" class="card mt-3">
-                    <div class="card-header">
-                        <strong>Medical Alert</strong>
-                    </div>
-                    <div class="card-body">
-                        <% if((patient.alerts||[]).length) { %>
-                            <ul class="alert-list">
-                                <% patient.alerts.forEach(a=> { %>
-                                    <li class="alert-item">
-                                        <span class="alert-indicator"></span> <%= a %>
-                                    </li>
-                                <% }) %>
-                            </ul>
-                        <% } else { %>
-                            <div class="text-muted text-small">No alerts.</div>
-                        <% } %>
-
-                        <form class="mt-3 d-flex gap-2" action="/patients/<%= patient._id %>/alerts" method="post">
-                            <input class="form-control form-control-sm" name="alert" placeholder="Add alert (e.g., Allergy to Walnut)" required>
-                            <button class="btn btn-sm btn-outline-primary">Add</button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Emergency Contacts -->
-                <div id="emergency" class="card mt-3">
-                    <div class="card-header d-flex justify-content-between">
-                        <strong>Emergency Contact</strong>
-                    </div>
-                    <div class="card-body">
-                        <% if((patient.emergencyContacts||[]).length){ %>
-                            <% patient.emergencyContacts.forEach(c=> { %>
-                                <div class="contact-item">
-                                    <div class="text-small">
-                                        <i class="bi bi-person-bounding-box me-1"></i>
-                                        <strong><%= c.name %></strong> · <%= c.relation %>
-                                    </div>
-                                    <div class="text-small"><%= c.phone %></div>
-                                </div>
-                            <% }) %>
-                        <% } else { %>
-                            <div class="text-muted text-small">No emergency contact added.</div>
-                        <% } %>
-
-                        <form class="row g-2 mt-3" method="post" action="/patients/<%= patient._id %>/emergency">
-                            <div class="col-6"><input class="form-control form-control-sm" name="name" placeholder="Name" required></div>
-                            <div class="col-6"><input class="form-control form-control-sm" name="relation" placeholder="Relation" required></div>
-                            <div class="col-12"><input class="form-control form-control-sm" name="phone" placeholder="Phone" required></div>
-                            <div class="col-12"><button class="btn btn-sm btn-outline-primary w-100">Add Contact</button></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CENTER: Patient Visits -->
-            <div class="col-12 col-lg-4">
-                <div id="visits" class="card h-100">
-                    <div class="card-header d-flex align-items-center">
-                        <strong class="me-auto">Patient Visits</strong>
-                        <span class="badge bg-light text-dark"><%= visits.length %></span>
-                    </div>
-                    <div class="list-group list-group-flush">
-                        <% visits.forEach(v => { %>
-                            <div class="list-group-item">
-                                <div class="fw-semibold"><%= v.doctorName %></div>
-                                <div class="text-muted text-small"><%= v.department %></div>
-                                <div class="text-small"><%= moment(v.visitDate).format("DD/MM/YYYY") %></div>
-                                <% if(v.summary){ %><div class="text-muted text-small mt-1"><%= v.summary %></div><% } %>
-                            </div>
-                        <% }) %>
-                        <% if(!visits.length){ %><div class="p-3 text-muted text-small">No visits yet.</div><% } %>
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT: Open Appointments -->
-            <div class="col-12 col-lg-4">
-                <div id="appointments" class="card h-100">
-                    <div class="card-header d-flex align-items-center">
-                        <strong class="me-auto">Open Appointments</strong>
-                        <span class="badge bg-light text-dark"><%= appts.length %></span>
-                    </div>
-                    <div class="list-group list-group-flush">
-                        <% appts.forEach(a => { %>
-                            <div class="list-group-item">
-                                <div class="fw-semibold"><%= a.department %></div>
-                                <div class="text-small">Doctor: <%= a.doctorName %></div>
-                                <div class="text-small">Start: <%= moment(a.startAt).format("DD/MM/YYYY (hh:mm A)") %></div>
-                                <% if(a.roomCode){ %>
-                                    <a class="btn btn-sm btn-outline-success mt-2"
-                                       href="/join-room?room=<%= a.roomCode %>">Join</a>
-                                <% } %>
-                            </div>
-                        <% }) %>
-                        <% if(!appts.length){ %><div class="p-3 text-muted text-small">No upcoming appointments.</div><% } %>
-                    </div>
-                </div>
-            </div>
+        <div class="text-end">
+          
+          
+          <div class="small">
+           
+            
+              
+            
+          </div>
         </div>
 
-        <!-- LOWER TABS -->
-        <div class="card mt-3">
-            <ul class="nav nav-tabs px-3 pt-2 border-0" role="tablist">
-                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#meds">Medications</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#history">Medical History</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#dental">Dental History</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#family">Family History</button></li>
-                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#social">Social History</button></li>
-                <li class="ms-auto px-3 text-small text-muted d-flex align-items-center">Patient ID: <span class="ms-1 fw-semibold"><%= patient.opid %></span></li>
-            </ul>
-            <div class="tab-content p-3">
-                <!-- Meds -->
-                <div class="tab-pane fade show active" id="meds">
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <thead><tr>
-                                <th>Prescribed Item ID</th><th>Medication</th><th>Period start</th><th>Period end</th><th>Instructions</th>
-                            </tr></thead>
-                            <tbody>
-                            <% meds.forEach(m => { %>
-                                <tr>
-                                    <td><%= m.itemId %></td>
-                                    <td><%= m.name %> <span class="text-muted text-small">(<%= m.dose %>, <%= m.frequency %>)</span></td>
-                                    <td><%= m.startDate ? moment(m.startDate).format("DD/MM/YYYY") : '-' %></td>
-                                    <td><%= m.endDate ? moment(m.endDate).format("DD/MM/YYYY") : '-' %></td>
-                                    <td><%= m.instructions || '-' %></td>
-                                </tr>
-                            <% }) %>
-                            <% if(!meds.length){ %><tr><td colspan="5" class="text-muted text-small">No medications found.</td></tr><% } %>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <form class="row g-2 mt-3" method="post" action="/patients/<%= patient._id %>/medications">
-                        <div class="col-6 col-md-2"><input class="form-control form-control-sm" name="itemId" placeholder="Item ID" required></div>
-                        <div class="col-6 col-md-3"><input class="form-control form-control-sm" name="name" placeholder="Name" required></div>
-                        <div class="col-6 col-md-2"><input class="form-control form-control-sm" name="dose" placeholder="Dose"></div>
-                        <div class="col-6 col-md-2"><input class="form-control form-control-sm" name="frequency" placeholder="Freq."></div>
-                        <div class="col-6 col-md-1"><input type="date" class="form-control form-control-sm" name="startDate"></div>
-                        <div class="col-6 col-md-1"><input type="date" class="form-control form-control-sm" name="endDate"></div>
-                        <div class="col-12 col-md-10"><input class="form-control form-control-sm" name="instructions" placeholder="Instructions"></div>
-                        <div class="col-12 col-md-2"><button class="btn btn-sm btn-primary w-100">Add Medication</button></div>
-                    </form>
-                </div>
-
-                <div class="tab-pane fade" id="history">
-                    <div class="text-muted text-small">Add your structured medical history here (conditions, surgeries, allergies already above, etc.).</div>
-                </div>
-                <div class="tab-pane fade" id="dental"><div class="text-muted text-small">Dental history coming soon.</div></div>
-                <div class="tab-pane fade" id="family"><div class="text-muted text-small">Family history coming soon.</div></div>
-                <div class="tab-pane fade" id="social"><div class="text-muted text-small">Social history coming soon.</div></div>
-            </div>
+        <div class="d-flex align-items-center gap-2">
+          <!-- Accessibility controls (no external dependency) -->
+          <div class="btn-group" role="group" aria-label="Accessibility controls">
+            <button type="button" class="btn btn-outline-light btn-sm" id="fontInc" aria-pressed="false">
+              A+
+            </button>
+            <button type="button" class="btn btn-outline-light btn-sm" id="fontDec" aria-pressed="false">
+              A−
+            </button>
+            <button type="button" class="btn btn-outline-light btn-sm" id="contrast" aria-pressed="false">
+              High Contrast
+            </button>
+          </div>
+          <a href="/logout" class="btn btn-light btn-sm">
+            <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Logout
+          </a>
         </div>
+      </div>
+    </div>
+  </header>
 
-        <!-- Uploaded Consents/Reports -->
-        <div id="consents" class="card mt-3">
-            <div class="card-header"><strong>Consents & Reports</strong></div>
+  <main id="main" class="container-fluid my-4 app-shell">
+    <!-- Sidebar -->
+    <nav class="sidebar" aria-label="Primary">
+      <ul class="nav flex-column gap-1">
+        <li class="nav-item">
+          <a class="nav-link active" href="/listings">
+            <i class="fa-solid fa-house me-2" aria-hidden="true"></i> Home
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="/patients/<%= patient._id %>/history">
+            <i class="fa-solid fa-file-medical me-2" aria-hidden="true"></i> My Records
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="/patients/<%= patient._id %>/wellness">
+            <i class="fa-solid fa-heart-pulse me-2" aria-hidden="true"></i> Wellness & Preventive Care
+          </a>
+        </li>
+        <li class="nav-item mt-2">
+          <span class="text-uppercase small text-muted px-2">Ecosystem</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://www.digilocker.gov.in/" aria-label="DigiLocker (placeholder)">
+            <i class="fa-solid fa-lock me-2" aria-hidden="true"></i> DigiLocker
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" aria-label="Aadhaar (placeholder)">
+            <i class="fa-solid fa-id-card me-2" aria-hidden="true"></i> Aadhaar
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" aria-label="ABDM MyHealth (placeholder)">
+            <i class="fa-solid fa-notes-medical me-2" aria-hidden="true"></i> MyHealth (ABDM)
+          </a>
+        </li>
+
+        <li class="nav-item mt-3">
+          <a class="nav-link" href="/support">
+            <i class="fa-solid fa-headset me-2" aria-hidden="true"></i> Support
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Main content column -->
+    <section class="d-grid gap-3">
+      <!-- Summary strip -->
+      <div class="card-clean p-3" role="region" aria-labelledby="summaryTitle">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+          <h2 id="summaryTitle" class="h5 mb-0">Health Summary</h2>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="chip chip-blue" aria-label="OPD visits">
+              <i class="fa-solid fa-hospital" aria-hidden="true"></i>
+              <strong><%= stats.totalOPD %></strong> OPD Visits
+            </span>
+            <span class="chip chip-green" aria-label="Online consultations">
+              <i class="fa-solid fa-video" aria-hidden="true"></i>
+              <strong><%= stats.totalOnline %></strong> Online Consults
+            </span>
+            
+            <span class="chip chip-gray" aria-label="Total appointments">
+              <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+              <strong><%= analytics.totalAppointments %></strong> Appointments
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="card-clean">
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <h3 class="h6 mb-0"><i class="fa-solid fa-chart-pie me-2" aria-hidden="true"></i>Consultation Methods</h3>
+            </div>
             <div class="card-body">
-                <div class="row g-3">
-                    <% consents.forEach(c => { %>
-                        <div class="col-12 col-md-4 col-lg-3">
-                            <a class="consent-tile" href="<%= c.fileUrl %>" target="_blank">
-                                <div class="consent-icon">📄</div>
-                                <div class="consent-name text-truncate"><%= c.filename %></div>
-                                <div class="consent-date"><%= moment(c.uploadedAt).format("DD/MM/YYYY") %></div>
-                            </a>
-                        </div>
-                    <% }) %>
-                    <% if(!consents.length){ %><div class="text-muted text-small px-3">No files uploaded yet.</div><% } %>
-                </div>
+              <canvas id="consultationChart" role="img" aria-label="Consultation method breakdown chart"></canvas>
             </div>
+          </div>
         </div>
-    </div>
 
-    <!-- New Visit Modal -->
-    <div class="modal fade" id="newVisitModal" tabindex="-1">
-        <div class="modal-dialog">
-            <form class="modal-content" method="post" action="/patients/<%= patient._id %>/visits">
-                <div class="modal-header"><h6 class="modal-title">Create Visit</h6><button class="btn-close" data-bs-dismiss="modal"></button></div>
-                <div class="modal-body">
-                    <div class="mb-2"><label class="form-label">Doctor</label><input name="doctorName" class="form-control" required></div>
-                    <div class="mb-2"><label class="form-label">Department</label><input name="department" class="form-control" required></div>
-                    <div class="mb-2"><label class="form-label">Date</label><input name="visitDate" type="datetime-local" class="form-control"></div>
-                    <div class="mb-2"><label class="form-label">Summary</label><textarea name="summary" class="form-control" rows="3"></textarea></div>
-                </div>
-                <div class="modal-footer"><button class="btn btn-primary">Save</button></div>
-            </form>
+        <div class="col-lg-6">
+          <div class="card-clean">
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <h3 class="h6 mb-0"><i class="fa-solid fa-calendar-alt me-2" aria-hidden="true"></i>Visit Frequency Analysis</h3>
+            </div>
+            <div class="card-body">
+              <canvas id="frequencyChart" role="img" aria-label="Visit frequency chart"></canvas>
+            </div>
+          </div>
         </div>
-    </div>
 
-    <!-- New Appointment Modal -->
-    <div class="modal fade" id="newApptModal" tabindex="-1">
-        <div class="modal-dialog">
-            <form class="modal-content" method="post" action="/patients/<%= patient._id %>/appointments">
-                <div class="modal-header"><h6 class="modal-title">New Appointment</h6><button class="btn-close" data-bs-dismiss="modal"></button></div>
-                <div class="modal-body">
-                    <div class="mb-2"><label class="form-label">Doctor</label><input name="doctorName" class="form-control" required></div>
-                    <div class="mb-2"><label class="form-label">Department</label><input name="department" class="form-control" required></div>
-                    <div class="mb-2"><label class="form-label">Start</label><input name="startAt" type="datetime-local" class="form-control" required></div>
-                    <div class="mb-2"><label class="form-label">Room (video)</label><input name="roomCode" class="form-control" placeholder="optional"></div>
-                </div>
-                <div class="modal-footer"><button class="btn btn-success">Create</button></div>
-            </form>
+        <div class="col-12">
+          <div class="card-clean">
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <h3 class="h6 mb-0"><i class="fa-solid fa-chart-line me-2" aria-hidden="true"></i>Monthly Health Activity Trends</h3>
+            </div>
+            <div class="card-body">
+              <canvas id="monthlyTrendsChart" role="img" aria-label="Monthly trends chart"></canvas>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <!-- Most visited hospitals & Common issues -->
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="card-clean">
+            <div class="card-header">
+              <h3 class="h6 mb-0"><i class="fa-solid fa-hospital-symbol me-2" aria-hidden="true"></i>Most Visited Hospitals</h3>
+            </div>
+            <div class="card-body">
+              <% if (analytics.hospitalStats?.all?.length) { %>
+                <% analytics.hospitalStats.all.slice(0,5).forEach(function(hospital){ %>
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="fw-medium"><%= hospital.name %></span>
+                    <span class="text-nowrap">
+                      <span class="badge bg-primary"><%= hospital.count %> visits</span>
+                      <span class="text-muted ms-1"><%= hospital.percentage %>%</span>
+                    </span>
+                  </div>
+                  <div class="progress mb-2" role="progressbar" aria-valuenow="<%= hospital.percentage %>" aria-valuemin="0" aria-valuemax="100" aria-label="<%= hospital.name %> visit share">
+                    <div class="progress-bar" style="width:<%= hospital.percentage %>%"></div>
+                  </div>
+                <% }) %>
+              <% } else { %>
+                <p class="text-muted mb-0">No hospital visits recorded yet.</p>
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card-clean">
+            <div class="card-header">
+              <h3 class="h6 mb-0"><i class="fa-solid fa-stethoscope me-2" aria-hidden="true"></i>Common Health Issues</h3>
+            </div>
+            <div class="card-body">
+              <% if (analytics.healthIssues?.length) { %>
+                <% analytics.healthIssues.forEach(function(issue){ %>
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="fw-medium"><%= issue.issue %></span>
+                    <span class="text-nowrap">
+                      <span class="badge bg-info text-dark"><%= issue.count %> times</span>
+                      <span class="text-muted ms-1"><%= issue.percentage %>%</span>
+                    </span>
+                  </div>
+                  <div class="progress mb-2" role="progressbar" aria-valuenow="<%= issue.percentage %>" aria-valuemin="0" aria-valuemax="100" aria-label="<%= issue.issue %> frequency">
+                    <div class="progress-bar bg-info" style="width:<%= issue.percentage %>%"></div>
+                  </div>
+                <% }) %>
+              <% } else { %>
+                <p class="text-muted mb-0">No health issues data available.</p>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity + Quick Actions -->
+      <div class="row g-3">
+        <div class="col-lg-8">
+          <div class="card-clean">
+            <div class="card-header">
+              <h3 class="h6 mb-0"><i class="fa-solid fa-clock me-2" aria-hidden="true"></i>Recent Activity</h3>
+            </div>
+            <div class="card-body">
+              <% if ((opdHistory?.length || 0) > 0 || (onlineHistory?.length || 0) > 0) { %>
+                <% [...opdHistory.slice(0,3), ...onlineHistory.slice(0,3)]
+                    .sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt))
+                    .slice(0,5)
+                    .forEach(function(activity){ %>
+                      <div class="d-flex align-items-start mb-3">
+                        <div class="me-3 mt-1" aria-hidden="true">
+                          <% if (activity.hospitalId) { %>
+                            <i class="fa-solid fa-hospital text-primary"></i>
+                          <% } else { %>
+                            <i class="fa-solid fa-video text-success"></i>
+                          <% } %>
+                        </div>
+                        <div class="flex-grow-1">
+                          <div class="fw-semibold">
+                            <%= activity.doctorName %>
+                            <% if (activity.hospitalId) { %> at <%= activity.hospitalId.name %> <% } else { %>(Online)<% } %>
+                          </div>
+                          <div class="text-muted small">
+                            <%= moment(activity.createdAt).format('MMM DD, YYYY') %>
+                            <% if (activity.slotTime) { %> • <%= activity.slotTime %><% } %>
+                          </div>
+                        </div>
+                      </div>
+                <% }) %>
+              <% } else { %>
+                <p class="text-muted mb-0">No recent activity found.</p>
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card-clean">
+            <div class="card-header">
+              <h3 class="h6 mb-0"><i class="fa-solid fa-bolt me-2" aria-hidden="true"></i>Quick Actions</h3>
+            </div>
+            <div class="card-body">
+              <div class="d-grid gap-2">
+                <a href="/hospitals" class="btn btn-primary">
+                  <i class="fa-solid fa-hospital me-1" aria-hidden="true"></i> Book OPD
+                </a>
+                <a href="/bookings/new" class="btn btn-success">
+                  <i class="fa-solid fa-video me-1" aria-hidden="true"></i> Online Consultation
+                </a>
+                <a href="/patients/<%= patient._id %>/history" class="btn btn-outline-primary">
+                  <i class="fa-solid fa-history me-1" aria-hidden="true"></i> Full History
+                </a>
+                <a href="/pharmacies" class="btn btn-outline-secondary">
+                  <i class="fa-solid fa-pills me-1" aria-hidden="true"></i> Find Medicines
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-clean mt-3">
+            <div class="card-header">
+              <h3 class="h6 mb-0"><i class="fa-regular fa-lightbulb me-2" aria-hidden="true"></i>Health Insight</h3>
+            </div>
+            <div class="card-body">
+              <% if (analytics.visitFrequency.frequency === 'High') { %>
+                You are actively managing your health with frequent consultations.
+              <% } else if (analytics.visitFrequency.frequency === 'Regular') { %>
+                You maintain a consistent schedule of care.
+              <% } else { %>
+                Consider scheduling regular check-ups to maintain optimal health.
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+        
+      </div>
+    </section>
+  </main>
+
+  <footer class="mt-4">
+    <div class="container-fluid">
+      <div class="card-clean p-3">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+          <div class="d-flex align-items-center gap-2">
+            <img src="/assets/emblem.svg" width="24" height="24" alt="" aria-hidden="true" />
+            <span class="small">© Government of India • NDHB compliant • ABDM ecosystem ready</span>
+          </div>
+          <nav aria-label="Footer">
+            <a class="small me-3" href="/privacy">Privacy</a>
+            <a class="small me-3" href="/terms">Terms</a>
+            <a class="small" href="/accessibility">Accessibility</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Accessibility controls (local, no backend change) -->
+  <script>
+    (function(){
+      const root = document.documentElement;
+      const body = document.body;
+      const inc = document.getElementById('fontInc');
+      const dec = document.getElementById('fontDec');
+      const con = document.getElementById('contrast');
+
+      let scale = 100;
+      function applyScale(){ body.style.fontSize = scale + '%'; }
+
+      inc?.addEventListener('click', function(){ scale = Math.min(130, scale + 12.5); applyScale(); this.setAttribute('aria-pressed','true'); dec.setAttribute('aria-pressed','false'); });
+      dec?.addEventListener('click', function(){ scale = Math.max(87.5, scale - 12.5); applyScale(); this.setAttribute('aria-pressed','true'); inc.setAttribute('aria-pressed','false'); });
+      con?.addEventListener('click', function(){
+        const on = body.classList.toggle('high-contrast');
+        this.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    })();
+  </script>
+
+  <!-- Charts: keep your existing analytics bindings; colors adjusted for brand -->
+  <script>
+    // Color palette aligned to brand
+    const brandColors = {
+      blue: '#002F6C',
+      blueTrans: 'rgba(0,47,108,0.15)',
+      green: '#138808',
+      greenTrans: 'rgba(19,136,8,0.15)',
+      gray: 'rgba(17,24,39,0.25)'
+    };
+
+    // Consultation Methods Pie/Doughnut
+    const consultationData = {
+      labels: ['OPD Visits', 'Online Consultations', 'In-Person Visits', 'Scheduled'],
+      datasets: [{
+        data: [
+          <%= analytics.consultationModes.opd %>,
+          <%= analytics.consultationModes.online %>,
+          <%= analytics.consultationModes.inPerson %>,
+          <%= analytics.consultationModes.scheduled %>
+        ],
+        backgroundColor: [brandColors.blue, brandColors.green, '#14532d', '#64748b'],
+        borderColor: '#ffffff',
+        borderWidth: 2
+      }]
+    };
+    new Chart(document.getElementById('consultationChart'), {
+      type: 'doughnut',
+      data: consultationData,
+      options: {
+        responsive:true,
+        plugins:{ legend:{ position:'bottom' } }
+      }
+    });
+
+    // Visit Frequency Bar
+    const frequencyData = {
+      labels: ['This Month', 'Last 3 Months', 'Last 6 Months', 'This Year'],
+      datasets: [{
+        label: 'Number of Visits',
+        data: [
+          <%= analytics.visitFrequency.thisMonth %>,
+          <%= analytics.visitFrequency.last3Months %>,
+          <%= analytics.visitFrequency.last6Months %>,
+          <%= analytics.visitFrequency.thisYear %>
+        ],
+        backgroundColor: brandColors.blue,
+        borderColor: brandColors.blue,
+        borderWidth:1
+      }]
+    };
+    new Chart(document.getElementById('frequencyChart'), {
+      type:'bar',
+      data: frequencyData,
+      options:{
+        responsive:true,
+        scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } },
+        plugins:{ legend:{ display:false } }
+      }
+    });
+
+    // Monthly Trends Line
+    const monthlyLabels = [<% analytics.monthlyTrends.forEach(function(m, i){ %>'<%= m.month %>'<% if(i<analytics.monthlyTrends.length-1){ %>,<% } %><% }) %>];
+    const monthlyOPD = [<% analytics.monthlyTrends.forEach(function(m, i){ %><%= m.opd %><% if(i<analytics.monthlyTrends.length-1){ %>,<% } %><% }) %>];
+    const monthlyOnline = [<% analytics.monthlyTrends.forEach(function(m, i){ %><%= m.online %><% if(i<analytics.monthlyTrends.length-1){ %>,<% } %><% }) %>];
+
+    new Chart(document.getElementById('monthlyTrendsChart'), {
+      type:'line',
+      data:{
+        labels: monthlyLabels,
+        datasets:[
+          {
+            label:'OPD Visits',
+            data: monthlyOPD,
+            borderColor: brandColors.blue,
+            backgroundColor: brandColors.blueTrans,
+            tension:.25,
+            fill:true
+          },
+          {
+            label:'Online Consultations',
+            data: monthlyOnline,
+            borderColor: brandColors.green,
+            backgroundColor: brandColors.greenTrans,
+            tension:.25,
+            fill:true
+          }
+        ]
+      },
+      options:{
+        responsive:true,
+        scales:{ y:{ beginAtZero:true, ticks:{ precision:0 } } }
+      }
+    });
+  </script>
 </body>
 </html>

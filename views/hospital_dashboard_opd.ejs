@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OPD Bookings - <%= hospital.name %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .search-box {
+      max-width: 300px;
+    }
+    table td, table th {
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-4">
+  <h2 class="mb-3">
+    <i class="fas fa-calendar-check"></i> OPD Bookings - <%= hospital.name %>
+  </h2>
+
+  <a href="/hospital/dashboard" class="btn btn-secondary mb-3">
+    <i class="fas fa-arrow-left"></i> Back to Dashboard
+  </a>
+
+  <!-- 🔍 Search + Date Filters -->
+  <div class="filters">
+    <input type="text" id="searchInput" class="form-control search-box" placeholder="Search by patient, doctor, slot, status...">
+    <div>
+      <label class="form-label">From</label>
+      <input type="date" id="fromDate" class="form-control">
+    </div>
+    <div>
+      <label class="form-label">To</label>
+      <input type="date" id="toDate" class="form-control">
+    </div>
+  </div>
+
+  <% if(opdBookings && opdBookings.length > 0) { %>
+    <div class="table-responsive">
+      <table id="opdTable" class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Patient</th>
+            <th>Doctor</th>
+            <th>Slot</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% opdBookings.forEach(booking => { %>
+            <tr data-date="<%= booking.createdAt.toISOString() %>">
+              <td><%= booking.patientName %></td>
+              <td><%= booking.doctorName %></td>
+              <td><%= booking.slotTime %></td>
+              <td>
+                <span class="badge 
+                  <%= booking.status === 'Confirmed' ? 'bg-success' 
+                     : booking.status === 'Cancelled' ? 'bg-danger' 
+                     : 'bg-warning' %>">
+                  <%= booking.status %>
+                </span>
+              </td>
+              <td><%= booking.createdAt.toLocaleDateString() %></td>
+              <td>
+                <% if (booking.status === "Pending") { %>
+                  <form action="/hospital/opd/<%= booking._id %>/confirm" method="POST" style="display:inline;">
+                    <button class="btn btn-success btn-sm">Confirm</button>
+                  </form>
+                  <form action="/hospital/opd/<%= booking._id %>/cancel" method="POST" style="display:inline;">
+                    <button class="btn btn-danger btn-sm">Cancel</button>
+                  </form>
+                <% } else { %>
+                  <span class="text-muted">No Action</span>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <div class="alert alert-info">No OPD bookings yet.</div>
+  <% } %>
+</div>
+
+<!-- 🔍 Search + Date Filter Script -->
+<script>
+  const searchInput = document.getElementById("searchInput");
+  const fromDateInput = document.getElementById("fromDate");
+  const toDateInput = document.getElementById("toDate");
+  const table = document.getElementById("opdTable");
+  const rows = table?.getElementsByTagName("tr");
+
+  function filterTable() {
+    const filter = searchInput.value.toLowerCase();
+    const fromDate = fromDateInput.value ? new Date(fromDateInput.value) : null;
+    const toDate = toDateInput.value ? new Date(toDateInput.value) : null;
+
+    for (let i = 1; i < rows.length; i++) { // skip header row
+      const row = rows[i];
+      const cells = row.getElementsByTagName("td");
+      if (!cells.length) continue;
+
+      // ✅ text filter
+      let textMatch = false;
+      for (let j = 0; j < cells.length; j++) {
+        if (cells[j].innerText.toLowerCase().includes(filter)) {
+          textMatch = true;
+          break;
+        }
+      }
+
+      // ✅ date filter
+      let dateMatch = true;
+      const bookingDateStr = row.getAttribute("data-date");
+      if (bookingDateStr) {
+        const bookingDate = new Date(bookingDateStr);
+        if (fromDate && bookingDate < fromDate) dateMatch = false;
+        if (toDate && bookingDate > toDate) dateMatch = false;
+      }
+
+      row.style.display = (textMatch && dateMatch) ? "" : "none";
+    }
+  }
+
+  searchInput?.addEventListener("keyup", filterTable);
+  fromDateInput?.addEventListener("change", filterTable);
+  toDateInput?.addEventListener("change", filterTable);
+</script>
+</body>
+</html>

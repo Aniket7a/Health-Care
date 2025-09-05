@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= patient.name %> — Appointment History</title>
+
+  <!-- UX4G + Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/@ux4g/design-system@1.0.0/dist/ux4g.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --goi-blue: #002f6c;
+      --goi-green: #138808;
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --muted: #6b7280;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: #111827;
+    }
+
+    /* Navbar */
+    .navbar-custom {
+      background: var(--goi-blue);
+    }
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+      color: #fff !important;
+    }
+
+    .container-custom {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .page-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .page-header h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--goi-blue);
+      color: #fff;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .back-btn:hover {
+      background: #001c40;
+      color: #fff;
+    }
+
+    /* Summary cards */
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      text-align: center;
+      padding: 1.2rem;
+    }
+    .stat-number {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--goi-blue);
+    }
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* Filter tabs */
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .tab {
+      background: #f8f9fa;
+      border: 1px solid #e5e7eb;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .tab.active {
+      background: var(--goi-blue);
+      color: #fff;
+    }
+
+    /* Appointment cards */
+    .appointment-card {
+      background: var(--card);
+      border: 1px solid #e5e7eb;
+      border-left: 4px solid var(--goi-blue);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .appointment-card.opd {
+      border-left-color: var(--goi-green);
+    }
+    .appointment-card.online {
+      border-left-color: var(--goi-blue);
+    }
+
+    .card-header-custom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .appointment-type {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      background: var(--goi-blue);
+      color: #fff;
+    }
+    .appointment-type.opd {
+      background: var(--goi-green);
+    }
+    .appointment-type.online {
+      background: var(--goi-blue);
+    }
+
+    .doctor-name {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .appointment-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .detail-item {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .status-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+    .status-confirmed { background: #d4edda; color: #155724; }
+    .status-pending { background: #fff3cd; color: #856404; }
+    .status-cancelled { background: #f8d7da; color: #721c24; }
+    .status-completed { background: #cce5ff; color: #004085; }
+
+    .prescription-box {
+      background: #f8f9fa;
+      border-left: 3px solid var(--goi-blue);
+      border-radius: 8px;
+      padding: 0.6rem;
+      font-size: 0.85rem;
+    }
+    .prescription-box strong {
+      color: #111827;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .join-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--goi-green);
+      color: #fff;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    .join-btn:hover {
+      background: #0d5d26;
+      color: #fff;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #d1d5db;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="/">Ayuvaani-History</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/listings">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#">Appointments</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Records</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-custom">
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1><i class="fas fa-user-circle me-2"></i><%= currUser.username %></h1>
+        <p class="text-muted mb-0">Appointment History</p>
+      </div>
+      <a href="/patients/<%= patient._id %>" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary-stats">
+      <div class="stat-card">
+        <div class="stat-number"><%= opdAppointments.length %></div>
+        <div class="stat-label">OPD Appointments</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= onlineAppointments.length %></div>
+        <div class="stat-label">Online Consultations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number"><%= opdAppointments.length + onlineAppointments.length %></div>
+        <div class="stat-label">Total Consultations</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-tabs">
+      <button class="tab active" onclick="filterAppointments('all')">All</button>
+      <button class="tab" onclick="filterAppointments('opd')">OPD</button>
+      <button class="tab" onclick="filterAppointments('online')">Online</button>
+    </div>
+
+    <!-- Appointment Cards -->
+    <div class="appointments-grid">
+      <% /* OPD appointments */ %>
+      <% if (opdAppointments?.length) { %>
+        <% opdAppointments.forEach(appt => { %>
+          <div class="appointment-card opd" data-type="opd">
+            <div class="card-header-custom">
+              <span class="appointment-type opd">OPD Appointment</span>
+              <span class="status-badge status-<%= appt.status.toLowerCase() %>"><%= appt.status %></span>
+            </div>
+            <div class="doctor-name"><i class="fas fa-user-md me-1"></i><%= appt.doctorName %></div>
+            <div class="appointment-details">
+              <div class="detail-item"><i class="fas fa-hospital"></i><%= appt.hospitalId?.name || 'Hospital' %></div>
+              <div class="detail-item"><i class="fas fa-clock"></i><%= appt.slotTime %></div>
+              <div class="detail-item"><i class="fas fa-calendar"></i><%= moment(appt.createdAt).format('MMM DD, YYYY') %></div>
+              <div class="detail-item"><i class="fas fa-phone"></i><%= appt.patientPhone %></div>
+            </div>
+          </div>
+        <% }) %>
+      <% } %>
+
+      <% /* Online appointments */ %>
+      <% if (onlineAppointments?.length) { %>
+        <% onlineAppointments.forEach(appt => { %>
+          <div class="appointment-card online" data-type="online">
+            <div class="card-header-custom">
+              <span class="appointment-type online">Online Consultation</span>
+              <% if (appt.roomId) { %>
+                <a href="/videocall?room=<%= appt.roomId %>" class="join-btn"><i class="fas fa-video"></i> Join</a>
+              <% } else { %>
+                <span class="status-badge status-completed">Completed</span>
+              <% } %>
+            </div>
+            <div class="doctor-name"><i class="fas fa-video me-1"></i>Dr. <%= appt.doctorEmail %></div>
+            <div class="appointment-details">
+              <div class="detail-item"><i class="fas fa-calendar"></i><%= moment(appt.date).format('MMM DD, YYYY') %></div>
+              <div class="detail-item"><i class="fas fa-clock"></i><%= appt.slot %></div>
+              <div class="detail-item"><i class="fas fa-user"></i>Age: <%= appt.age %>, <%= appt.gender %></div>
+              <div class="detail-item"><i class="fas fa-phone"></i><%= appt.patientPhone %></div>
+            </div>
+            <% if (appt.prescription) { %>
+              <div class="prescription-box"><strong>Prescription/Issue:</strong><%= appt.prescription %></div>
+            <% } %>
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+
+    <!-- Empty State -->
+    <% if ((!opdAppointments?.length) && (!onlineAppointments?.length)) { %>
+      <div class="empty-state">
+        <i class="fas fa-calendar-times"></i>
+        <h3>No Appointment History Found</h3>
+        <p>You haven’t booked any appointments yet.</p>
+        <a href="/listings" class="join-btn mt-2"><i class="fas fa-plus"></i> Book Appointment</a>
+      </div>
+    <% } %>
+  </div>
+
+  <script>
+    function filterAppointments(type) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      const cards = document.querySelectorAll('.appointment-card');
+      cards.forEach(card => {
+        card.style.display =
+          type === 'all' || card.classList.contains(type) ? 'block' : 'none';
+      });
+      const visible = Array.from(cards).filter(c => c.style.display !== 'none');
+      const empty = document.querySelector('.empty-state');
+      if (empty) empty.style.display = visible.length === 0 ? 'block' : 'none';
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

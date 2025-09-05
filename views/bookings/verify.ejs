@@ -1,0 +1,13 @@
+<h2>Booking Verification</h2>
+
+<p><b>Hospital:</b> <%= hospital.name %></p>
+<p><b>Patient:</b> <%= booking.patientName %></p>
+<p><b>Doctor:</b> <%= booking.doctorName %></p>
+<p><b>Slot:</b> <%= booking.slotTime %></p>
+<p><b>Status:</b> <%= booking.status %></p>
+
+<% if (booking.status === "Confirmed") { %>
+  <p style="color: green;"><b>✔ Booking Verified</b></p>
+<% } else { %>
+  <p style="color: red;"><b>✘ Booking Not Valid</b></p>
+<% } %>

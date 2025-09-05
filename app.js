@@ -182,18 +182,332 @@ app.post("/patients", async (req, res) => {
 });
 
 // PATIENT DASHBOARD
+// app.get("/patients/:id", async (req, res, next) => {
+//   try {
+//     const patient = await Patient.findById(req.params.id);
+//     const [visits, appts, meds, consents] = await Promise.all([
+//       Visit.find({ patient: patient._id }).sort({ visitDate: -1 }).limit(10),
+//       Appointment.find({ patient: patient._id }).sort({ startAt: 1 }).limit(10),
+//       Medication.find({ patient: patient._id }).sort({ startDate: -1 }).limit(10),
+//       Consent.find({ patient: patient._id }).sort({ uploadedAt: -1 }).limit(10)
+//     ]);
+//     res.render("patients/dashboard", { patient, visits, appts, meds, consents });
+//   } catch (e) { next(e); }
+// });
+// app.get("/patients/:id", async (req, res, next) => {
+//     console.log("📊 Loading patient dashboard for ID:", req.params.id);
+    
+//     try {
+//         const patient = await Patient.findById(req.params.id);
+//         if (!patient) {
+//             console.log("❌ Patient not found:", req.params.id);
+//             req.flash("error", "Patient not found");
+//             return res.redirect("/listings");
+//         }
+
+//         console.log("✅ Patient found:", patient.name);
+
+//         // Fetch all data with improved queries
+//         const [visits, appointments, medications, consents, opdHistory, onlineHistory] = await Promise.all([
+//             Visit.find({ patient: patient._id }).sort({ visitDate: -1 }).limit(10),
+//             Appointment.find({ patient: patient._id }).sort({ startAt: 1 }).limit(10),
+//             Medication.find({ patient: patient._id }).sort({ startDate: -1 }).limit(10),
+//             Consent.find({ patient: patient._id }).sort({ uploadedAt: -1 }).limit(10),
+//             OpdBook.find({ 
+//                 $or: [
+//                     { patientEmail: patient.email },
+//                     { patientId: patient._id }
+//                 ]
+//             }).populate("hospitalId").sort({ createdAt: -1 }).limit(5),
+//             Booking.find({ 
+//                 $or: [
+//                     { patientEmail: patient.email },
+//                     { bookedBy: patient._id }
+//                 ]
+//             }).sort({ createdAt: -1 }).limit(5)
+//         ]);
+
+//         // Calculate comprehensive statistics
+//         const stats = {
+//             totalVisits: await Visit.countDocuments({ patient: patient._id }),
+//             totalAppointments: await Appointment.countDocuments({ patient: patient._id }),
+//             totalOPD: await OpdBook.countDocuments({ 
+//                 $or: [
+//                     { patientEmail: patient.email },
+//                     { patientId: patient._id }
+//                 ]
+//             }),
+//             totalOnline: await Booking.countDocuments({ 
+//                 $or: [
+//                     { patientEmail: patient.email },
+//                     { bookedBy: patient._id }
+//                 ]
+//             }),
+//             totalMedications: await Medication.countDocuments({ patient: patient._id })
+//         };
+
+//         console.log("📈 Dashboard Statistics:", stats);
+//         console.log(`📋 Recent Data: ${visits.length} visits, ${opdHistory.length} OPD, ${onlineHistory.length} online`);
+
+//         res.render("patients/dashboard", { 
+//             patient, 
+//             visits, 
+//             appointments: appointments, 
+//             medications, 
+//             consents,
+//             opdHistory,
+//             onlineHistory,
+//             stats
+//         });
+
+//     } catch (e) { 
+//         console.error("❌ Dashboard Error:", e);
+//         next(e); 
+//     }
+// });
 app.get("/patients/:id", async (req, res, next) => {
-  try {
-    const patient = await Patient.findById(req.params.id);
-    const [visits, appts, meds, consents] = await Promise.all([
-      Visit.find({ patient: patient._id }).sort({ visitDate: -1 }).limit(10),
-      Appointment.find({ patient: patient._id }).sort({ startAt: 1 }).limit(10),
-      Medication.find({ patient: patient._id }).sort({ startDate: -1 }).limit(10),
-      Consent.find({ patient: patient._id }).sort({ uploadedAt: -1 }).limit(10)
-    ]);
-    res.render("patients/dashboard", { patient, visits, appts, meds, consents });
-  } catch (e) { next(e); }
+    try {
+        const patient = await Patient.findById(req.params.id);
+        if (!patient) return res.redirect("/listings");
+
+        console.log("📊 Loading enhanced patient dashboard for:", patient.name);
+
+        // Fetch all data
+        const [visits, appointments, medications, consents, opdHistory, onlineHistory] = await Promise.all([
+            Visit.find({ patient: patient._id }).sort({ visitDate: -1 }).limit(10),
+            Appointment.find({ patient: patient._id }).sort({ startAt: 1 }).limit(10),
+            Medication.find({ patient: patient._id }).sort({ startDate: -1 }).limit(10),
+            Consent.find({ patient: patient._id }).sort({ uploadedAt: -1 }).limit(10),
+            OpdBook.find({ 
+                $or: [{ patientEmail: patient.email }, { patientId: patient._id }]
+            }).populate("hospitalId").sort({ createdAt: -1 }),
+            Booking.find({ 
+                $or: [{ patientEmail: patient.email }, { bookedBy: patient._id }]
+            }).sort({ createdAt: -1 })
+        ]);
+
+        // 📈 ANALYTICS CALCULATIONS
+
+        // 1. Visit Frequency Analysis
+        const allAppointments = [...opdHistory, ...onlineHistory, ...visits];
+        const visitFrequency = calculateVisitFrequency(allAppointments);
+
+        // 2. Consultation Mode Breakdown
+        const consultationModes = {
+            opd: opdHistory.length,
+            online: onlineHistory.length,
+            inPerson: visits.length,
+            scheduled: appointments.length
+        };
+
+        // 3. Most Visited Hospitals
+        const hospitalStats = calculateHospitalStats(opdHistory);
+
+        // 4. Health Issues/Conditions Analysis
+        const healthIssues = analyzeHealthIssues([...onlineHistory, ...visits, ...appointments]);
+
+        // 5. Monthly Activity Trends (last 12 months)
+        const monthlyTrends = calculateMonthlyTrends([...opdHistory, ...onlineHistory, ...visits]);
+
+        // 6. Doctor/Specialist Visits
+        const doctorStats = analyzeDoctorVisits([...opdHistory, ...onlineHistory, ...appointments]);
+
+        // 7. Medication Compliance
+        const medicationAnalysis = analyzeMedications(medications);
+
+        // Basic stats
+        const stats = {
+            totalVisits: visits.length,
+            totalAppointments: appointments.length,
+            totalOPD: opdHistory.length,
+            totalOnline: onlineHistory.length,
+            totalMedications: medications.length,
+            totalConsents: consents.length
+        };
+
+        // Prepare analytics data for charts
+        const analytics = {
+            visitFrequency,
+            consultationModes,
+            hospitalStats,
+            healthIssues,
+            monthlyTrends,
+            doctorStats,
+            medicationAnalysis,
+            totalAppointments: stats.totalOPD + stats.totalOnline + stats.totalVisits
+        };
+
+        console.log("📊 Analytics Summary:", {
+            totalAppointments: analytics.totalAppointments,
+            mostVisitedHospital: hospitalStats.mostVisited?.name,
+            consultationPreference: getPreferredMode(consultationModes)
+        });
+
+        res.render("patients/dashboard", { 
+            patient, 
+            visits, 
+            appointments, 
+            medications, 
+            consents, 
+            opdHistory, 
+            onlineHistory, 
+            stats,
+            analytics // ✅ New analytics data
+        });
+
+    } catch (e) { 
+        console.error("Dashboard Error:", e);
+        next(e); 
+    }
 });
+
+// 📊 ANALYTICS HELPER FUNCTIONS
+
+function calculateVisitFrequency(appointments) {
+    const now = new Date();
+    const periods = {
+        thisMonth: 0,
+        last3Months: 0,
+        last6Months: 0,
+        thisYear: 0,
+        total: appointments.length
+    };
+
+    appointments.forEach(apt => {
+        const date = new Date(apt.createdAt || apt.visitDate || apt.date);
+        const monthsAgo = (now - date) / (1000 * 60 * 60 * 24 * 30);
+
+        if (monthsAgo <= 1) periods.thisMonth++;
+        if (monthsAgo <= 3) periods.last3Months++;
+        if (monthsAgo <= 6) periods.last6Months++;
+        if (monthsAgo <= 12) periods.thisYear++;
+    });
+
+    return {
+        ...periods,
+        avgPerMonth: periods.thisYear / 12,
+        frequency: getFrequencyLabel(periods.avgPerMonth)
+    };
+}
+
+function calculateHospitalStats(opdHistory) {
+    const hospitalCounts = {};
+    
+    opdHistory.forEach(appointment => {
+        const hospitalName = appointment.hospitalId?.name || 'Unknown Hospital';
+        hospitalCounts[hospitalName] = (hospitalCounts[hospitalName] || 0) + 1;
+    });
+
+    const sortedHospitals = Object.entries(hospitalCounts)
+        .sort(([,a], [,b]) => b - a)
+        .map(([name, count]) => ({ name, count, percentage: (count / opdHistory.length * 100).toFixed(1) }));
+
+    return {
+        mostVisited: sortedHospitals[0],
+        all: sortedHospitals,
+        totalHospitals: Object.keys(hospitalCounts).length
+    };
+}
+
+function analyzeHealthIssues(appointments) {
+    const issues = {};
+    
+    appointments.forEach(apt => {
+        const issue = apt.prescription || apt.notes || apt.reason || 'General Consultation';
+        const key = issue.toLowerCase();
+        issues[key] = (issues[key] || 0) + 1;
+    });
+
+    return Object.entries(issues)
+        .sort(([,a], [,b]) => b - a)
+        .slice(0, 5)
+        .map(([issue, count]) => ({ 
+            issue: issue.charAt(0).toUpperCase() + issue.slice(1), 
+            count,
+            percentage: (count / appointments.length * 100).toFixed(1)
+        }));
+}
+
+function calculateMonthlyTrends(appointments) {
+    const monthlyData = {};
+    const last12Months = [];
+    
+    // Initialize last 12 months
+    for (let i = 11; i >= 0; i--) {
+        const date = new Date();
+        date.setMonth(date.getMonth() - i);
+        const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        monthlyData[key] = { opd: 0, online: 0, visits: 0, month: date.toLocaleDateString('en', { month: 'short', year: 'numeric' }) };
+    }
+
+    appointments.forEach(apt => {
+        const date = new Date(apt.createdAt || apt.visitDate || apt.date);
+        const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        
+        if (monthlyData[key]) {
+            if (apt.slotType) monthlyData[key].opd++;
+            else if (apt.roomId) monthlyData[key].online++;
+            else monthlyData[key].visits++;
+        }
+    });
+
+    return Object.values(monthlyData);
+}
+
+function analyzeDoctorVisits(appointments) {
+    const doctors = {};
+    
+    appointments.forEach(apt => {
+        const doctorName = apt.doctorName || apt.doctor || 'Unknown Doctor';
+        if (!doctors[doctorName]) {
+            doctors[doctorName] = { name: doctorName, visits: 0, lastVisit: null };
+        }
+        doctors[doctorName].visits++;
+        const visitDate = new Date(apt.createdAt || apt.startAt || apt.date);
+        if (!doctors[doctorName].lastVisit || visitDate > doctors[doctorName].lastVisit) {
+            doctors[doctorName].lastVisit = visitDate;
+        }
+    });
+
+    return Object.values(doctors)
+        .sort((a, b) => b.visits - a.visits)
+        .slice(0, 5);
+}
+
+function analyzeMedications(medications) {
+    const active = medications.filter(med => !med.endDate || new Date(med.endDate) > new Date());
+    const completed = medications.filter(med => med.endDate && new Date(med.endDate) <= new Date());
+    
+    return {
+        total: medications.length,
+        active: active.length,
+        completed: completed.length,
+        categories: getMedicationCategories(medications)
+    };
+}
+
+function getMedicationCategories(medications) {
+    const categories = {};
+    medications.forEach(med => {
+        const category = med.category || 'General';
+        categories[category] = (categories[category] || 0) + 1;
+    });
+    return Object.entries(categories).map(([name, count]) => ({ name, count }));
+}
+
+function getFrequencyLabel(avgPerMonth) {
+    if (avgPerMonth >= 2) return 'High';
+    if (avgPerMonth >= 1) return 'Regular';
+    if (avgPerMonth >= 0.5) return 'Moderate';
+    return 'Low';
+}
+
+function getPreferredMode(modes) {
+    const max = Math.max(modes.opd, modes.online, modes.inPerson);
+    if (max === modes.opd) return 'OPD';
+    if (max === modes.online) return 'Online';
+    return 'In-Person';
+}
 
 // ADD alert
 app.post("/patients/:id/alerts", async (req, res) => {
@@ -795,6 +1109,96 @@ const generateRoomId = () => {
   return `cabin${randomNum}`;
 };
 
+// app.post("/book-slot", isLoggedIn, async (req, res) => {
+//   try {
+//     const {
+//       patientName,
+//       gender,
+//       age,
+//       address,
+//       pincode,
+//       prescription,
+//       date,
+//       slot,
+//       doctorEmail,
+//       patientPhone,
+//       patientEmail
+//     } = req.body;
+
+//     // Generate room
+//     const roomId = generateRoomId();
+
+//     // ✅ Build correct base URL (works for Render or localhost)
+//     const baseUrl = `${req.protocol}://${req.get("host")}`;
+//     const roomLink = `${baseUrl}/videocall?room=${roomId}`;
+
+//     // Save booking in DB
+//     const booking = new Booking({
+//       patientName,
+//       patientEmail,
+//       gender,
+//       age,
+//       address,
+//       pincode,
+//       prescription,
+//       patientPhone,
+//       date,
+//       slot,
+//       doctorEmail,
+//       roomId,
+//       bookedBy: req.user._id
+//     });
+//     await booking.save();
+
+//     // Send emails
+//     const doctorMail = {
+//   from: process.env.MAIL_USER,
+//   to: doctorEmail,
+//   subject: `📅 New Booking from ${patientName}`,
+//   html: `
+//     <h2>New Patient Booking</h2>
+//     <p><b>Patient Name:</b> ${patientName}</p>
+//     <p><b>Email:</b> ${patientEmail}</p>
+//     <p><b>Phone:</b> ${patientPhone}</p>
+//     <p><b>Gender:</b> ${gender}</p>
+//     <p><b>Age:</b> ${age}</p>
+//     <p><b>Address:</b> ${address}</p>
+//     <p><b>Pincode:</b> ${pincode}</p>
+//     <p><b>Prescription / Issue:</b> ${prescription}</p>
+//     <p><b>Date:</b> ${date}</p>
+//     <p><b>Slot:</b> ${slot}</p>
+//     <hr>
+//     <p><b>Video Consultation Link:</b> 
+//       <a href="${roomLink}" target="_blank">Join Meeting</a>
+//     </p>
+//   `
+// };
+
+//     const patientMail = {
+//       from: process.env.MAIL_USER,
+//       to: patientEmail,
+//       subject: "✅ Your Consultation Link",
+//       text: `
+//       Hello ${patientName},
+//       Your video consultation is confirmed.
+//       🔗 Join: ${roomLink}
+//       `
+//     };
+
+//     await mailTransporter.sendMail(doctorMail);
+//     await mailTransporter.sendMail(patientMail);
+
+//     req.flash("success", "Booking confirmed! Details sent to doctor and patient.");
+//     res.redirect(`/videocall?room=${roomId}`);
+//   } catch (err) {
+//     console.error(err);
+//     req.flash("error", "Booking failed.");
+//     res.redirect("/listings");
+//   }
+// });
+
+
+// REPLACE your existing /book-slot route
 app.post("/book-slot", isLoggedIn, async (req, res) => {
   try {
     const {
@@ -813,12 +1217,25 @@ app.post("/book-slot", isLoggedIn, async (req, res) => {
 
     // Generate room
     const roomId = generateRoomId();
-
-    // ✅ Build correct base URL (works for Render or localhost)
     const baseUrl = `${req.protocol}://${req.get("host")}`;
     const roomLink = `${baseUrl}/videocall?room=${roomId}`;
 
-    // Save booking in DB
+    // ✅ NEW: Find or update patient record
+    let patient = await Patient.findById(req.user._id);
+    if (patient) {
+      // Update patient info if needed
+      await Patient.findByIdAndUpdate(req.user._id, {
+        name: patientName,
+        email: patientEmail,
+        phone: patientPhone,
+        gender,
+        age: parseInt(age),
+        address,
+        pincode
+      });
+    }
+
+    // Save booking
     const booking = new Booking({
       patientName,
       patientEmail,
@@ -836,39 +1253,47 @@ app.post("/book-slot", isLoggedIn, async (req, res) => {
     });
     await booking.save();
 
-    // Send emails
+    // ✅ NEW: Auto-create appointment record for history
+    await Appointment.create({
+      patient: req.user._id,
+      doctor: doctorEmail,
+      startAt: new Date(date + ' ' + slot),
+      notes: `Online consultation - ${prescription}`,
+      status: "Scheduled",
+      type: "Online Consultation",
+      location: "Video Call",
+      roomId: roomId
+    });
+
+    // Send emails (your existing email code)
     const doctorMail = {
-  from: process.env.MAIL_USER,
-  to: doctorEmail,
-  subject: `📅 New Booking from ${patientName}`,
-  html: `
-    <h2>New Patient Booking</h2>
-    <p><b>Patient Name:</b> ${patientName}</p>
-    <p><b>Email:</b> ${patientEmail}</p>
-    <p><b>Phone:</b> ${patientPhone}</p>
-    <p><b>Gender:</b> ${gender}</p>
-    <p><b>Age:</b> ${age}</p>
-    <p><b>Address:</b> ${address}</p>
-    <p><b>Pincode:</b> ${pincode}</p>
-    <p><b>Prescription / Issue:</b> ${prescription}</p>
-    <p><b>Date:</b> ${date}</p>
-    <p><b>Slot:</b> ${slot}</p>
-    <hr>
-    <p><b>Video Consultation Link:</b> 
-      <a href="${roomLink}" target="_blank">Join Meeting</a>
-    </p>
-  `
-};
+      from: process.env.MAIL_USER,
+      to: doctorEmail,
+      subject: `📅 New Booking from ${patientName}`,
+      html: `
+        <h2>New Patient Booking</h2>
+        <p><b>Patient Name:</b> ${patientName}</p>
+        <p><b>Email:</b> ${patientEmail}</p>
+        <p><b>Phone:</b> ${patientPhone}</p>
+        <p><b>Gender:</b> ${gender}</p>
+        <p><b>Age:</b> ${age}</p>
+        <p><b>Address:</b> ${address}</p>
+        <p><b>Pincode:</b> ${pincode}</p>
+        <p><b>Prescription / Issue:</b> ${prescription}</p>
+        <p><b>Date:</b> ${date}</p>
+        <p><b>Slot:</b> ${slot}</p>
+        <hr>
+        <p><b>Video Consultation Link:</b> 
+          <a href="${roomLink}" target="_blank">Join Meeting</a>
+        </p>
+      `
+    };
 
     const patientMail = {
       from: process.env.MAIL_USER,
       to: patientEmail,
       subject: "✅ Your Consultation Link",
-      text: `
-      Hello ${patientName},
-      Your video consultation is confirmed.
-      🔗 Join: ${roomLink}
-      `
+      text: `Hello ${patientName}, Your video consultation is confirmed. 🔗 Join: ${roomLink}`
     };
 
     await mailTransporter.sendMail(doctorMail);
@@ -876,15 +1301,13 @@ app.post("/book-slot", isLoggedIn, async (req, res) => {
 
     req.flash("success", "Booking confirmed! Details sent to doctor and patient.");
     res.redirect(`/videocall?room=${roomId}`);
+
   } catch (err) {
-    console.error(err);
+    console.error("Online Booking Error:", err);
     req.flash("error", "Booking failed.");
     res.redirect("/listings");
   }
 });
-
-
-
 
 
 
@@ -1043,6 +1466,770 @@ app.get("/videocall", (req, res) => {
 
 
 
+
+
+
+
+
+const Hospital = require("./models/hospital");
+
+// ====== Hospital Signup ======
+app.get("/hospital/signup", (req, res) => {
+  res.render("hospital_signup"); // views/hospital_signup.ejs
+});
+
+app.post("/hospital/signup", async (req, res) => {
+  const { name, email, password, address, phone } = req.body;
+
+  const existing = await Hospital.findOne({ email });
+  if (existing) return res.send("Hospital already registered with this email.");
+
+  const hospital = new Hospital({ name, email, password, address, phone });
+  await hospital.save();
+  req.session.hospitalId = hospital._id;
+
+  res.redirect("/hospital/dashboard");
+});
+
+// ====== Hospital Login ======
+app.get("/hospital/login", (req, res) => {
+  res.render("hospital_login");
+});
+
+app.post("/hospital/login", async (req, res) => {
+  const { email, password } = req.body;
+  const hospital = await Hospital.findOne({ email, password });
+
+  if (!hospital) return res.send("Invalid credentials");
+  req.session.hospitalId = hospital._id;
+
+  res.redirect("/hospital/dashboard");
+});
+
+// ====== Hospital Dashboard ======
+// ====== Hospital Dashboard ======
+app.get("/hospital/dashboard", async (req, res) => {
+  if (!req.session.hospitalId) return res.redirect("/hospital/login");
+
+  const hospital = await Hospital.findById(req.session.hospitalId);
+
+  // Count of all patients who booked OPD
+  const patientCount = await OpdBook.countDocuments({ hospitalId: req.session.hospitalId });
+
+  // Fetch all OPD bookings for this hospital
+  const opdBookings = await OpdBook.find({ hospitalId: req.session.hospitalId }).sort({ createdAt: -1 });
+
+  res.render("hospital_dashboard", { hospital, patientCount, opdBookings });
+});
+
+
+// ====== Doctors ======
+// Add doctor (with OPD + Online slots)
+// ====== Doctors ======
+// Add doctor (with OPD + Online slots)
+app.post("/hospital/doctors/add", async (req, res) => {
+  if (!req.session.hospitalId) return res.redirect("/hospital/login");
+
+  const { name, category, slots, onlineSlots, email } = req.body;
+
+  await Hospital.findByIdAndUpdate(req.session.hospitalId, {
+    $push: {
+      doctors: {
+        name,
+        category,
+        slots: slots ? slots.split(",").map(s => s.trim()) : [],
+        onlineSlots: onlineSlots ? onlineSlots.split(",").map(s => s.trim()) : [],
+        email
+      }
+    }
+  });
+
+  res.redirect("/hospital/dashboard");
+});
+
+// Edit doctor slots
+app.post("/hospital/doctors/:docId/edit", async (req, res) => {
+  const { slots, onlineSlots } = req.body;
+
+  await Hospital.updateOne(
+    { _id: req.session.hospitalId, "doctors._id": req.params.docId },
+    {
+      $set: {
+        "doctors.$.slots": slots ? slots.split(",").map(s => s.trim()) : [],
+        "doctors.$.onlineSlots": onlineSlots ? onlineSlots.split(",").map(s => s.trim()) : []
+      }
+    }
+  );
+
+  res.redirect("/hospital/dashboard");
+});
+
+
+// Remove doctor
+app.post("/hospital/doctors/:docId/delete", async (req, res) => {
+  await Hospital.findByIdAndUpdate(req.session.hospitalId, {
+    $pull: { doctors: { _id: req.params.docId } }
+  });
+
+  res.redirect("/hospital/dashboard");
+});
+
+// ====== Rooms ======
+// Add room type
+app.post("/hospital/rooms/add", async (req, res) => {
+  const { type, total } = req.body;
+
+  await Hospital.findByIdAndUpdate(req.session.hospitalId, {
+    $push: { rooms: { type, total: parseInt(total), available: parseInt(total) } }
+  });
+
+  res.redirect("/hospital/dashboard");
+});
+
+// Update room availability
+app.post("/hospital/rooms/:roomId/update", async (req, res) => {
+  if (!req.session.hospitalId) return res.redirect("/hospital/login");
+
+  const { available, total } = req.body;
+
+  await Hospital.updateOne(
+    { _id: req.session.hospitalId, "rooms._id": req.params.roomId },
+    {
+      $set: {
+        "rooms.$.available": parseInt(available),
+        "rooms.$.total": parseInt(total)
+      }
+    }
+  );
+
+  res.redirect("/hospital/dashboard");
+});
+
+// ====== Ambulances ======
+app.post("/hospital/ambulances/update", async (req, res) => {
+  const { count } = req.body;
+
+  await Hospital.findByIdAndUpdate(req.session.hospitalId, { ambulances: parseInt(count) });
+  res.redirect("/hospital/dashboard");
+});
+
+// ====== Hospital List & Detail ======
+app.get("/hospitals", async (req, res) => {
+  const hospitals = await Hospital.find();
+  res.render("hospitals_list", { hospitals });
+});
+
+app.get("/hospitals/:id", async (req, res) => {
+  const hospital = await Hospital.findById(req.params.id);
+  res.render("hospital_detail", { hospital });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const OpdBook = require("./models/opdbook");
+
+
+// Show OPD booking form
+// app.get("/opd/new", async (req, res) => {
+//   const { hospitalId, doctorId, slot } = req.query;
+//   const hospital = await Hospital.findById(hospitalId);
+//   const doctor = hospital.doctors.id(doctorId);
+
+//   // Check if slot is full
+//   const bookedCount = doctor.bookedSlots.get(slot) || 0;
+//   const isFull = bookedCount >= doctor.slotCapacity;
+
+//   if (isFull) return res.send("Sorry, this slot is fully booked");
+
+//   res.render("bookings/opdForm", { hospital, doctor, slot });
+// });
+app.get("/opd/new", async (req, res) => {
+    const { hospitalId, doctorId, slot } = req.query;
+    const hospital = await Hospital.findById(hospitalId);
+    const doctor = hospital.doctors.id(doctorId);
+
+    // Check if slot is full
+    const bookedCount = doctor.bookedSlots.get(slot) || 0;
+    const isFull = bookedCount >= (doctor.slotCapacity || 10);
+
+    if (isFull) return res.send("Sorry, this slot is fully booked");
+
+    // Pass user info to template if logged in
+    const currentUser = req.user || null;
+    
+    res.render("bookings/opdForm", { 
+        hospital, 
+        doctor, 
+        slot, 
+        currentUser 
+    });
+});
+
+// Handle OPD booking submission
+// app.post("/opd", async (req, res) => {
+//   const { hospitalId, doctorId, doctorName, slotTime, patientName, patientEmail, patientPhone } = req.body;
+
+//   const hospital = await Hospital.findById(hospitalId);
+//   const doctor = hospital.doctors.id(doctorId);
+
+//   // Check if slot is full
+//   const bookedCount = doctor.bookedSlots.get(slotTime) || 0;
+//   if (bookedCount >= doctor.slotCapacity) {
+//     return res.send("Sorry, this slot is fully booked");
+//   }
+//   const PDFDocument = require("pdfkit");
+// const fs = require("fs");
+
+// // Show and download OPD slip
+// app.get("/opd/:id/slip/download", async (req, res) => {
+//   const booking = await OpdBook.findById(req.params.id).populate("hospitalId");
+
+//   if (!booking) return res.status(404).send("Booking not found");
+
+//   const doc = new PDFDocument({ size: "A4", margin: 50 });
+
+//   // Set response headers
+//   res.setHeader('Content-Type', 'application/pdf');
+//   res.setHeader('Content-Disposition', `attachment; filename=OPD_Slip_${booking._id}.pdf`);
+
+//   // Pipe PDF to response
+//   doc.pipe(res);
+
+//   // PDF content
+//   doc
+//     .fontSize(20)
+//     .text("Hospital OPD Booking Slip", { align: "center" })
+//     .moveDown();
+
+//   doc.fontSize(14)
+//     .text(`Hospital Name: ${booking.hospitalId.name}`)
+//     .text(`Hospital Email: ${booking.hospitalId.email}`)
+//     .text(`Hospital Phone: ${booking.hospitalId.phone}`)
+//     .moveDown();
+
+//   doc.text(`Patient Name: ${booking.patientName}`)
+//     .text(`Patient Email: ${booking.patientEmail}`)
+//     .text(`Patient Phone: ${booking.patientPhone}`)
+//     .moveDown();
+
+//   doc.text(`Doctor Name: ${booking.doctorName}`)
+//     .text(`Slot Type: ${booking.slotType}`)
+//     .text(`Slot Time: ${booking.slotTime}`)
+//     .moveDown();
+
+//   doc.text(`Booking ID: ${booking._id}`, { align: "right" });
+
+//   doc.end();
+// });
+
+
+//   // Increment booked count
+//   doctor.bookedSlots.set(slotTime, bookedCount + 1);
+//   await hospital.save();
+
+//   // Save OPD booking
+//   const booking = new OpdBook({
+//     hospitalId,
+//     doctorId,
+//     doctorName,
+//     slotTime,
+//     slotType: "OPD",
+//     patientName,
+//     patientEmail,
+//     patientPhone
+//   });
+
+//   await booking.save();
+//   res.redirect(`/opd/${booking._id}/slip`);
+// });
+app.post("/opd", async (req, res) => {
+    console.log("🔥 OPD Booking Started");
+    console.log("📦 Request Body:", req.body);
+    
+    const { hospitalId, doctorId, doctorName, slotTime, patientName, patientEmail, patientPhone } = req.body;
+
+    try {
+        // Step 1: Verify hospital exists
+        const hospital = await Hospital.findById(hospitalId);
+        if (!hospital) {
+            console.log("❌ Hospital not found:", hospitalId);
+            return res.status(404).send("Hospital not found");
+        }
+        console.log("✅ Hospital found:", hospital.name);
+
+        // Step 2: Verify doctor exists
+        const doctor = hospital.doctors.id(doctorId);
+        if (!doctor) {
+            console.log("❌ Doctor not found:", doctorId);
+            return res.status(404).send("Doctor not found");
+        }
+        console.log("✅ Doctor found:", doctor.name);
+
+        // Step 3: Check slot availability
+        const bookedCount = doctor.bookedSlots.get(slotTime) || 0;
+        console.log(`📊 Slot ${slotTime} - Booked: ${bookedCount}, Capacity: ${doctor.slotCapacity}`);
+        
+        if (bookedCount >= (doctor.slotCapacity || 10)) {
+            console.log("❌ Slot is full");
+            return res.send("Sorry, this slot is fully booked");
+        }
+
+        // Step 4: Handle Patient Record (KEY FIX)
+        let patient;
+        let patientId = null;
+        
+        // If user is logged in, use their ID
+        if (req.user) {
+            console.log("👤 User is logged in:", req.user._id);
+            patientId = req.user._id;
+            
+            // Find or update existing patient record
+            patient = await Patient.findById(req.user._id);
+            if (patient) {
+                console.log("✅ Updating existing patient record");
+                await Patient.findByIdAndUpdate(req.user._id, {
+                    name: patientName,
+                    email: patientEmail,
+                    phone: patientPhone
+                });
+            } else {
+                console.log("👤 Creating patient record for logged-in user");
+                patient = await Patient.create({
+                    _id: req.user._id,
+                    opid: req.user._id.toString(),
+                    name: patientName,
+                    email: patientEmail,
+                    phone: patientPhone,
+                    createdAt: new Date()
+                });
+            }
+        } else {
+            // If user not logged in, find by email or create new
+            console.log("🔍 Looking for patient with email:", patientEmail);
+            patient = await Patient.findOne({ email: patientEmail });
+            
+            if (!patient) {
+                console.log("👤 Creating new patient record");
+                patient = await Patient.create({
+                    name: patientName,
+                    email: patientEmail,
+                    phone: patientPhone,
+                    opid: `PAT_${Date.now()}`,
+                    createdAt: new Date()
+                });
+            } else {
+                console.log("✅ Existing patient found:", patient._id);
+                await Patient.findByIdAndUpdate(patient._id, {
+                    name: patientName,
+                    phone: patientPhone
+                });
+            }
+            patientId = patient._id;
+        }
+
+        console.log("✅ Patient ID for booking:", patientId);
+
+        // Step 5: Update doctor's booked slots
+        doctor.bookedSlots.set(slotTime, bookedCount + 1);
+        await hospital.save();
+        console.log("✅ Doctor slot updated");
+
+        // Step 6: Create OPD booking record (FIXED with proper patientId)
+        console.log("💾 Creating OPD booking");
+        const booking = new OpdBook({
+            hospitalId,
+            doctorId,
+            doctorName,
+            slotTime,
+            slotType: "OPD",
+            patientName,
+            patientEmail,
+            patientPhone,
+            patientId: patientId, // ✅ Now correctly linked
+            status: 'Confirmed',
+            createdAt: new Date()
+        });
+
+        const savedBooking = await booking.save();
+        console.log("✅ OPD Booking saved:", savedBooking._id);
+
+        // Step 7: Create appointment record for history (FIXED with correct patientId)
+        console.log("📅 Creating appointment history record");
+        const appointmentRecord = await Appointment.create({
+            patient: patientId, // ✅ Now uses correct patientId
+            doctor: doctorName,
+            startAt: new Date(), // You can customize this date
+            notes: `OPD Appointment at ${hospital.name} - Slot: ${slotTime}`,
+            status: "Scheduled",
+            type: "OPD",
+            location: hospital.name,
+            createdAt: new Date()
+        });
+        console.log("✅ Appointment history created:", appointmentRecord._id);
+
+        console.log("🎉 OPD Booking completed successfully");
+        res.redirect(`/opd/${savedBooking._id}/slip`);
+
+    } catch (err) {
+        console.error("❌ OPD Booking Error:", err);
+        console.error("Stack trace:", err.stack);
+        res.status(500).send(`Error processing OPD booking: ${err.message}`);
+    }
+});
+
+
+
+
+
+
+// Hospital Dashboard OPD Bookings
+app.get("/hospital/opd-bookings", async (req, res) => {
+    if (!req.session.hospitalId) return res.redirect("/hospital/login");
+
+    // Fetch hospital info
+    const hospital = await Hospital.findById(req.session.hospitalId);
+
+    // Fetch all OPD bookings for this hospital
+    const opdBookings = await OpdBook.find({ hospitalId: req.session.hospitalId }).sort({ createdAt: -1 });
+
+    res.render("hospital_dashboard_opd", { hospital, opdBookings });
+});
+
+
+
+
+const QRCode = require("qrcode");
+
+// Cancel booking
+app.post("/hospital/opd/:id/cancel", async (req, res) => {
+  await OpdBook.findByIdAndUpdate(req.params.id, { status: "Cancelled" });
+  res.redirect("/hospital/dashboard");
+});
+
+// Confirm booking
+app.post("/hospital/opd/:id/confirm", async (req, res) => {
+  await OpdBook.findByIdAndUpdate(req.params.id, { status: "Confirmed" });
+  res.redirect("/hospital/dashboard");
+});
+
+// Reschedule booking
+app.post("/hospital/opd/:id/reschedule", async (req, res) => {
+  const { newSlotTime } = req.body;
+  await OpdBook.findByIdAndUpdate(req.params.id, { slotTime: newSlotTime });
+  res.redirect("/hospital/dashboard");
+});
+
+// QR Code Slip
+// QR Code Slip
+app.get("/opd/:id/slip", async (req, res) => {
+  try {
+    const booking = await OpdBook.findById(req.params.id).populate("hospitalId");
+    if (!booking) return res.status(404).send("Booking not found");
+
+    // ✅ Store booking details in JSON format for QR
+    const qrData = JSON.stringify({
+      bookingId: booking._id,
+      patient: booking.patientName,
+      doctor: booking.doctorName,
+      slot: booking.slotTime,
+      status: booking.status,
+      hospital: booking.hospitalId?.name
+    });
+
+    const qrCode = await QRCode.toDataURL(qrData);
+
+    res.render("bookings/opdSlip", { 
+      booking,
+      qrCode,
+      hospital: booking.hospitalId
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error loading OPD slip");
+  }
+});
+
+// Confirm booking
+app.post("/hospital/opd/:id/confirm", async (req, res) => {
+  try {
+    await OpdBook.findByIdAndUpdate(req.params.id, { status: "Confirmed" });
+    res.redirect("/hospital/dashboard");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error confirming booking");
+  }
+});
+
+// Cancel booking
+app.post("/hospital/opd/:id/cancel", async (req, res) => {
+  try {
+    await OpdBook.findByIdAndUpdate(req.params.id, { status: "Cancelled" });
+    res.redirect("/hospital/dashboard");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error cancelling booking");
+  }
+});
+// API: Get latest visits and appointments for a patient
+app.get("/patients/:id/data", async (req, res) => {
+  try {
+    const patientId = req.params.id;
+
+    const patient = await Patient.findById(patientId);
+    const visits = await Visit.find({ patientId }).sort({ visitDate: -1 });
+    const appts = await Appointment.find({ patientId }).sort({ startAt: -1 });
+
+    res.json({ patient, visits, appts });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch patient data" });
+  }
+});
+
+
+
+
+
+// ✅ ADD: Patient appointment history route
+// app.get("/patients/:id/history", isLoggedIn, async (req, res) => {
+//   try {
+//     const patientId = req.params.id;
+//     const patient = await Patient.findById(patientId);
+    
+//     if (!patient) {
+//       req.flash("error", "Patient not found");
+//       return res.redirect("/listings");
+//     }
+
+//     // Fetch all appointment types
+//     const [opdAppointments, onlineAppointments, visits, appointments] = await Promise.all([
+//       OpdBook.find({ patientEmail: patient.email }).populate("hospitalId").sort({ createdAt: -1 }),
+//       Booking.find({ patientEmail: patient.email }).sort({ createdAt: -1 }),
+//       Visit.find({ patient: patientId }).sort({ visitDate: -1 }),
+//       Appointment.find({ patient: patientId }).sort({ startAt: -1 })
+//     ]);
+
+//     res.render("patients/history", { 
+//       patient, 
+//       opdAppointments, 
+//       onlineAppointments, 
+//       visits, 
+//       appointments 
+//     });
+
+//   } catch (err) {
+//     console.error("Error fetching patient history:", err);
+//     req.flash("error", "Error loading patient history");
+//     res.redirect("/listings");
+//   }
+// });
+// app.get("/patients/:id/history", async (req, res) => {
+//     console.log("🔍 Fetching patient history for ID:", req.params.id);
+    
+//     try {
+//         const patientId = req.params.id;
+//         const patient = await Patient.findById(patientId);
+        
+//         if (!patient) {
+//             console.log("❌ Patient not found:", patientId);
+//             req.flash("error", "Patient not found");
+//             return res.redirect("/listings");
+//         }
+
+//         console.log("✅ Patient found:", patient.name, patient.email);
+
+//         // Fetch all appointment types with detailed logging
+//         console.log("📊 Fetching appointment history...");
+        
+//         const opdAppointments = await OpdBook.find({ 
+//             $or: [
+//                 { patientEmail: patient.email },
+//                 { patientId: patient._id }
+//             ]
+//         }).populate("hospitalId").sort({ createdAt: -1 });
+        
+//         const onlineAppointments = await Booking.find({ 
+//             $or: [
+//                 { patientEmail: patient.email },
+//                 { bookedBy: patient._id }
+//             ]
+//         }).sort({ createdAt: -1 });
+        
+//         const visits = await Visit.find({ patient: patientId }).sort({ visitDate: -1 });
+//         const appointments = await Appointment.find({ patient: patientId }).sort({ startAt: -1 });
+
+//         console.log("📈 History Summary:");
+//         console.log(`   - OPD Appointments: ${opdAppointments.length}`);
+//         console.log(`   - Online Appointments: ${onlineAppointments.length}`);
+//         console.log(`   - Visits: ${visits.length}`);
+//         console.log(`   - Scheduled Appointments: ${appointments.length}`);
+
+//         // Debug: Log recent OPD appointments
+//         if (opdAppointments.length > 0) {
+//             console.log("📋 Recent OPD appointments:");
+//             opdAppointments.slice(0, 3).forEach((appt, index) => {
+//                 console.log(`   ${index + 1}. ${appt.doctorName} at ${appt.hospitalId?.name || 'Unknown'} - ${appt.slotTime}`);
+//             });
+//         }
+
+//         res.render("patients/history", { 
+//             patient, 
+//             opdAppointments, 
+//             onlineAppointments, 
+//             visits, 
+//             appointments 
+//         });
+
+//     } catch (err) {
+//         console.error("❌ Error fetching patient history:", err);
+//         req.flash("error", "Error loading patient history");
+//         res.redirect("/listings");
+//     }
+// });
+app.get("/patients/:id/history", async (req, res) => {
+    try {
+        const patient = await Patient.findById(req.params.id);
+        if (!patient) {
+            req.flash("error", "Patient not found");
+            return res.redirect("/listings");
+        }
+
+        console.log("📊 Fetching history for patient:", patient.name, patient.email);
+
+        // ✅ FIXED: Query both by email AND patientId for comprehensive results
+        const opdAppointments = await OpdBook.find({ 
+            $or: [
+                { patientEmail: patient.email },
+                { patientId: patient._id }
+            ]
+        }).populate("hospitalId").sort({ createdAt: -1 });
+
+        const onlineAppointments = await Booking.find({ 
+            $or: [
+                { patientEmail: patient.email }, 
+                { bookedBy: patient._id }
+            ]
+        }).sort({ createdAt: -1 });
+        
+        const visits = await Visit.find({ patient: patient._id }).sort({ visitDate: -1 });
+        const appointments = await Appointment.find({ patient: patient._id }).sort({ startAt: -1 });
+
+        console.log(`📈 History loaded - OPD: ${opdAppointments.length}, Online: ${onlineAppointments.length}, Visits: ${visits.length}, Appointments: ${appointments.length}`);
+
+        res.render("patients/history", { 
+            patient, 
+            opdAppointments, 
+            onlineAppointments, 
+            visits, 
+            appointments 
+        });
+    } catch (err) {
+        console.error("History Error:", err);
+        req.flash("error", "Error loading patient history");
+        res.redirect("/listings");
+    }
+});
+
+// ✅ ADD: My appointments route for logged-in patients
+app.get("/my-appointments", isLoggedIn, async (req, res) => {
+  try {
+    let patient = await Patient.findById(req.user._id);
+    if (!patient) {
+      patient = await Patient.create({
+        _id: req.user._id,
+        opid: req.user._id.toString(),
+        name: req.user.username,
+        email: req.user.email
+      });
+    }
+    res.redirect(`/patients/${patient._id}/history`);
+  } catch (err) {
+    console.error("My Appointments Error:", err);
+    req.flash("error", "Error accessing your appointments");
+    res.redirect("/listings");
+  }
+});
+
+// ✅ ADD: My dashboard route for logged-in patients
+app.get("/my-dashboard", isLoggedIn, async (req, res) => {
+  try {
+    let patient = await Patient.findById(req.user._id);
+    if (!patient) {
+      patient = await Patient.create({
+        _id: req.user._id,
+        opid: req.user._id.toString(),
+        name: req.user.username,
+        email: req.user.email
+      });
+    }
+    res.redirect(`/patients/${patient._id}`);
+  } catch (err) {
+    console.error("My Dashboard Error:", err);
+    req.flash("error", "Error accessing your dashboard");
+    res.redirect("/listings");
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+// Debug: Check all OPD bookings
+app.get("/debug/all-opd", async (req, res) => {
+    try {
+        const allOpdBookings = await OpdBook.find({}).populate("hospitalId");
+        const totalCount = await OpdBook.countDocuments({});
+        res.json({
+            total: totalCount,
+            bookings: allOpdBookings
+        });
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+});
+
+// Debug: Check OPD for specific patient
+app.get("/debug/opd-for-patient/:email", async (req, res) => {
+    try {
+        const email = req.params.email;
+        const patient = await Patient.findOne({ email });
+        const byEmail = await OpdBook.find({ patientEmail: email });
+        const byPatientId = await OpdBook.find({ patientId: patient?._id });
+        
+        res.json({
+            patient,
+            byEmail: byEmail.length,
+            byPatientId: byPatientId.length,
+            emailResults: byEmail,
+            patientIdResults: byPatientId
+        });
+    } catch (err) {
+        res.json({ error: err.message });
+    }
+});
 
 
 

@@ -89,7 +89,7 @@
     <main>
       <section class="card">
         <aside class="photo">
-          <img src="<%= pharmacy.image || '/images/pharmacy.jpg' %>" alt="Front view of <%= pharmacy.name %>"/>
+          <img src="<%= pharmacy.image || 'https://media.gettyimages.com/id/88930836/photo/apollo-pharmacy-in-hyderabad-india.jpg?s=612x612&w=gi&k=20&c=-zaKr7OHd6S5PrFT9lq4PXFdb5LZan0HJh6ECljLEiA=' %>" alt="Front view of <%= pharmacy.name %>"/>
           <div class="meta">
             <div class="badge" id="hours-label">Open: <strong><%= pharmacy.opens || '09:00' %> — <%= pharmacy.closes || '21:00' %></strong></div>
             <div style="font-size:13px;color:#2b3b45" id="rating-label">Rating: <strong><%= pharmacy.rating ? pharmacy.rating.toFixed(1) : '—' %></strong></div>

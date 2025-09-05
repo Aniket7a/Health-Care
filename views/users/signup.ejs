@@ -1,5 +1,5 @@
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -456,6 +456,858 @@
           alert.classList.add('show');
         });
       }, 300);
+    });
+  </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | Ayuvaani Health</title>
+  
+  <!-- UX4G Design System CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/@ux4g/design-system@1.0.0/dist/ux4g.min.css" rel="stylesheet">
+  
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* NDHB Color Palette */
+      --primary-deep-blue: #1e3a8a;
+      --primary-green: #16a34a;
+      --text-dark: #1f2937;
+      --text-gray: #6b7280;
+      --bg-light: #f8fafc;
+      --border-light: #e5e7eb;
+      --error-red: #dc2626;
+      --success-green: #059669;
+      --warning-amber: #d97706;
+      
+      /* Typography Scale */
+      --font-size-sm: 0.875rem;
+      --font-size-base: 1rem;
+      --font-size-lg: 1.125rem;
+      --font-size-xl: 1.25rem;
+      --font-size-2xl: 1.5rem;
+      
+      /* Spacing Scale */
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      
+      /* Accessibility */
+      --focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--bg-light) 0%, #ffffff 100%);
+      min-height: 100vh;
+      margin: 0;
+      padding: var(--space-4);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+    
+    /* Accessibility Controls */
+    .accessibility-controls {
+      position: fixed;
+      top: var(--space-4);
+      right: var(--space-4);
+      display: flex;
+      gap: var(--space-2);
+      z-index: 1000;
+    }
+    
+    .accessibility-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      border: 1px solid var(--border-light);
+      background: white;
+      color: var(--text-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: var(--font-size-sm);
+    }
+    
+    .accessibility-btn:hover,
+    .accessibility-btn.active {
+      background: var(--primary-deep-blue);
+      color: white;
+      border-color: var(--primary-deep-blue);
+    }
+    
+    .accessibility-btn:focus {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+    
+    /* Main Container */
+    .signup-container {
+      max-width: 480px;
+      width: 100%;
+      margin: 0 auto;
+      padding-top: var(--space-8);
+    }
+    
+    /* Header Section */
+    .header-section {
+      text-align: center;
+      margin-bottom: var(--space-8);
+    }
+    
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      font-size: var(--font-size-2xl);
+      font-weight: 700;
+      color: var(--primary-deep-blue);
+      margin-bottom: var(--space-4);
+      text-decoration: none;
+    }
+    
+    .logo i {
+      margin-right: var(--space-3);
+      color: var(--primary-green);
+      font-size: 1.8rem;
+    }
+    
+    .page-title {
+      font-size: var(--font-size-2xl);
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: var(--space-2);
+    }
+    
+    .page-subtitle {
+      font-size: var(--font-size-base);
+      color: var(--text-gray);
+      margin-bottom: var(--space-6);
+    }
+    
+    /* Form Card */
+    .form-card {
+      background: white;
+      border-radius: 16px;
+      padding: var(--space-8);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border-light);
+    }
+    
+    /* Form Styles */
+    .form-group {
+      margin-bottom: var(--space-6);
+    }
+    
+    .form-label {
+      display: block;
+      font-size: var(--font-size-base);
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: var(--space-2);
+    }
+    
+    .form-label .required {
+      color: var(--error-red);
+      margin-left: var(--space-1);
+    }
+    
+    .input-container {
+      position: relative;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: var(--font-size-base);
+      border: 2px solid var(--border-light);
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      background: white;
+      color: var(--text-dark);
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary-deep-blue);
+      box-shadow: var(--focus-ring);
+    }
+    
+    .form-input.valid {
+      border-color: var(--success-green);
+      padding-right: 45px;
+    }
+    
+    .form-input.error {
+      border-color: var(--error-red);
+    }
+    
+    .validation-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: var(--font-size-sm);
+    }
+    
+    .validation-icon.valid {
+      color: var(--success-green);
+    }
+    
+    .validation-icon.error {
+      color: var(--error-red);
+    }
+    
+    .error-message {
+      display: block;
+      font-size: var(--font-size-sm);
+      color: var(--error-red);
+      margin-top: var(--space-2);
+    }
+    
+    .help-text {
+      font-size: var(--font-size-sm);
+      color: var(--text-gray);
+      margin-top: var(--space-2);
+    }
+    
+    /* Password Toggle */
+    .password-container {
+      position: relative;
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-gray);
+      cursor: pointer;
+      padding: var(--space-2);
+      border-radius: 4px;
+      transition: color 0.2s ease;
+    }
+    
+    .password-toggle:hover {
+      color: var(--primary-deep-blue);
+    }
+    
+    .password-toggle:focus {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+    
+    /* Consent Checkbox */
+    .consent-group {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      margin-bottom: var(--space-6);
+    }
+    
+    .consent-checkbox {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--primary-green);
+      cursor: pointer;
+    }
+    
+    .consent-checkbox:focus {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+    
+    .consent-text {
+      font-size: var(--font-size-sm);
+      color: var(--text-gray);
+      line-height: 1.5;
+    }
+    
+    .consent-text a {
+      color: var(--primary-deep-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .consent-text a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Submit Button */
+    .btn-primary {
+      width: 100%;
+      padding: 14px 24px;
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, var(--primary-deep-blue) 0%, #2563eb 100%);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .btn-primary:focus {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+    
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    /* Login Link */
+    .login-link {
+      text-align: center;
+      margin-top: var(--space-6);
+      font-size: var(--font-size-base);
+      color: var(--text-gray);
+    }
+    
+    .login-link a {
+      color: var(--primary-deep-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Privacy Notice */
+    .privacy-notice {
+      background: var(--bg-light);
+      padding: var(--space-4);
+      border-radius: 8px;
+      border-left: 4px solid var(--primary-green);
+      margin-bottom: var(--space-6);
+      font-size: var(--font-size-sm);
+      color: var(--text-gray);
+    }
+    
+    .privacy-notice i {
+      color: var(--primary-green);
+      margin-right: var(--space-2);
+    }
+    
+    /* Language Toggle */
+    .language-toggle {
+      position: absolute;
+      top: var(--space-4);
+      left: var(--space-4);
+      display: flex;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid var(--border-light);
+      overflow: hidden;
+    }
+    
+    .lang-btn {
+      padding: var(--space-2) var(--space-3);
+      font-size: var(--font-size-sm);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--text-gray);
+      transition: all 0.2s ease;
+    }
+    
+    .lang-btn.active {
+      background: var(--primary-deep-blue);
+      color: white;
+    }
+    
+    .lang-btn:focus {
+      outline: none;
+      box-shadow: inset var(--focus-ring);
+    }
+    
+    /* Success Message */
+    .success-message {
+      background: linear-gradient(135deg, var(--success-green) 0%, #16a34a 100%);
+      color: white;
+      padding: var(--space-4);
+      border-radius: 8px;
+      margin-bottom: var(--space-6);
+      text-align: center;
+      font-weight: 500;
+      display: none;
+    }
+    
+    .success-message.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* High Contrast Mode */
+    .high-contrast {
+      --primary-deep-blue: #000000;
+      --primary-green: #000000;
+      --text-dark: #000000;
+      --text-gray: #000000;
+      --bg-light: #ffffff;
+      --border-light: #000000;
+    }
+    
+    .high-contrast .form-card {
+      border: 3px solid #000000;
+    }
+    
+    /* Large Text Mode */
+    .large-text {
+      font-size: 1.2em;
+    }
+    
+    .large-text .form-input {
+      font-size: 1.1rem;
+      padding: 16px 20px;
+    }
+    
+    .large-text .btn-primary {
+      font-size: 1.2rem;
+      padding: 18px 24px;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 640px) {
+      body {
+        padding: var(--space-2);
+      }
+      
+      .signup-container {
+        padding-top: var(--space-6);
+      }
+      
+      .form-card {
+        padding: var(--space-6);
+      }
+      
+      .accessibility-controls {
+        top: var(--space-2);
+        right: var(--space-2);
+      }
+      
+      .language-toggle {
+        top: var(--space-2);
+        left: var(--space-2);
+      }
+      
+      .page-title {
+        font-size: var(--font-size-xl);
+      }
+    }
+    
+    /* Loading State */
+    .loading {
+      position: relative;
+      color: transparent;
+    }
+    
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      border: 2px solid transparent;
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Language Toggle -->
+  <div class="language-toggle">
+    <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="hi">हिं</button>
+  </div>
+  
+  <!-- Accessibility Controls -->
+  <div class="accessibility-controls">
+    <button class="accessibility-btn" id="contrastToggle" aria-label="Toggle High Contrast" title="High Contrast">
+      <i class="fas fa-adjust"></i>
+    </button>
+    <button class="accessibility-btn" id="textSizeToggle" aria-label="Toggle Large Text" title="Large Text">
+      <i class="fas fa-font"></i>
+    </button>
+  </div>
+  
+  <div class="signup-container">
+    <!-- Header Section -->
+    <div class="header-section">
+      <a href="/" class="logo" aria-label="Ayuvaani Health Home">
+        <i class="fas fa-leaf" aria-hidden="true"></i>
+        Ayuvaani
+      </a>
+      <h1 class="page-title">Create Your Account</h1>
+      <p class="page-subtitle">Join thousands in their journey to better health</p>
+    </div>
+    
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage" role="alert">
+      <i class="fas fa-check-circle" aria-hidden="true"></i>
+      Account created successfully! Welcome to Ayuvaani.
+    </div>
+    
+    <!-- Form Card -->
+    <div class="form-card">
+      <!-- Privacy Notice -->
+      <div class="privacy-notice">
+        <i class="fas fa-shield-alt" aria-hidden="true"></i>
+        <strong>Privacy First:</strong> We collect minimal data and protect your information with industry-standard encryption.
+      </div>
+      
+      <!-- Sign Up Form -->
+      <form id="signupForm" action="/signup" method="POST" novalidate>
+        <!-- Username Field -->
+        <div class="form-group">
+          <label class="form-label" for="username">
+            Your Full Name <span class="required" aria-label="required">*</span>
+          </label>
+          <div class="input-container">
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              class="form-input" 
+              placeholder="Enter your full name"
+              required
+              aria-describedby="username-help"
+              autocomplete="name"
+            >
+            <span class="validation-icon" aria-hidden="true"></span>
+          </div>
+          <span class="help-text" id="username-help">This will be displayed on your profile</span>
+          <span class="error-message" role="alert"></span>
+        </div>
+        
+        <!-- Email Field -->
+        <div class="form-group">
+          <label class="form-label" for="email">
+            Email Address <span class="required" aria-label="required">*</span>
+          </label>
+          <div class="input-container">
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              class="form-input" 
+              placeholder="Enter your email address"
+              required
+              aria-describedby="email-help"
+              autocomplete="email"
+            >
+            <span class="validation-icon" aria-hidden="true"></span>
+          </div>
+          <span class="help-text" id="email-help">We'll use this to send appointment reminders</span>
+          <span class="error-message" role="alert"></span>
+        </div>
+        
+        <!-- Password Field -->
+        <div class="form-group">
+          <label class="form-label" for="password">
+            Password <span class="required" aria-label="required">*</span>
+          </label>
+          <div class="input-container password-container">
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="form-input" 
+              placeholder="Create a secure password"
+              required
+              aria-describedby="password-help"
+              autocomplete="new-password"
+            >
+            <button 
+              type="button" 
+              class="password-toggle" 
+              id="passwordToggle"
+              aria-label="Toggle password visibility"
+              tabindex="-1"
+            >
+              <i class="fas fa-eye" aria-hidden="true"></i>
+            </button>
+          </div>
+          <span class="help-text" id="password-help">At least 8 characters with letters and numbers</span>
+          <span class="error-message" role="alert"></span>
+        </div>
+        
+        <!-- Hidden consent field for backend compatibility -->
+        <input type="hidden" name="terms" value="agreed">
+        
+        <!-- Consent Checkbox (for UI only) -->
+        <div class="consent-group">
+          <input 
+            type="checkbox" 
+            id="consent" 
+            class="consent-checkbox" 
+            required
+            aria-describedby="consent-help"
+          >
+          <label class="consent-text" for="consent" id="consent-help">
+            I agree to the <a href="/terms" target="_blank" rel="noopener">Terms of Service</a> 
+            and <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+            <span class="required" aria-label="required">*</span>
+          </label>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" class="btn-primary" id="submitBtn">
+          Create Account
+        </button>
+      </form>
+      
+      <!-- Login Link -->
+      <div class="login-link">
+        Already have an account? <a href="/login">Sign in here</a>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Language Toggle
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // In a real app, this would trigger translation
+        if (btn.dataset.lang === 'hi') {
+          // Switch to Hindi content
+          document.querySelector('.page-title').textContent = 'अपना खाता बनाएं';
+          document.querySelector('.page-subtitle').textContent = 'बेहतर स्वास्थ्य की यात्रा में हजारों लोगों के साथ जुड़ें';
+        } else {
+          // Switch to English content
+          document.querySelector('.page-title').textContent = 'Create Your Account';
+          document.querySelector('.page-subtitle').textContent = 'Join thousands in their journey to better health';
+        }
+      });
+    });
+    
+    // Accessibility Controls
+    document.getElementById('contrastToggle').addEventListener('click', function() {
+      document.body.classList.toggle('high-contrast');
+      this.classList.toggle('active');
+    });
+    
+    document.getElementById('textSizeToggle').addEventListener('click', function() {
+      document.body.classList.toggle('large-text');
+      this.classList.toggle('active');
+    });
+    
+    // Password Toggle
+    document.getElementById('passwordToggle').addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const icon = this.querySelector('i');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+        this.setAttribute('aria-label', 'Hide password');
+      } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+        this.setAttribute('aria-label', 'Show password');
+      }
+    });
+    
+    // Form Validation
+    const form = document.getElementById('signupForm');
+    const inputs = form.querySelectorAll('.form-input');
+    
+    inputs.forEach(input => {
+      input.addEventListener('blur', validateField);
+      input.addEventListener('input', debounce(validateField, 300));
+    });
+    
+    function validateField(e) {
+      const input = e.target;
+      const container = input.closest('.form-group');
+      const errorElement = container.querySelector('.error-message');
+      const icon = container.querySelector('.validation-icon');
+      
+      // Reset states
+      input.classList.remove('valid', 'error');
+      errorElement.textContent = '';
+      icon.innerHTML = '';
+      
+      // Validation rules
+      let isValid = true;
+      let errorMessage = '';
+      
+      if (input.id === 'username') {
+        if (!input.value.trim()) {
+          isValid = false;
+          errorMessage = 'Full name is required';
+        } else if (input.value.trim().length < 2) {
+          isValid = false;
+          errorMessage = 'Name must be at least 2 characters';
+        }
+      }
+      
+      if (input.id === 'email') {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!input.value.trim()) {
+          isValid = false;
+          errorMessage = 'Email address is required';
+        } else if (!emailRegex.test(input.value)) {
+          isValid = false;
+          errorMessage = 'Please enter a valid email address';
+        }
+      }
+      
+      if (input.id === 'password') {
+        if (!input.value) {
+          isValid = false;
+          errorMessage = 'Password is required';
+        } else if (input.value.length < 8) {
+          isValid = false;
+          errorMessage = 'Password must be at least 8 characters';
+        } else if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(input.value)) {
+          isValid = false;
+          errorMessage = 'Password must contain both letters and numbers';
+        }
+      }
+      
+      // Apply validation styles
+      if (input.value.trim() && isValid) {
+        input.classList.add('valid');
+        icon.innerHTML = '<i class="fas fa-check valid"></i>';
+      } else if (!isValid && input.value.trim()) {
+        input.classList.add('error');
+        icon.innerHTML = '<i class="fas fa-times error"></i>';
+        errorElement.textContent = errorMessage;
+      }
+    }
+    
+    // Form Submission
+    form.addEventListener('submit', function(e) {
+      console.log('Form submission started');
+      
+      // Don't prevent default initially - let's validate first
+      let shouldPreventSubmission = false;
+      
+      // Validate all fields
+      let isFormValid = true;
+      inputs.forEach(input => {
+        validateField({ target: input });
+        if (input.classList.contains('error') || (!input.value.trim() && input.required)) {
+          isFormValid = false;
+          console.log(`Field ${input.name} is invalid:`, input.value);
+        }
+      });
+      
+      // Check consent
+      const consent = document.getElementById('consent');
+      const consentError = document.querySelector('.consent-error');
+      
+      if (!consent.checked) {
+        isFormValid = false;
+        shouldPreventSubmission = true;
+        console.log('Consent not checked');
+        
+        if (!consentError) {
+          const errorSpan = document.createElement('span');
+          errorSpan.className = 'error-message consent-error';
+          errorSpan.textContent = 'You must agree to the Terms and Privacy Policy';
+          errorSpan.setAttribute('role', 'alert');
+          consent.closest('.consent-group').appendChild(errorSpan);
+        }
+      } else if (consentError) {
+        consentError.remove();
+      }
+      
+      // If form is invalid, prevent submission
+      if (!isFormValid) {
+        e.preventDefault();
+        shouldPreventSubmission = true;
+        console.log('Form validation failed, preventing submission');
+        
+        // Focus on first invalid field
+        const firstErrorField = form.querySelector('.form-input.error, .form-input[required]:not([value])');
+        if (firstErrorField) {
+          firstErrorField.focus();
+        } else if (!consent.checked) {
+          consent.focus();
+        }
+        return;
+      }
+      
+      // If we get here, form is valid - show loading state but let it submit
+      console.log('Form is valid, showing loading state and submitting');
+      const submitBtn = document.getElementById('submitBtn');
+      
+      // Show loading state
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+      
+      // Don't prevent default - let the form submit naturally to your backend
+      console.log('Submitting to:', this.action, 'Method:', this.method);
+    });
+    
+    // Utility function
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+    
+    // Keyboard navigation improvements
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && e.target.classList.contains('accessibility-btn')) {
+        e.target.click();
+      }
     });
   </script>
 </body>

@@ -7,7 +7,14 @@ const appointmentSchema = new Schema({
   department: String,
   startAt: Date,
   status: { type: String, enum: ["Scheduled","Completed","Cancelled"], default:"Scheduled" },
-  roomCode: String                   // for Jitsi/Video link if you use it
+  // roomCode: String                   // for Jitsi/Video link if you use it
+  type: {
+  type: String,
+  enum: ['OPD', 'Online Consultation', 'Regular', 'Emergency'],
+  default: 'Regular'
+},
+location: String,
+roomId: String, // For online consultations
 },{ timestamps:true });
 
 module.exports = mongoose.model("Appointment", appointmentSchema);
