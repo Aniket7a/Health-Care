@@ -2187,6 +2187,10 @@ app.get("/my-dashboard", isLoggedIn, async (req, res) => {
   }
 });
 
+// AI Analyse main page
+app.get("/ai-analyse", isLoggedIn, (req, res) => {
+  res.render("ai/analyse");  // Render a new EJS page with options
+});
 
 
 
